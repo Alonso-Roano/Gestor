@@ -1,0 +1,41 @@
+.head{
+    width: 100vw;
+    height: 50px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 20px;
+    align-items: center;
+    position: relative;
+    z-index: 100;
+}
+.head div{
+    display: flex;
+    height: 100%;
+    align-items: center;
+    gap: 10px;
+}
+.head i,.head button,.head p{
+    font-size: 20px;
+}
+.head i{
+    cursor: pointer;
+}
+.cerrar{
+    background-color: #1465BB;
+    padding: 5px;
+    border-radius: 10px;
+    color: #fff;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+    border: none;
+    transition: .5s all;
+}
+.cerrar:hover{
+    background-color: #0e4988;
+}
+.cerrar:active{
+    transform: scale(0.85);
+    background-color: #0e4f94;
+    color: #eee;
+}

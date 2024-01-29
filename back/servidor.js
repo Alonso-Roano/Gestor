@@ -15,7 +15,7 @@ const conexion = mysql.createConnection({
     database: 'maquetado'
 });
 
-app.listen(3000, () => {
+app.listen(3001, () => {
     console.log("Iniciando Servidor...");
 });
 
