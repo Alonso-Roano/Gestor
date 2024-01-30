@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "../CSS/Header.css";
-import "../CSS/Principal.css"
+import "../CSS/Principal.css";
+import "../CSS/Footer.css";
+import Footer from "../Componentes/Footer";
 
 export default function Equipos() {
     const [clases, setClases] = useState("ocultar");
@@ -219,6 +221,7 @@ export default function Equipos() {
                     </aside>
                 </section>
             </main>
+            <Footer></Footer>
         </>
     );
 }

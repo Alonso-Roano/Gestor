@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "../CSS/Header.css";
 import "../CSS/Principal.css"
+import "../CSS/Footer.css"
+import Footer from "../Componentes/Footer";
 
 export default function Miembros() {
     const [clases, setClases] = useState("ocultar");
@@ -174,6 +176,7 @@ export default function Miembros() {
                     </aside>
                 </section>
             </main>
+            
         </>
     );
 }

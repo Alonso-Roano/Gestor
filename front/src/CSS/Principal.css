@@ -18,6 +18,21 @@ main nav{
 main section{
     width: 100%;
 }
+
+.main-content .buscador {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-left: 60px;
+}
+
+.main-content .buscador button {
+    margin: 5px;
+    height: 40px;
+    margin-top: 30px;
+    border-radius: 10px;
+}
 ul {
     width: 100%;
     height: 85%;
@@ -101,7 +116,7 @@ details ul li i{
     font-size: 45px;
     width: 100%;
     text-align: center;
-    margin-top: 5px;
+    margin-top: 20px;
 }
 .proyectos{
     width: 100%;

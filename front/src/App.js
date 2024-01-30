@@ -4,18 +4,29 @@ import Page404 from "./Paginas/Page404";
 import "./App.css"
 import Equipos from "./Paginas/Equipos";
 import Miembros from "./Paginas/Miembros";
+import Dashboard from "./Dashboard/Dashboard";
+import CuEquipos from "./Cruds/CuEquipos";
+import CuMiembros from "./Cruds/CuMiembros";
+import CuRecursos from "./Cruds/CuRecursos";
+import CuUsuarios from "./Cruds/CuUsuarios";
+
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path='*' element={<Page404/>} />
-          <Route path="/404" element={<Page404/>} />
-          <Route path='/proyectos' element={<Proyectos/>} />
-          <Route path='/equipos' element={<Equipos/>} />
-          <Route path='/miembros' element={<Miembros/>} />
-          <Route path='/' element={<Proyectos/>} />
+          <Route path='*' element={<Page404 />} />
+          <Route path="/404" element={<Page404 />} />
+          <Route path='/proyectos' element={<Proyectos />} />
+          <Route path='/equipos' element={<Equipos />} />
+          <Route path='/miembros' element={<Miembros />} />
+          <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/cuequipos' element={<CuEquipos />} />
+          <Route path='/cumiembros' element={<CuMiembros />} />
+          <Route path='/curecursos' element={<CuRecursos />} />
+          <Route path='/cuusuarios' element={<CuUsuarios />} />
+          <Route path='/' element={<Proyectos />} />
         </Routes>
       </BrowserRouter>
     </>

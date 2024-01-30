@@ -1,0 +1,215 @@
+body {
+    margin: 0;
+    position: relative;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #FFFFFF;
+    color: #333;
+}
+
+header {
+    background-color: #0A2540;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    /* Cambiado de absolute a fixed para que se quede en la parte superior */
+    top: 0;
+    left: 0;
+    /* Aseguramos que el header comience en la izquierda de la página */
+    z-index: 1000;
+    display: flex;
+    /* Usamos flexbox para alinear los elementos del header */
+    justify-content: space-between;
+    /* Separa los elementos a los extremos */
+    align-items: center;
+    /* Centra los elementos verticalmente */
+}
+
+.boton-header {
+    margin-left: auto;
+    background-color: #ffffff;
+    height: 40px;
+    margin-right: 40px;
+    border-radius: 10px;
+    font-size: 20px;
+    color: #555;
+}
+
+.logo-header {
+    margin-right: auto;
+}
+
+.logo-header img {
+    height: 150px;
+}
+
+header h1 {
+    text-align: center;
+}
+
+
+
+.sidebar {
+    height: 100vh;
+    width: 200px;
+    background-color: #1478D8;
+    /* Un azul similar al del logotipo */
+    padding: 20px;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    /* Aseguramos que el sidebar tenga un z-index menor que el header */
+    text-align: center;
+}
+
+.sidebar nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 300px;
+}
+
+
+.sidebar nav ul li a {
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 10px 15px;
+    display: block;
+    transition: background-color 0.3s;
+    margin-top: 30px;
+    size: 30px;
+}
+
+.sidebar nav ul li a:hover {
+    background-color: #0A65A6;
+    /* Un tono intermedio basado en el logotipo */
+}
+
+.main-content {
+    padding: 20px;
+    background-color: #FFFFFF;
+    width: 100%;
+}
+
+.main-content h1 {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #0A2540;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    z-index: 2;
+    height: 60px;
+}
+
+.rectangulos-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 40px;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    margin-top: 50px;
+}
+
+.rectangulo1 {
+    background-color: #efefef;
+    /* Color de fondo de los rectángulos */
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Sombra ligera para dar profundidad */
+    border-radius: 10px;
+}
+
+.rectangulo1 h2 {
+    margin: 0;
+    color: #333;
+    /* Color del texto */
+}
+
+.rectangulo1 p {
+    font-size: 20px;
+    color: #555;
+    /* Color del número */
+}
+
+.rectangulo2 {
+    background-color: #EFEFEF;
+    /* Color de fondo de los rectángulos */
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Sombra ligera para dar profundidad */
+    border-radius: 10px;
+}
+
+.rectangulo2 h2 {
+    margin: 0;
+    color: #333;
+    /* Color del texto */
+}
+
+.rectangulo2 p {
+    font-size: 20px;
+    color: #555;
+    /* Color del número */
+}
+
+.rectangulo3 {
+    background-color: #EFEFEF;
+    /* Color de fondo de los rectángulos */
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Sombra ligera para dar profundidad */
+    border-radius: 10px;
+}
+
+.rectangulo3 h2 {
+    margin: 0;
+    color: #333;
+    /* Color del texto */
+}
+
+.rectangulo3 p {
+    font-size: 20px;
+    color: #555;
+    /* Color del número */
+}
+
+.rectangulo4 {
+    background-color: #EFEFEF;
+    /* Color de fondo de los rectángulos */
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Sombra ligera para dar profundidad */
+    border-radius: 10px;
+}
+
+.rectangulo4 h2 {
+    margin: 0;
+    color: #333;
+    /* Color del texto */
+}
+
+.rectangulo4 p {
+    font-size: 20px;
+    color: #555;
+    /* Color del número */
+}
+
+
+footer p {
+    margin: 0;
+}
