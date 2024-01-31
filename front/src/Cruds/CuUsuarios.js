@@ -1,98 +1,78 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import "../CSS/Header.css";
 import "../CSS/Principal.css";
+import "./tabla.css"; 
 
 export default function CuUsuarios() {
     const [clases, setClases] = useState("ocultar");
     const [icono, setIcono] = useState(true);
+    const [usuarios, setUsuarios] = useState([]); 
+
     const mostrar = () => {
         setClases("mostrar");
         setIcono(false);
     };
+
     const ocultar = () => {
         setClases("ocultar");
         setIcono(true);
     };
+
+    const eliminarUsuario = (id) => {
+        
+    };
+
+    const editarUsuario = (id) => {
+        
+    };
+
     return (
         <>
             <header className="head">
                 <div>
                     {icono ?
-                        <i class="nf nf-cod-three_bars" onClick={() => mostrar()}></i>
+                        <i className="nf nf-cod-three_bars" onClick={mostrar}></i>
                         :
-                        <i class="nf nf-oct-x" onClick={() => ocultar()}></i>
+                        <i className="nf nf-oct-x" onClick={ocultar}></i>
                     }
                     <p>Gestion</p>
                 </div>
-                <button className="cerrar">Cerrar sesion</button>
+                <button className="cerrar">Cerrar sesión</button>
             </header>
             <main>
-
                 <nav className={clases}>
-                    <ul>
-                        <li>
-                            <details>
-                                <summary>Proyectos </summary>
-                                <ul>
-                                    <li>
-                                        <span>
-                                            <i class="nf nf-fa-file"></i>
-                                            <p>Nombre del proyecto</p>
-                                        </span>
-                                    </li>
-                                </ul>
-                            </details>
-                        </li>
-                        <li>
-                            <details>
-                                <summary>Equipos</summary>
-                                <ul>
-                                    <li>
-                                        <span>
-                                            <i class="nf nf-md-account_group"></i>
-                                            <p>Nombre del equipo</p>
-                                        </span>
-                                        <p className="pro">Nombre del proyecto</p>
-                                    </li>
-                                </ul>
-                            </details>
-                        </li>
-                        <li>
-                            <details>
-                                <summary>Miembros</summary>
-                                <ul>
-                                    <li>
-                                        <span>
-                                            <i class="nf nf-oct-person"></i>
-                                            <p>Nombre del miembro</p>
-                                        </span>
-                                        <p className="pro">Nombre del equipo</p>
-                                    </li>
-                                </ul>
-                            </details>
-                        </li>
-                    </ul>
-                    <aside>
-                        <div>
-                            <i class="nf nf-md-package"></i>
-                            <p>Inventario</p>
-                        </div>
-                        <div>
-                            <i class="nf nf-fa-user"></i>
-                            <p>Perfil</p>
-                        </div>
-                    </aside>
+                    {/* ... tu código de navegación ... */}
                 </nav>
-                <div class="main-content">
+                <div className="main-content">
                     <h1> CRUD de Usuarios </h1>
-                    <div class="buscador">
+                    <div className="buscador">
                         <input></input><button>Buscar</button>
                         <button>Agregar</button>
                     </div>
+                    <div className="tabla-contenedor">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Editar</th>
+                                    <th>Eliminar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {usuarios.map((usuario) => (
+                                    <tr key={usuario.id}>
+                                        <td>{usuario.id}</td>
+                                        <td>{usuario.nombre}</td>
+                                        <td><button onClick={() => editarUsuario(usuario.id)}>Editar</button></td>
+                                        <td><button onClick={() => eliminarUsuario(usuario.id)}>Eliminar</button></td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </main>
-
         </>
-    )
+    );
 }

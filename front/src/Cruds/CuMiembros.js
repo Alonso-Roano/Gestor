@@ -2,10 +2,12 @@ import React from "react";
 import { useState } from "react";
 import "../CSS/Header.css";
 import "../CSS/Principal.css";
+import "./tabla.css";
 
 export default function CuMiembros() {
     const [clases, setClases] = useState("ocultar");
     const [icono, setIcono] = useState(true);
+    const [miembros, setMiembros] = useState([]);
     const mostrar = () => {
         setClases("mostrar");
         setIcono(false);
@@ -13,6 +15,13 @@ export default function CuMiembros() {
     const ocultar = () => {
         setClases("ocultar");
         setIcono(true);
+    };
+    const eliminarMiembro = (id) => {
+
+    };
+
+    const editarMiembro = (id) => {
+
     };
     return (
         <>
@@ -90,6 +99,32 @@ export default function CuMiembros() {
                         <input></input><button>Buscar</button>
                         <button>Agregar</button>
                     </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Descripcion</th>
+                                <th>Habiliades</th>
+                                <th>Rol</th>
+                                <th>Editar</th>
+                                <th>Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {miembros.map((miembro) => (
+                                <tr key={miembro.id}>
+                                    <td>{miembro.id}</td>
+                                    <td>{miembro.nombre}</td>
+                                    <td>{miembro.descripcion}</td>
+                                    <td>{miembro.habilidades}</td>
+                                    <td>{miembro.rol}</td>
+                                    <td><button onClick={() => editarMiembro(miembro.id)}>Editar</button></td>
+                                    <td><button onClick={() => eliminarMiembro(miembro.id)}>Eliminar</button></td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
             </main>
 

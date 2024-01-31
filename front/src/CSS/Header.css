@@ -1,3 +1,6 @@
+body,html{
+    overflow: hidden;
+}
 .head{
     width: 100vw;
     height: 50px;
@@ -8,7 +11,7 @@
     align-items: center;
     position: relative;
     z-index: 100;
-    margin-top: auto;
+    overflow: hidden;
 }
 .head div{
     display: flex;
@@ -39,4 +42,12 @@
     transform: scale(0.85);
     background-color: #0e4f94;
     color: #eee;
+}
+.inicio{
+    display: flex;
+    margin-top: 10px;
+}
+.inicio *{
+    color: #fff;
+    font-size: 20px;
 }

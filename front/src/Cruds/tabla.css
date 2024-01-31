@@ -1,0 +1,30 @@
+.main-content {
+    text-align: center;
+}
+
+.buscador {
+    margin-bottom: 20px;
+}
+
+.tabla-contenedor {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+table {
+    margin: 0 auto;
+    background-color: blue;
+    border-collapse: collapse;
+    width: 80%;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f0f0f0;
+}

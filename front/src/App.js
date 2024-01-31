@@ -10,6 +10,8 @@ import CuMiembros from "./Cruds/CuMiembros";
 import CuRecursos from "./Cruds/CuRecursos";
 import CuUsuarios from "./Cruds/CuUsuarios";
 
+import Recursos from "./Paginas/Recursos";
+import Elementos from "./Paginas/Elementos";
 
 function App() {
   return (
@@ -26,7 +28,9 @@ function App() {
           <Route path='/cumiembros' element={<CuMiembros />} />
           <Route path='/curecursos' element={<CuRecursos />} />
           <Route path='/cuusuarios' element={<CuUsuarios />} />
-          <Route path='/' element={<Proyectos />} />
+          <Route path='/recursos' element={<Recursos/>} />
+          <Route path='/elemento' element={<Elementos/>} />
+          <Route path='/' element={<Proyectos/>} />
         </Routes>
       </BrowserRouter>
     </>

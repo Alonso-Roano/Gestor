@@ -50,7 +50,8 @@ app.post("/Registro", async (req, res) => {
                     console.error("Error al registrar el usuario: ", error);
                     res.json({ Estatus: "Error", Mensaje: "Error al registrar el usuario" });
                 } else {
-                    res.json({ Estatus: "Exitoso", Mensaje: "Usuario registrado exitosamente" });
+                    const token = jwt.sign({ id: results.insertId }, "secreto");
+                    res.json({ Estatus: "Exitoso", Mensaje: "Usuario registrado exitosamente", token });
                 }
             });
         } catch (error) {
@@ -58,7 +59,7 @@ app.post("/Registro", async (req, res) => {
             res.status(500).json({ Estatus: "Error", Mensaje: "Error al cifrar la contraseña" });
         }
     });
-});
+})
 
 app.post("/InicioSesion", async (req, res) => {
     const { Nombre, Contrasenia } = req.body;
@@ -74,7 +75,7 @@ app.post("/InicioSesion", async (req, res) => {
                 const token = jwt.sign({ id: usuario.Id }, "secreto");
                 const verificar = bcrypt.compareSync(Contrasenia, usuario.Contrasenia);
                 if (verificar) {
-                    res.json({ Estatus: "Exitoso", Mensaje: "Inicio de sesión exitoso", token});
+                    res.json({ Estatus: "Exitoso", Mensaje: "Inicio de sesión exitoso", token });
                 } else {
                     res.json({ Estatus: "Error", Mensaje: "Contraseña incorrecta" });
                     console.log("El contraseña incorrecta");
@@ -89,6 +90,7 @@ app.post("/InicioSesion", async (req, res) => {
         res.status(500).json({ Estatus: "Error", Mensaje: "Error al comparar la contraseña" });
     }
 });
+
 
 app.get("/Nombre/:id", (req, res) => {
     const userId = req.params.id;
