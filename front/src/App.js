@@ -4,6 +4,8 @@ import Page404 from "./Paginas/Page404";
 import "./App.css"
 import Equipos from "./Paginas/Equipos";
 import Miembros from "./Paginas/Miembros";
+import Recursos from "./Paginas/Recursos";
+import Elementos from "./Paginas/Elementos";
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
           <Route path='/proyectos' element={<Proyectos/>} />
           <Route path='/equipos' element={<Equipos/>} />
           <Route path='/miembros' element={<Miembros/>} />
+          <Route path='/recursos' element={<Recursos/>} />
+          <Route path='/elemento' element={<Elementos/>} />
           <Route path='/' element={<Proyectos/>} />
         </Routes>
       </BrowserRouter>

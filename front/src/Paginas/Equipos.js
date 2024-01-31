@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "../CSS/Header.css";
 import "../CSS/Principal.css"
+import Cerrar from "../Componentes/CerrarSesion";
+import Slider from "../Componentes/Slider";
+import Perfil from "../Componentes/Perfil";
 
 export default function Equipos() {
     const [clases, setClases] = useState("ocultar");
@@ -15,6 +18,7 @@ export default function Equipos() {
     };
     return (
         <>
+            <Perfil></Perfil>
             <header className="head">
                 <div>
                     {icono ?
@@ -24,69 +28,17 @@ export default function Equipos() {
                     }
                     <p>Gestion</p>
                 </div>
-                <button className="cerrar">Cerrar sesion</button>
+                <Cerrar></Cerrar>
             </header>
             <main>
                 <nav className={clases}>
-                    <ul>
-                        <li>
-                            <details>
-                                <summary>Proyectos </summary>
-                                <ul>
-                                    <li>
-                                        <span>
-                                            <i class="nf nf-fa-file"></i>
-                                            <p>Nombre del proyecto</p>
-                                        </span>
-                                    </li>
-                                </ul>
-                            </details>
-                        </li>
-                        <li>
-                            <details>
-                                <summary>Equipos</summary>
-                                <ul>
-                                    <li>
-                                        <span>
-                                            <i class="nf nf-md-account_group"></i>
-                                            <p>Nombre del equipo</p>
-                                        </span>
-                                        <p className="pro">Nombre del proyecto</p>
-                                    </li>
-                                </ul>
-                            </details>
-                        </li>
-                        <li>
-                            <details>
-                                <summary>Miembros</summary>
-                                <ul>
-                                    <li>
-                                        <span>
-                                            <i class="nf nf-oct-person"></i>
-                                            <p>Nombre del miembro</p>
-                                        </span>
-                                        <p className="pro">Nombre del equipo</p>
-                                    </li>
-                                </ul>
-                            </details>
-                        </li>
-                    </ul>
-                    <aside>
-                        <div>
-                            <i class="nf nf-md-package"></i>
-                            <p>Inventario</p>
-                        </div>
-                        <div>
-                            <i class="nf nf-fa-user"></i>
-                            <p>Perfil</p>
-                        </div>
-                    </aside>
+                    <Slider></Slider>
                 </nav>
                 <section >
                     <h1 className="titulo">Nombre del proyecto</h1>
                     <span className="buscador">
                         <p>Equipos: </p>
-                        <input type="text" placeholder="Ingrese el nombredel equipo" />
+                        <input type="text" placeholder="Ingrese el nombre del equipo" />
                         <i class="nf nf-oct-plus_circle"></i>
                         <button>Recursos</button>
                     </span>
