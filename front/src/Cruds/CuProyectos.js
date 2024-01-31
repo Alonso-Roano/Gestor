@@ -5,10 +5,10 @@ import "../CSS/Principal.css";
 import "./tabla.css";
 import DashSlider from "../Dashboard/DashSider";
 
-export default function CuMiembros() {
+export default function CuProyectos() {
     const [clases, setClases] = useState("ocultar");
     const [icono, setIcono] = useState(true);
-    const [miembros, setMiembros] = useState([]);
+    const [proyectos, setProyectos] = useState([]);
     const mostrar = () => {
         setClases("mostrar");
         setIcono(false);
@@ -17,11 +17,11 @@ export default function CuMiembros() {
         setClases("ocultar");
         setIcono(true);
     };
-    const eliminarMiembro = (id) => {
+    const eliminarProyecto = (id) => {
 
     };
 
-    const editarMiembro = (id) => {
+    const editarProyecto = (id) => {
 
     };
     return (
@@ -40,10 +40,10 @@ export default function CuMiembros() {
             <main>
 
                 <nav className={clases}>
-                <DashSlider></DashSlider>
+                    <DashSlider></DashSlider>
                 </nav>
                 <div class="main-content">
-                    <h1> CRUD de Miembros </h1>
+                    <h1> CRUD de Proyectos </h1>
                     <div class="buscador">
                         <input></input><button>Buscar</button>
                         <button>Agregar</button>
@@ -53,23 +53,23 @@ export default function CuMiembros() {
                             <tr>
                                 <th>ID</th>
                                 <th>Nombre</th>
+                                <th>Imagen</th>
                                 <th>Descripcion</th>
-                                <th>Habiliades</th>
-                                <th>Rol</th>
+                                <th>Fecha</th>
                                 <th>Editar</th>
                                 <th>Eliminar</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {miembros.map((miembro) => (
-                                <tr key={miembro.id}>
-                                    <td>{miembro.id}</td>
-                                    <td>{miembro.nombre}</td>
-                                    <td>{miembro.descripcion}</td>
-                                    <td>{miembro.habilidades}</td>
-                                    <td>{miembro.rol}</td>
-                                    <td><button onClick={() => editarMiembro(miembro.id)}>Editar</button></td>
-                                    <td><button onClick={() => eliminarMiembro(miembro.id)}>Eliminar</button></td>
+                            {proyectos.map((proyecto) => (
+                                <tr key={proyecto.id}>
+                                    <td>{proyecto.id}</td>
+                                    <td>{proyecto.nombre}</td>
+                                    <td>{proyecto.imagen}</td>
+                                    <td>{proyecto.descripcion}</td>
+                                    <td>{proyecto.fecha}</td>
+                                    <td><button onClick={() => editarProyecto(proyecto.id)}>Editar</button></td>
+                                    <td><button onClick={() => eliminarProyecto(proyecto.id)}>Eliminar</button></td>
                                 </tr>
                             ))}
                         </tbody>

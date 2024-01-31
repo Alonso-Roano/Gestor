@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import "../CSS/Header.css";
 import "../CSS/Principal.css"
 import "../CSS/Recursos.css"
-import Perfil from "./Perfil";
 
 export default function Slider() {
     return (
         <>
             <ul>
                 <li>
-                    <Link className="link" to={"/proyectos"}>
+                    <Link className="link" to={"/cuproyectos"}>
                         <span className="inicio">
                             <i class="nf nf-md-view_dashboard top"></i>
                             <p>Principal</p>
@@ -22,10 +21,10 @@ export default function Slider() {
                         <summary><i class="nf nf-fa-file top"></i>Proyectos </summary>
                         <ul>
                             <li>
-                                <Link className="link" to={"/equipos"}>
+                                <Link className="link" to={"/cuproyectos"}>
                                     <span>
                                         <i class="nf nf-fa-file"></i>
-                                        <p>Nombre del proyecto</p>
+                                        <p>Administar Proyectos</p>
                                     </span>
                                 </Link>
                             </li>
@@ -37,14 +36,11 @@ export default function Slider() {
                         <summary><i class="nf nf-md-account_group top"></i>Equipos</summary>
                         <ul>
                             <li>
-                                <Link className="link" to={"/miembros"}>
+                                <Link className="link" to={"/cuequipos"}>
                                     <span>
                                         <i class="nf nf-md-account_group"></i>
-                                        <p>Nombre del equipo</p>
+                                        <p>Administar Equipos</p>
                                     </span>
-                                </Link>
-                                <Link className="link" to={"/equipos"}>
-                                    <p className="pro">Nombre del proyecto</p>
                                 </Link>
                             </li>
                         </ul>
@@ -55,30 +51,32 @@ export default function Slider() {
                         <summary><i class="nf nf-oct-person top"></i>Miembros</summary>
                         <ul>
                             <li>
+                                <Link className="link" to={"/cumiembros"}>
                                 <span>
                                     <i class="nf nf-oct-person"></i>
-                                    <p>Nombre del miembro</p>
+                                    <p>Administar Miembros</p>
                                 </span>
-                                <Link className="link" to={"/miembros"}>
-                                    <p className="pro">Nombre del equipo</p>
-                                </Link>
-                            </li>
-                        </ul>
-                    </details>
-                </li>
-            </ul>
-            <aside>
-                <Link className="link" to={"/recursos"}>
-                    <div>
-                        <i class="nf nf-md-package"></i>
-                        <p>Inventario</p>
-                    </div>
-                </Link>
-                <div>
-                    <i class="nf nf-fa-user"></i>
-                    <p>Perfil</p>
-                </div>
-            </aside>
+                            </Link>
+                        </li>
+                    </ul>
+                </details>
+            </li>
+            <li>
+                <details>
+                    <summary><i class="nf nf-fa-file top"></i>Recursos </summary>
+                    <ul>
+                        <li>
+                            <Link className="link" to={"/curecursos"}>
+                                <span>
+                                    <i class="nf nf-fa-file"></i>
+                                    <p>Administar Recursos</p>
+                                </span>
+                            </Link>
+                        </li>
+                    </ul>
+                </details>
+            </li>
+        </ul >
         </>
     );
 }

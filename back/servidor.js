@@ -12,7 +12,7 @@ const conexion = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'maquetado'
+    database: 'projectadministrator'
 });
 
 app.listen(3001, () => {

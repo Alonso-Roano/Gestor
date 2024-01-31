@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../CSS/Header.css";
 import "../CSS/Principal.css";
 import "./tabla.css"; 
+import DashSlider from "../Dashboard/DashSider";
 
 export default function CuUsuarios() {
     const [clases, setClases] = useState("ocultar");
@@ -41,7 +42,7 @@ export default function CuUsuarios() {
             </header>
             <main>
                 <nav className={clases}>
-                    {/* ... tu código de navegación ... */}
+                <DashSlider></DashSlider>
                 </nav>
                 <div className="main-content">
                     <h1> CRUD de Usuarios </h1>

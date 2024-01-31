@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "../CSS/Header.css";
 import "../CSS/Principal.css"
-<<<<<<< HEAD
-import "../CSS/Footer.css"
-import Footer from "../Componentes/Footer";
-=======
 import Cerrar from "../Componentes/CerrarSesion";
 import Slider from "../Componentes/Slider";
->>>>>>> 131939108a7ca93ecc61a7ac7b7a07ed49b99027
 
 export default function Miembros() {
     const [clases, setClases] = useState("ocultar");

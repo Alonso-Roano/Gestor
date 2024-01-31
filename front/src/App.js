@@ -9,7 +9,7 @@ import CuEquipos from "./Cruds/CuEquipos";
 import CuMiembros from "./Cruds/CuMiembros";
 import CuRecursos from "./Cruds/CuRecursos";
 import CuUsuarios from "./Cruds/CuUsuarios";
-
+import CuProyectos from "./Cruds/CuProyectos";
 import Recursos from "./Paginas/Recursos";
 import Elementos from "./Paginas/Elementos";
 
@@ -28,6 +28,7 @@ function App() {
           <Route path='/cumiembros' element={<CuMiembros />} />
           <Route path='/curecursos' element={<CuRecursos />} />
           <Route path='/cuusuarios' element={<CuUsuarios />} />
+          <Route path='/cuproyectos' element={<CuProyectos/>} />
           <Route path='/recursos' element={<Recursos/>} />
           <Route path='/elemento' element={<Elementos/>} />
           <Route path='/' element={<Proyectos/>} />

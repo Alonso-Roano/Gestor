@@ -2,6 +2,7 @@ import React from "react";
 import "./Dashboard.css";
 import "../CSS/Header.css";
 import { useState } from "react";
+import DashSlider from "./DashSider";
 
 export default function Dashboard() {
 
@@ -36,49 +37,7 @@ export default function Dashboard() {
         </header>
         <main>
           <nav className={clases}>
-            <ul>
-              <li>
-                <details>
-                  <summary>Proyectos </summary>
-                  <ul>
-                    <li>
-                      <span>
-                        <i class="nf nf-fa-file"></i>
-                        <p>Nombre del proyecto</p>
-                      </span>
-                    </li>
-                  </ul>
-                </details>
-              </li>
-              <li>
-                <details>
-                  <summary>Equipos</summary>
-                  <ul>
-                    <li>
-                      <span>
-                        <i class="nf nf-md-account_group"></i>
-                        <p>Nombre del equipo</p>
-                      </span>
-                      <p className="pro">Nombre del proyecto</p>
-                    </li>
-                  </ul>
-                </details>
-              </li>
-              <li>
-                <details>
-                  <summary>Miembros</summary>
-                  <ul>
-                    <li>
-                      <span>
-                        <i class="nf nf-oct-person"></i>
-                        <p>Nombre del miembro</p>
-                      </span>
-                      <p className="pro">Nombre del equipo</p>
-                    </li>
-                  </ul>
-                </details>
-              </li>
-            </ul>
+          <DashSlider></DashSlider>
             <aside>
               <div>
                 <i class="nf nf-md-package"></i>
