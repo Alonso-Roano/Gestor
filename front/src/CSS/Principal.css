@@ -191,6 +191,7 @@ details ul li i{
     justify-content: center;
     align-items: center;
     border: none;
+    cursor: pointer;
 }
 .elem span{
     background-color: #bbb;
@@ -213,7 +214,7 @@ details ul li i{
     cursor: pointer;
 }
 .rojo{background-color: red !important;} .verde{background-color: green !important;} .amarillo{background-color: yellow !important;}
-
+.nf-oct-plus_circle{cursor: pointer;}
 .buscador{
     display: flex;
     width: 100%;
@@ -270,7 +271,7 @@ details ul li i{
 }
 .equipos{
     width: 100%;
-    height: 350px;
+    height: 450px;
     display: grid;
     grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
     gap: 20px;
@@ -323,7 +324,7 @@ details ul li i{
 }
 .comentarios{
     width: 100%;
-    height: 350px;
+    height: 450px;
     padding: 0 20px;
 }
 
@@ -347,7 +348,7 @@ details ul li i{
 }
 .comentarios button{
     font-size: 20px;
-    padding: 5px;
+    padding: 10px;
     background-color: #1465BB;
     color: #fff;
     border-radius: 10px;
@@ -422,24 +423,26 @@ details ul li i{
     text-align: center;
 }
 .miembro{
-    max-width: 150px !important;
+    max-width: 170px !important;
 }
 .miembros{
     width: 100%;
-    height: 400px;
+    height: 100%;
     display: grid;
     grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
     gap: 20px;
     justify-items: center;
     align-content: start;
     padding: 20px;
-    margin-bottom: 50px;
     overflow-y: scroll;
     border: 2px solid #8c8b8b;
     border-radius: 20px;
     &::-webkit-scrollbar {
         display: none;
     }
+}
+.comiem{
+    height: 100%;
 }
 .miembros div {
     border-radius: 8px;
