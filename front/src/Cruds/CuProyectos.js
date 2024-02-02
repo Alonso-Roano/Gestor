@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../CSS/Header.css";
 import "../CSS/Principal.css";
 import "./tabla.css";
@@ -15,50 +14,68 @@ export default function CuProyectos() {
     const abrirModal = () => setAgregar(true);
     const cerrarModal = () => setAgregar(false);
 
-
     const mostrar = () => {
         setClases("mostrar");
         setIcono(false);
     };
+
     const ocultar = () => {
         setClases("ocultar");
         setIcono(true);
     };
 
+    useEffect(() => {
+        // Aquí debes realizar una solicitud a tu API para obtener los proyectos desde la vista "proyectosView"
+        // Puedes utilizar fetch o axios para hacer la solicitud.
+        // Asumo que tu API devuelve los proyectos en formato JSON.
+
+        // Ejemplo de cómo hacer la solicitud (debes adaptarlo a tu API):
+        fetch("/api/proyectosView") // Reemplaza "/api/proyectosView" con la ruta correcta a tu vista
+            .then((response) => response.json())
+            .then((data) => setProyectos(data))
+            .catch((error) => console.error("Error al obtener proyectos", error));
+    }, []); // Esto se ejecutará una vez al cargar el componente
+
     const agregarProyecto = () => {
-        // Aquí lógica para agregar un proyecto
+        // Aquí puedes implementar la lógica para agregar un proyecto
+        // Puedes realizar una solicitud POST a tu API para agregar el proyecto a la vista "proyectosView"
+        // Luego, actualiza el estado de proyectos para reflejar el nuevo proyecto agregado.
         cerrarModal();
     };
 
     const eliminarProyecto = (id) => {
-
+        // Aquí puedes implementar la lógica para eliminar un proyecto
+        // Realiza una solicitud DELETE a tu API para eliminar el proyecto de la vista "proyectosView"
+        // Luego, actualiza el estado de proyectos para reflejar el proyecto eliminado.
     };
 
     const editarProyecto = (id) => {
-
+        // Aquí puedes implementar la lógica para editar un proyecto
+        // Puedes redirigir al usuario a una página de edición o abrir un modal de edición.
     };
+
     return (
         <>
             <header className="head">
                 <div>
-                    {icono ?
-                        <i class="nf nf-cod-three_bars" onClick={() => mostrar()}></i>
-                        :
-                        <i class="nf nf-oct-x" onClick={() => ocultar()}></i>
-                    }
+                    {icono ? (
+                        <i className="nf nf-cod-three_bars" onClick={() => mostrar()}></i>
+                    ) : (
+                        <i className="nf nf-oct-x" onClick={() => ocultar()}></i>
+                    )}
                     <p>Gestion</p>
                 </div>
                 <button className="cerrar">Cerrar sesion</button>
             </header>
             <main>
-
                 <nav className={clases}>
                     <DashSlider></DashSlider>
                 </nav>
-                <div class="main-content">
+                <div className="main-content">
                     <h1> CRUD de Proyectos </h1>
-                    <div class="buscador">
-                        <input placeholder="Buscar"></input><button>Buscar</button>
+                    <div className="buscador">
+                        <input placeholder="Buscar"></input>
+                        <button>Buscar</button>
                         <button onClick={abrirModal}>Agregar</button>
                     </div>
                     <table>
@@ -81,8 +98,12 @@ export default function CuProyectos() {
                                     <td>{proyecto.imagen}</td>
                                     <td>{proyecto.descripcion}</td>
                                     <td>{proyecto.fecha}</td>
-                                    <td><button onClick={() => editarProyecto(proyecto.id)}>Editar</button></td>
-                                    <td><button onClick={() => eliminarProyecto(proyecto.id)}>Eliminar</button></td>
+                                    <td>
+                                        <button onClick={() => editarProyecto(proyecto.id)}>Editar</button>
+                                    </td>
+                                    <td>
+                                        <button onClick={() => eliminarProyecto(proyecto.id)}>Eliminar</button>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
@@ -94,12 +115,12 @@ export default function CuProyectos() {
                             <h2>Agregar Proyecto</h2>
                             <div className="form">
                                 <p>Ingresa el nombre del proyecto</p>
-                                <input type="text"/>
+                                <input type="text" />
                                 <p>Agregar imagen</p>
-                                <input type="file"/>
+                                <input type="file" />
                                 <p>Agregar Descripcion</p>
                                 <div className="desc">
-                                    <input type="text"/>
+                                    <input type="text" />
                                 </div>
                                 <button onClick={agregarProyecto}>Agregar Proyecto</button>
                                 <button onClick={cerrarModal}>Cerrar</button>
@@ -108,7 +129,6 @@ export default function CuProyectos() {
                     </div>
                 )}
             </main>
-
         </>
-    )
+    );
 }
