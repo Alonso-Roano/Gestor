@@ -1,10 +1,99 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../CSS/Header.css";
-import "../CSS/Principal.css"
-import "../CSS/Recursos.css"
+import "../CSS/Principal.css";
+import "../CSS/Recursos.css";
+import axios from "axios";
 
 export default function Slider() {
+    const navigate = useNavigate();
+    const [datos, setDatos] = useState([]);
+    const [proyecto, setProyecto] = useState([]);
+    const [equipos, setEquipos] = useState([]);
+    const [miembros, setMiembros] = useState([]);
+    useEffect(() => {
+        const autenticado = localStorage.getItem("token");
+        if(!autenticado){
+            navigate("/")
+        }else{
+            const fetchDatos = async () => {
+                const autenticado = localStorage.getItem("token");
+                const [header, payload, signature] = autenticado.split('.');
+                const decodedPayload = JSON.parse(atob(payload));
+                try {
+                    const respuesta = await axios.get(
+                        `http://localhost:1800/usuario/${decodedPayload.Id}`,
+                        {
+                            headers: {
+                                Authorization: autenticado,
+                            },
+                        }
+                    );
+                    setDatos(respuesta.data.Proyectos)
+                } catch (error) {
+                    console.log(error);
+                }
+            };
+            fetchDatos();
+        const fetchProyectos = async () => {
+            const autenticado = localStorage.getItem("token");
+            const [header, payload, signature] = autenticado.split('.');
+            const decodedPayload = JSON.parse(atob(payload));
+            try {
+                const respuesta = await axios.get(
+                    `http://localhost:1800/miembro-proyectos/${decodedPayload.Id}`,
+                    {
+                        headers: {
+                            Authorization: autenticado,
+                        },
+                    }
+                );
+                setProyecto(respuesta.data.Proyectos)
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchProyectos();
+        const fetchEquipos = async () => {
+            const autenticado = localStorage.getItem("token");
+            const [header, payload, signature] = autenticado.split('.');
+            const decodedPayload = JSON.parse(atob(payload));
+            try {
+                const respuesta = await axios.get(
+                    `http://localhost:1800/miembro-equipos/${decodedPayload.Id}`,
+                    {
+                        headers: {
+                            Authorization: autenticado,
+                        },
+                    }
+                );
+                setEquipos(respuesta.data.Equipos)
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchEquipos();
+        const fetchMiembros = async () => {
+            const autenticado = localStorage.getItem("token");
+            const [header, payload, signature] = autenticado.split('.');
+            const decodedPayload = JSON.parse(atob(payload));
+            try {
+                const respuesta = await axios.get(
+                    `http://localhost:1800/miembros-miembros/${decodedPayload.Id}`,
+                    {
+                        headers: {
+                            Authorization: autenticado,
+                        },
+                    }
+                );
+                setMiembros(respuesta.data.)
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchMiembros();
+    }
+    }, []);
     const [Perfil, setPerfil] = useState(false);
     const [body, setBody] = useState({
         Nombre: "",
@@ -65,10 +154,10 @@ export default function Slider() {
             <ul>
                 <li>
                     <Link className="link" to={"/proyectos"}>
-                    <span className="inicio">
-                        <i class="nf nf-md-view_dashboard top"></i>
-                        <p>Principal</p>
-                    </span>
+                        <span className="inicio">
+                            <i class="nf nf-md-view_dashboard top"></i>
+                            <p>Principal</p>
+                        </span>
                     </Link>
                 </li>
                 <li>
@@ -128,11 +217,11 @@ export default function Slider() {
                         <p>Inventario</p>
                     </div>
                 </Link>
-                <div onClick={()=>setPerfil(true)}>
+                <div onClick={() => setPerfil(true)}>
                     <i class="nf nf-fa-user"></i>
                     <p>Perfil</p>
                 </div>
-            </aside> 
+            </aside>
         </>
     );
 }

@@ -6,6 +6,9 @@ import Equipos from "./Paginas/Equipos";
 import Miembros from "./Paginas/Miembros";
 import Recursos from "./Paginas/Recursos";
 import Elementos from "./Paginas/Elementos";
+import Index from "./Paginas/Index";
+import Inicio from "./Paginas/Inicio";
+import Registro from "./Paginas/Registro";
 
 function App() {
   return (
@@ -19,7 +22,9 @@ function App() {
           <Route path='/miembros' element={<Miembros/>} />
           <Route path='/recursos' element={<Recursos/>} />
           <Route path='/elemento' element={<Elementos/>} />
-          <Route path='/' element={<Proyectos/>} />
+          <Route path='/inicio' element={<Inicio/>} />
+          <Route path='/registro' element={<Registro/>} />
+          <Route path='/' element={<Index/>} />
         </Routes>
       </BrowserRouter>
     </>
