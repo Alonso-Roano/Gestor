@@ -10,6 +10,9 @@ import CuMiembros from "./Cruds/CuMiembros";
 import CuRecursos from "./Cruds/CuRecursos";
 import CuUsuarios from "./Cruds/CuUsuarios";
 import CuProyectos from "./Cruds/CuProyectos";
+import CuComentarios from "./Cruds/CuComentarios";
+import CuIconos from "./Cruds/CuIconos";
+import CuElementos from "./Cruds/CuElementos";
 import Recursos from "./Paginas/Recursos";
 import Elementos from "./Paginas/Elementos";
 
@@ -28,10 +31,13 @@ function App() {
           <Route path='/cumiembros' element={<CuMiembros />} />
           <Route path='/curecursos' element={<CuRecursos />} />
           <Route path='/cuusuarios' element={<CuUsuarios />} />
-          <Route path='/cuproyectos' element={<CuProyectos/>} />
-          <Route path='/recursos' element={<Recursos/>} />
-          <Route path='/elemento' element={<Elementos/>} />
-          <Route path='/' element={<Proyectos/>} />
+          <Route path='/cuproyectos' element={<CuProyectos />} />
+          <Route path='/cucomentarios' element={<CuComentarios />} />
+          <Route path='/cuiconos' element={<CuIconos />} />
+          <Route path='/cuelementos' element={<CuElementos />} />
+          <Route path='/recursos' element={<Recursos />} />
+          <Route path='/elemento' element={<Elementos />} />
+          <Route path='/' element={<Proyectos />} />
         </Routes>
       </BrowserRouter>
     </>

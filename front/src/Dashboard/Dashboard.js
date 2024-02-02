@@ -3,9 +3,9 @@ import "./Dashboard.css";
 import "../CSS/Header.css";
 import { useState } from "react";
 import DashSlider from "./DashSider";
+import { Link } from "react-router-dom";
 
 export default function Dashboard() {
-
   const [clases, setClases] = useState("ocultar");
   const [icono, setIcono] = useState(true);
   const mostrar = () => {
@@ -18,18 +18,14 @@ export default function Dashboard() {
   };
 
   return (
-
-
     <>
-
       <body>
-
         <header className="head">
           <div>
             {icono ?
-              <i class="nf nf-cod-three_bars" onClick={() => mostrar()}></i>
+              <i className="nf nf-cod-three_bars" onClick={mostrar}></i>
               :
-              <i class="nf nf-oct-x" onClick={() => ocultar()}></i>
+              <i className="nf nf-oct-x" onClick={ocultar}></i>
             }
             <p>Gestion</p>
           </div>
@@ -37,42 +33,86 @@ export default function Dashboard() {
         </header>
         <main>
           <nav className={clases}>
-          <DashSlider></DashSlider>
+            <DashSlider />
             <aside>
               <div>
-                <i class="nf nf-md-package"></i>
+                <i className="nf nf-md-package"></i>
                 <p>Inventario</p>
               </div>
               <div>
-                <i class="nf nf-fa-user"></i>
+                <i className="nf nf-fa-user"></i>
                 <p>Perfil</p>
               </div>
             </aside>
           </nav>
-          <div class="main-content">
-            <h1>Bienvenido al dashboard "administrador"</h1>
-            <div class="rectangulos-container">
-              <div class="rectangulo1">
-                <h2>Usuarios</h2>
-                <p>1</p>
+          <div className="main-content">
+            <h1>Bienvenido al Dashboard </h1>
+            <div className="rectangulos-container">
+              <div className="rectangulo-con-boton">
+                <div className="rectangulo1">
+                  <h2>Miembros</h2>
+                  <p>Miembros totales: 1</p>
+                  <div className="func">
+                    <p>Funcionando</p>
+                  </div>
+                </div>
+                <Link to="/cumiembros" className="dashboard-button">Administrar Miembros</Link>
               </div>
-              <div class="rectangulo2">
-                <h2>Miembros</h2>
-                <p>2</p>
+              <div className="rectangulo-con-boton">
+                <div className="rectangulo2">
+                  <h2>Elementos</h2>
+                  <p>Elementos totales: 2</p>
+                  <div className="func">
+                    <p>Funcionando</p>
+                  </div>
+                </div>
+                <Link to="/cuelementos" className="dashboard-button">Administrar Elementos</Link>
               </div>
-              <div class="rectangulo3">
-                <h2>Equipos</h2>
-                <p>3</p>
+              <div className="rectangulo-con-boton">
+                <div className="rectangulo3">
+                  <h2>Equipos</h2>
+                  <p>Equipos totales: 3</p>
+                  <div className="func">
+                    <p>Funcionando</p>
+                  </div>
+                </div>
+                <Link to="/cuequipos" className="dashboard-button">Administrar Equipos</Link>
               </div>
-              <div class="rectangulo4">
-                <h2>Proyectos</h2>
-                <p>4</p>
+              <div className="rectangulo-con-boton">
+                <div className="rectangulo4">
+                  <h2>Proyectos</h2>
+                  <p>Proyectos totatales: 4</p>
+                  <div className="func">
+                    <p>Funcionando</p>
+                  </div>
+                </div>
+                <Link to="/cuproyectos" className="dashboard-button">Administrar Proyectos</Link>
+              </div>
+              <div className="rectangulo-con-boton">
+                <div className="rectangulo4">
+                  <h2>Comentarios</h2>
+                  <p>Comentarios totales: 5</p>
+                  <div className="func">
+                    <p>Funcionando</p>
+                  </div>
+                </div>
+                <Link to="/cuproyectos" className="dashboard-button">Administrar Comentarios</Link>
+              </div>
+              <div className="rectangulo-con-boton">
+                <div className="rectangulo4">
+                  <h2>Recursos</h2>
+                  <p>Recursos totales: 6</p>
+                  <div className="func">
+                    <p>Funcionando</p>
+                  </div>
+                </div>
+                <Link to="/cuproyectos" className="dashboard-button">Administrar Recursos</Link>
               </div>
             </div>
           </div>
         </main>
-
       </body>
     </>
   );
-};
+}
+

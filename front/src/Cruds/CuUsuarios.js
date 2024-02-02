@@ -47,7 +47,7 @@ export default function CuUsuarios() {
                 <div className="main-content">
                     <h1> CRUD de Usuarios </h1>
                     <div className="buscador">
-                        <input></input><button>Buscar</button>
+                        <input placeholder="Buscar"></input><button>Buscar</button>
                         <button>Agregar</button>
                     </div>
                     <div className="tabla-contenedor">

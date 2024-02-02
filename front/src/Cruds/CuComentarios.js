@@ -5,10 +5,10 @@ import "../CSS/Principal.css";
 import "./tabla.css";
 import DashSlider from "../Dashboard/DashSider";
 
-export default function CuRecurso() {
+export default function CuComentarios() {
     const [clases, setClases] = useState("ocultar");
     const [icono, setIcono] = useState(true);
-    const [recursos, setRecursos] = useState([]);
+    const [comentarios, setComentarios] = useState([]);
     const [Agregar, setAgregar] = useState(false);
 
     const abrirModal = () => setAgregar(true);
@@ -22,15 +22,16 @@ export default function CuRecurso() {
         setClases("ocultar");
         setIcono(true);
     };
-    const eliminarRecurso = (id) => {
+
+    const eliminarComentario = (id) => {
 
     };
 
-    const editarRecurso = (id) => {
+    const editarComentario = (id) => {
 
     };
 
-    const agregarRecurso = () => {
+    const agregarComentario = () => {
         cerrarModal();
     };
     return (
@@ -52,50 +53,42 @@ export default function CuRecurso() {
                     <DashSlider></DashSlider>
                 </nav>
                 <div class="main-content">
-                    <h1> CRUD de Recursos </h1>
+                    <h1> CRUD de Comentarios </h1>
                     <div class="buscador">
                         <input placeholder="Buscar"></input><button>Buscar</button>
                         <button onClick={abrirModal}>Agregar</button>
                     </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Descripcion</th>
-                                <th>Imagen</th>
-                                <th>Editar</th>
-                                <th>Eliminar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {recursos.map((recurso) => (
-                                <tr key={recurso.id}>
-                                    <td>{recurso.id}</td>
-                                    <td>{recurso.nombre}</td>
-                                    <td>{recurso.descripcion}</td>
-                                    <td>{recurso.imagen}</td>
-                                    <td><button onClick={() => editarRecurso(recurso.id)}>Editar</button></td>
-                                    <td><button onClick={() => eliminarRecurso(recurso.id)}>Eliminar</button></td>
+                    <div className="tabla-contenedor">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Descripcion</th>
+                                    <th>Editar</th>
+                                    <th>Eliminar</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {comentarios.map((comentario) => (
+                                    <tr key={comentario.id}>
+                                        <td>{comentario.id}</td>
+                                        <td>{comentario.descripcion}</td>
+                                        <td><button onClick={() => editarComentario(comentario.id)}>Editar</button></td>
+                                        <td><button onClick={() => eliminarComentario(comentario.id)}>Eliminar</button></td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 {Agregar && (
                     <div className="modal">
                         <div className="modal-content">
-                            <h2>Agregar Recurso</h2>
+                            <h2>Agregar Comentario</h2>
                             <div className="form">
-                                <p>Ingresa el nombre del recurso</p>
-                                <input type="text" />
-                                <p>Agregar imagen</p>
-                                <input type="file" />
-                                <p>Agregar Descripcion</p>
-                                <div className="desc">
-                                    <input type="text" />
-                                </div>
-                                <button onClick={agregarRecurso}>Agregar Recurso</button>
+                                <p>Ingresa el Comentario</p>
+                                <input type="desc" />
+                                <button onClick={agregarComentario}>Agregar Comentario</button>
                                 <button onClick={cerrarModal}>Cerrar</button>
                             </div>
                         </div>

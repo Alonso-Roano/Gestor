@@ -113,13 +113,15 @@ footer {
 
 .rectangulos-container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     grid-gap: 40px;
-    align-items: center;
+    align-items: start;
     justify-content: center;
     padding: 20px;
     margin-top: 50px;
+    border-radius: 30px;
 }
+
 
 .rectangulo1 {
     background-color: #efefef;
@@ -209,6 +211,45 @@ footer {
     /* Color del número */
 }
 
+.rectangulo-con-boton {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Estilos de los rectángulos */
+.rectangulo1,
+.rectangulo2,
+.rectangulo3,
+.rectangulo4 {
+    background-color: #efefef;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-bottom: 10px;
+  
+}
+
+.dashboard-button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    background-color:#0A2540;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.dashboard-button:hover {
+    background-color: #0A65A6;
+}
+
+.func p  {
+    font-size: medium;
+    color: green;
+    font-size:medium;
+    font: bold;
+}
 
 footer p {
     margin: 0;

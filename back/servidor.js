@@ -110,3 +110,132 @@ app.get("/Nombre/:id", (req, res) => {
         }
     });
 });
+
+
+app.get("/miembros", (req, res) => {
+    conexion.query("SELECT * FROM miembros", (error, results) => {
+        if (error) {
+            return res.status(500).json({ Estatus: "Error", Mensaje: "Error al obtener los miembros" });
+        }
+        res.json(results); // Devuelve directamente el arreglo de resultados
+    });
+});
+
+
+
+// Ruta para contar miembros
+app.get("/contarMiembro", (req, res) => {
+    conexion.query("SELECT COUNT(*) AS totalMiembro FROM miembro", (error, results) => {
+        if (error) {
+            return res.status(500).json({ Estatus: "Error", Mensaje: "Error al contar los miembros" });
+        }
+        res.json({ totalMiembros: results[0].totalMiembros });
+    });
+});
+
+
+app.get("/miembro", (req, res) => {
+    conexion.query("SELECT * FROM miembro", (error, results) => {
+        if (error) {
+            return res.status(500).json({ Estatus: "Error", Mensaje: "Error al obtener los miembro" });
+        }
+        res.json({ miembros: results });
+    });
+});
+
+// Ruta para agregar un miembro
+app.post("/miembro", (req, res) => {
+    const { Nombre, Contrasenia, Descripcion, Id_Iconos_Id, Habilidades, Nivel } = req.body;
+    const sql = "INSERT INTO miembro (Nombre, Contrasenia, Descripcion, Id_Iconos_Id, Habilidades, Nivel) VALUES (?, ?, ?, ?, ?, ?)";
+    const valores = [Nombre, Contrasenia, Descripcion, Id_Iconos_Id, Habilidades, Nivel];
+
+    conexion.query(sql, valores, (error, results) => {
+        if (error) {
+            return res.status(500).json({ Estatus: "Error", Mensaje: "Error al agregar el miembro" });
+        }
+        res.json({ Estatus: "Exitoso", Mensaje: "Miembro agregado exitosamente", id: results.insertId });
+    });
+});
+
+// Ruta para actualizar un miembro
+app.put("/miembro/:id", (req, res) => {
+    const { Nombre, Contrasenia, Descripcion, Id_Iconos_Id, Habilidades, Nivel } = req.body;
+    const sql = "UPDATE miembro SET Nombre = ?, Contrasenia = ?, Descripcion = ?, Id_Iconos_Id = ?, Habilidades = ?, Nivel = ? WHERE Id_Miembro = ?";
+    const valores = [Nombre, Contrasenia, Descripcion, Id_Iconos_Id, Habilidades, Nivel, req.params.id];
+
+    conexion.query(sql, valores, (error, results) => {
+        if (error) {
+            return res.status(500).json({ Estatus: "Error", Mensaje: "Error al actualizar el miembro" });
+        }
+        res.json({ Estatus: "Exitoso", Mensaje: "Miembro actualizado exitosamente" });
+    });
+});
+
+// Ruta para eliminar un miembro
+app.delete("/miembro/:id", (req, res) => {
+    const sql = "DELETE FROM miembros WHERE Id_Miembro = ?";
+    const valores = [req.params.id];
+
+    conexion.query(sql, valores, (error, results) => {
+        if (error) {
+            return res.status(500).json({ Estatus: "Error", Mensaje: "Error al eliminar el miembro" });
+        }
+        res.json({ Estatus: "Exitoso", Mensaje: "Miembro eliminado exitosamente" });
+    });
+});
+
+
+// ... (Código anterior igual)
+
+// Ruta para obtener todos los equipos
+app.get("/equipos", (req, res) => {
+    conexion.query("SELECT * FROM equipo", (error, results) => {
+        if (error) {
+            return res.status(500).json({ Estatus: "Error", Mensaje: "Error al obtener los equipos" });
+        }
+        res.json(results);
+    });
+});
+
+// Ruta para agregar un equipo
+app.post("/equipos", (req, res) => {
+    const { Nombre, Descripcion } = req.body;
+    const sql = "INSERT INTO equipo (Nombre, Descripcion) VALUES (?, ?)";
+    const valores = [Nombre, Descripcion];
+
+    conexion.query(sql, valores, (error, results) => {
+        if (error) {
+            return res.status(500).json({ Estatus: "Error", Mensaje: "Error al agregar el equipo" });
+        }
+        res.json({ Estatus: "Exitoso", Mensaje: "Equipo agregado exitosamente", id: results.insertId });
+    });
+});
+
+// Ruta para actualizar un equipo
+app.put("/equipos/:id", (req, res) => {
+    const { Nombre, Descripcion } = req.body;
+    const sql = "UPDATE equipo SET Nombre = ?, Descripcion = ? WHERE Id_Equipo = ?";
+    const valores = [Nombre, Descripcion, req.params.id];
+
+    conexion.query(sql, valores, (error) => {
+        if (error) {
+            return res.status(500).json({ Estatus: "Error", Mensaje: "Error al actualizar el equipo" });
+        }
+        res.json({ Estatus: "Exitoso", Mensaje: "Equipo actualizado exitosamente" });
+    });
+});
+
+// Ruta para eliminar un equipo
+app.delete("/equipos/:id", (req, res) => {
+    const sql = "DELETE FROM equipo WHERE Id_Equipo = ?";
+    const valores = [req.params.id];
+
+    conexion.query(sql, valores, (error) => {
+        if (error) {
+            return res.status(500).json({ Estatus: "Error", Mensaje: "Error al eliminar el equipo" });
+        }
+        res.json({ Estatus: "Exitoso", Mensaje: "Equipo eliminado exitosamente" });
+    });
+});
+
+// ... Resto del código

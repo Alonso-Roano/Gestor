@@ -52,31 +52,88 @@ export default function Slider() {
                         <ul>
                             <li>
                                 <Link className="link" to={"/cumiembros"}>
-                                <span>
-                                    <i class="nf nf-oct-person"></i>
-                                    <p>Administar Miembros</p>
-                                </span>
-                            </Link>
-                        </li>
-                    </ul>
-                </details>
-            </li>
-            <li>
-                <details>
-                    <summary><i class="nf nf-fa-file top"></i>Recursos </summary>
-                    <ul>
-                        <li>
-                            <Link className="link" to={"/curecursos"}>
-                                <span>
-                                    <i class="nf nf-fa-file"></i>
-                                    <p>Administar Recursos</p>
-                                </span>
-                            </Link>
-                        </li>
-                    </ul>
-                </details>
-            </li>
-        </ul >
+                                    <span>
+                                        <i class="nf nf-oct-person"></i>
+                                        <p>Administar Miembros</p>
+                                    </span>
+                                </Link>
+                            </li>
+                        </ul>
+                    </details>
+                </li>
+                <li>
+                    <details>
+                        <summary><i class="nf nf-fa-file top"></i>Recursos </summary>
+                        <ul>
+                            <li>
+                                <Link className="link" to={"/curecursos"}>
+                                    <span>
+                                        <i class="nf nf-fa-file"></i>
+                                        <p>Administar Recursos</p>
+                                    </span>
+                                </Link>
+                            </li>
+                        </ul>
+                    </details>
+                </li>
+                <li>
+                    <details>
+                        <summary><i class="nf nf-fa-file top"></i>Elementos </summary>
+                        <ul>
+                            <li>
+                                <Link className="link" to={"/cuelementos"}>
+                                    <span>
+                                        <i class="nf nf-fa-file"></i>
+                                        <p>Administar Elementos</p>
+                                    </span>
+                                </Link>
+                            </li>
+                        </ul>
+                    </details>
+                </li>
+                <li>
+                    <details>
+                        <summary><i class="nf nf-fa-file top"></i>Comentarios </summary>
+                        <ul>
+                            <li>
+                                <Link className="link" to={"/cucomentarios"}>
+                                    <span>
+                                        <i class="nf nf-fa-file"></i>
+                                        <p>Administar Comentarios</p>
+                                    </span>
+                                </Link>
+                            </li>
+                        </ul>
+                    </details>
+                </li>
+                <li>
+                    <details>
+                        <summary><i class="nf nf-fa-file top"></i>Iconos </summary>
+                        <ul>
+                            <li>
+                                <Link className="link" to={"/cuiconos"}>
+                                    <span>
+                                        <i class="nf nf-fa-file"></i>
+                                        <p>Administar Iconos</p>
+                                    </span>
+                                </Link>
+                            </li>
+                        </ul>
+                    </details>
+                </li>
+            </ul >
+            <aside>
+                <Link className="link" to={"/recursos"}>
+                    <div>
+                        <i class="nf nf-md-package"></i>
+                        <p>Inventario</p>
+                    </div>
+                </Link>
+                <div>
+                    <i class="nf nf-fa-user"></i>
+                    <p>Perfil</p>
+                </div>
+            </aside>
         </>
     );
 }
