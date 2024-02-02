@@ -15,6 +15,9 @@ import CuIconos from "./Cruds/CuIconos";
 import CuElementos from "./Cruds/CuElementos";
 import Recursos from "./Paginas/Recursos";
 import Elementos from "./Paginas/Elementos";
+import Index from "./Paginas/Index";
+import Inicio from "./Paginas/Inicio";
+import Registro from "./Paginas/Registro";
 
 function App() {
   return (
@@ -35,9 +38,11 @@ function App() {
           <Route path='/cucomentarios' element={<CuComentarios />} />
           <Route path='/cuiconos' element={<CuIconos />} />
           <Route path='/cuelementos' element={<CuElementos />} />
-          <Route path='/recursos' element={<Recursos />} />
-          <Route path='/elemento' element={<Elementos />} />
-          <Route path='/' element={<Proyectos />} />
+          <Route path='/recursos' element={<Recursos/>} />
+          <Route path='/elemento' element={<Elementos/>} />
+          <Route path='/inicio' element={<Inicio/>} />
+          <Route path='/registro' element={<Registro/>} />
+          <Route path='/' element={<Index/>} />
         </Routes>
       </BrowserRouter>
     </>
