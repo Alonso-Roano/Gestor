@@ -3,11 +3,65 @@ import { Link } from "react-router-dom";
 import "../CSS/Header.css";
 import "../CSS/Principal.css"
 import "../CSS/Recursos.css"
-import Perfil from "./Perfil";
 
 export default function Slider() {
+    const [Perfil, setPerfil] = useState(false);
+    const [body, setBody] = useState({
+        Nombre: "",
+        Foto: "",
+        Biografia: "",
+    });
+    const cambioEntrada = ({ target }) => {
+        const { name, value } = target;
+        setBody({ ...body, [name]: value });
+    };
     return (
         <>
+            {Perfil && (
+                <div className="modal perfil">
+                    <h1>Perfil</h1>
+                    <button
+                        className="salir"
+                        onClick={() => { setBody({ Nombre: "", Foto: "", Biografia: "", }); setPerfil(false); }}
+                    >
+                        <i className="nf nf-oct-x text-2xl"></i>
+                    </button>
+                    <i class="nf nf-cod-three_bars per"></i>
+                    <select id="opciones" name="opciones">
+                        <option value="0">Escoge el icono del elemento</option>
+                        <option value="opcion2">Opción 2</option>
+                        <option value="opcion3">Opción 3</option>
+                    </select>
+                    <p><b>Matricula:</b></p>
+                    <p><b>Nombre:</b></p>
+                    <p><b>Habilidades:</b></p>
+                    <div className="entrada">
+                        <textarea
+                            type="text"
+                            value={body.Biografia}
+                            onChange={cambioEntrada}
+                            name="Biografia"
+                            placeholder="Ingrese sus habilidades"
+                        />
+                    </div>
+                    <p><b>Descripcion:</b></p>
+                    <div className="entrada">
+                        <textarea
+                            type="text"
+                            value={body.Biografia}
+                            onChange={cambioEntrada}
+                            name="Biografia"
+                            placeholder="Ingrese sus habilidades"
+                        />
+                    </div>
+                    <button
+                        className=""
+                    //onClick={agregarArtista}
+                    >
+                        Editar
+                    </button>
+                </div>
+            )}
             <ul>
                 <li>
                     <Link className="link" to={"/proyectos"}>
@@ -74,11 +128,11 @@ export default function Slider() {
                         <p>Inventario</p>
                     </div>
                 </Link>
-                <div>
+                <div onClick={()=>setPerfil(true)}>
                     <i class="nf nf-fa-user"></i>
                     <p>Perfil</p>
                 </div>
-            </aside>
+            </aside> 
         </>
     );
 }
