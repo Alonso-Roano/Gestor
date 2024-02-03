@@ -127,7 +127,7 @@ details ul li i{
     gap: 40px;
     justify-items: center;
     align-content: start;
-    padding: 5px 20px;
+    padding: 10px 20px;
     overflow-y: scroll;
     &::-webkit-scrollbar {
         display: none;
@@ -139,10 +139,41 @@ details ul li i{
     max-width: 300px;
     height: 225px;
     outline: 2px solid hsl(0, 0%, 42%);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
     padding: 10px 15px;
     display: flex;
     flex-wrap: wrap;
+    transition: all .3s;
+    animation: iniciar .5s;
+    position: relative;
 }
+.proyectos div:hover {
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.6);
+    translate:0 5px;
+    transform: scale(1.01);
+}
+.borrar{
+    position: absolute;
+    width: auto !important;
+    background-color: #fff0 !important;
+    padding: 0px !important;
+    top: -30px;
+    right: -10px;
+    font-size: 30px !important;
+    color: #f00 !important;
+    cursor: pointer;
+}
+@keyframes iniciar {
+    0%{
+        transform: scale(.9);
+        opacity: 0;
+    }
+    100%{
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
 .proyectos div *{
     width: 100%;
 }
@@ -161,6 +192,7 @@ details ul li i{
 .des{
     color: #444;
     text-align: justify;
+    max-height: 60px;
     overflow: hidden;
 }
 .elem{
@@ -198,8 +230,11 @@ details ul li i{
     text-decoration: underline;
     cursor: pointer;
 }
-.rojo{background-color: red !important;} .verde{background-color: green !important;} .amarillo{background-color: yellow !important;}
+.rojo{background-color: #f00 !important; padding: 5px;} .verde{background-color: #0f0 !important;padding: 5px;} .amarillo{background-color: #ff0 !important; color: #770 !important;padding: 5px;}
 .nf-oct-plus_circle{cursor: pointer;}
+.logo{
+    height: 100%;
+}
 .buscador{
     display: flex;
     width: 100%;

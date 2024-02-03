@@ -15,16 +15,16 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path='*' element={<Page404/>} />
           <Route path="/404" element={<Page404/>} />
           <Route path='/proyectos' element={<Proyectos/>} />
-          <Route path='/equipos' element={<Equipos/>} />
-          <Route path='/miembros' element={<Miembros/>} />
+          <Route path='/equipos/:id' element={<Equipos/>} />
+          <Route path='/miembros/:id' element={<Miembros/>} />
           <Route path='/recursos' element={<Recursos/>} />
           <Route path='/elemento' element={<Elementos/>} />
           <Route path='/inicio' element={<Inicio/>} />
           <Route path='/registro' element={<Registro/>} />
           <Route path='/' element={<Index/>} />
+          <Route path='*' element={<Page404/>} />
         </Routes>
       </BrowserRouter>
     </>

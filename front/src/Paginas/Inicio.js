@@ -36,7 +36,6 @@ export default function Inicio() {
 
                 if (token.length === 3) {
                     window.location.href = '/proyectos';
-                    var decodificado = JSON.parse(atob(token[1]));
                 } else {
                     console.error("Formato de token incorrecto");
                 }
