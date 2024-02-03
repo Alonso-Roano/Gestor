@@ -86,7 +86,7 @@ export default function Slider() {
                         },
                     }
                 );
-                setMiembros(respuesta.data.)
+               
             } catch (error) {
                 console.log(error);
             }

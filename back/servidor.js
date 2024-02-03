@@ -108,7 +108,7 @@ app.post("/CrearProyecto", verificarToken, (req, res) => {
         }
     });
 });
-app.post("/RegistrarEquipo/:id", verificarToken, verificarRol1,(req, res) => {
+app.post("/RegistrarEquipo/:id", verificarToken, verificarRol1, (req, res) => {
     const { Nombre, Descripcion, Id_Iconos_Id, Id_Proyecto_Id, Estado } = req.body;
 
     const sql = "CALL SP_Registrar_Equipo(?, ?, ?, ?, ?)";
@@ -138,7 +138,7 @@ app.post("/AgregarMiembroAEquipo/:id", verificarToken, verificarRol1o2, (req, re
         }
     });
 });
-app.post("/AgregarComentarioProyecto/:id", verificarToken, verificarRol1o2,(req, res) => {
+app.post("/AgregarComentarioProyecto/:id", verificarToken, verificarRol1o2, (req, res) => {
     const { Id_Proyecto, Id_Miembro, Descripcion, Estado } = req.body;
 
     const sql = "CALL SP_Agregar_Comentario_Proyecto(?, ?, ?, ?)";
@@ -168,7 +168,7 @@ app.post("/AgregarComentarioEquipo", verificarToken, (req, res) => {
         }
     });
 });
-app.post("/AgregarRecurso/:id", verificarToken, verificarRol1,(req, res) => {
+app.post("/AgregarRecurso/:id", verificarToken, verificarRol1, (req, res) => {
     const { Nombre, Descripcion, Id_Iconos_Id, Id_Proyecto_Id } = req.body;
 
     const sql = "CALL SP_Agregar_Recurso(?, ?, ?, ?)";
@@ -183,7 +183,7 @@ app.post("/AgregarRecurso/:id", verificarToken, verificarRol1,(req, res) => {
         }
     });
 });
-app.post("/AgregarElemento/:id", verificarToken, verificarRol1,(req, res) => {
+app.post("/AgregarElemento/:id", verificarToken, verificarRol1, (req, res) => {
     const { Nombre, Descripcion, Precio, Id_Iconos_Id, Id_Recurso_Id, Id_Miembro_Id, Estado } = req.body;
 
     const sql = "CALL SP_Agregar_Elemento(?, ?, ?, ?, ?, ?, ?)";
@@ -198,7 +198,7 @@ app.post("/AgregarElemento/:id", verificarToken, verificarRol1,(req, res) => {
         }
     });
 });
-app.post("/AgregarIcono", verificarToken,verificarAdmin,(req, res) => {
+app.post("/AgregarIcono", verificarToken, verificarAdmin, (req, res) => {
     const { Nombre, Direccion } = req.body;
 
     const sql = "CALL SP_Agregar_Icono(?, ?)";
@@ -213,7 +213,7 @@ app.post("/AgregarIcono", verificarToken,verificarAdmin,(req, res) => {
         }
     });
 });
-app.get("/equipos/:proyectoId",verificarToken, (req, res) => {
+app.get("/equipos/:proyectoId", verificarToken, (req, res) => {
     const proyectoId = req.params.proyectoId;
     const sql = "SELECT * FROM Vista_Equipos_Proyecto WHERE Id_Proyecto = ? AND Estado_Equipo > 0";
     conexion.query(sql, [proyectoId], (error, results) => {
@@ -225,7 +225,7 @@ app.get("/equipos/:proyectoId",verificarToken, (req, res) => {
         }
     });
 });
-app.get("/miembros/:equipoId",verificarToken, (req, res) => {
+app.get("/miembros/:equipoId", verificarToken, (req, res) => {
     const equipoId = req.params.equipoId;
     const sql = "SELECT * FROM Vista_Miembros_Equipo WHERE Id_Equipo = ? AND Nivel > 0";
     conexion.query(sql, [equipoId], (error, results) => {
@@ -237,7 +237,7 @@ app.get("/miembros/:equipoId",verificarToken, (req, res) => {
         }
     });
 });
-app.get("/recursos-lider/:miembroId",verificarToken, (req, res) => {
+app.get("/recursos-lider/:miembroId", verificarToken, (req, res) => {
     const miembroId = req.params.miembroId;
     const sql = "SELECT RL.*, I.Direccion FROM Vista_Recursos_Lider RL JOIN Iconos I ON I.Id_Iconos = RL.Id_Iconos_Id WHERE Id_Miembro = ? AND Estado > 0";
     conexion.query(sql, [miembroId], (error, results) => {
@@ -249,7 +249,7 @@ app.get("/recursos-lider/:miembroId",verificarToken, (req, res) => {
         }
     });
 });
-app.get("/elementos-recurso/:recursoId",verificarToken, (req, res) => {
+app.get("/elementos-recurso/:recursoId", verificarToken, (req, res) => {
     const recursoId = req.params.recursoId;
     const sql = "SELECT ER.*, I.Direccion FROM Vista_Elementos_Recurso ER JOIN Iconos I ON I.Id_Iconos = ER.Id_Iconos_Id WHERE Id_Recurso = ? AND Estado > 0";
     conexion.query(sql, [recursoId], (error, results) => {
@@ -261,7 +261,7 @@ app.get("/elementos-recurso/:recursoId",verificarToken, (req, res) => {
         }
     });
 });
-app.get("/comentarios-proyecto/:proyectoId",verificarToken, (req, res) => {
+app.get("/comentarios-proyecto/:proyectoId", verificarToken, (req, res) => {
     const proyectoId = req.params.proyectoId;
     const sql = "SELECT * FROM Vista_Comentarios_Proyecto WHERE Id_Proyecto_Id = ? AND Estado > 0";
     conexion.query(sql, [proyectoId], (error, results) => {
@@ -273,7 +273,7 @@ app.get("/comentarios-proyecto/:proyectoId",verificarToken, (req, res) => {
         }
     });
 });
-app.get("/comentarios-equipo/:equipoId",verificarToken, (req, res) => {
+app.get("/comentarios-equipo/:equipoId", verificarToken, (req, res) => {
     const equipoId = req.params.equipoId;
     const sql = "SELECT * FROM Vista_Comentarios_Equipo WHERE Id_Equipo_Id = ? AND Estado > 0";
     conexion.query(sql, [equipoId], (error, results) => {
@@ -285,7 +285,7 @@ app.get("/comentarios-equipo/:equipoId",verificarToken, (req, res) => {
         }
     });
 });
-app.get("/recursos/:idProyecto",verificarToken, (req, res) => {
+app.get("/recursos/:idProyecto", verificarToken, (req, res) => {
     const idProyecto = req.params.idProyecto;
     const sql = "SELECT ER.*, I.Direccion FROM Vista_Recursos ER JOIN Iconos I ON I.Id_Iconos = ER.Id_Iconos_Id WHERE Id_Proyecto = ? AND Estado > 0";
     const values = [idProyecto];
@@ -299,7 +299,7 @@ app.get("/recursos/:idProyecto",verificarToken, (req, res) => {
         }
     });
 });
-app.get("/vista-iconos", verificarToken,(req, res) => {
+app.get("/vista-iconos", verificarToken, (req, res) => {
     const sql = "SELECT * FROM Vista_Iconos";
     conexion.query(sql, (error, results) => {
         if (error) {
@@ -310,7 +310,7 @@ app.get("/vista-iconos", verificarToken,(req, res) => {
         }
     });
 });
-app.get("/usuario/:idUsuario",verificarToken, (req, res) => {
+app.get("/usuario/:idUsuario", verificarToken, (req, res) => {
     const idUsuario = req.params.idUsuario;
     const sql = "SELECT ER.*, I.Direccion FROM Miembros ER JOIN Iconos I ON I.Id_Iconos = ER.Id_Iconos_Id WHERE Id_Miembro = ? AND Nivel > 0";
     const values = [idUsuario];
@@ -329,7 +329,7 @@ app.get("/usuario/:idUsuario",verificarToken, (req, res) => {
         }
     });
 });
-app.get("/miembro-proyectos/:idMiembro",verificarToken, (req, res) => {
+app.get("/miembro-proyectos/:idMiembro", verificarToken, (req, res) => {
     const idMiembro = req.params.idMiembro;
     const sql = "SELECT ER.*, I.Direccion FROM Vista_Miembro_Proyectos ER JOIN Iconos I ON I.Id_Iconos = ER.Id_Iconos_Id WHERE Id_Miembro = ? AND Estado > 0";
     const values = [idMiembro];
@@ -343,7 +343,7 @@ app.get("/miembro-proyectos/:idMiembro",verificarToken, (req, res) => {
         }
     });
 });
-app.get("/miembro-equipos/:idMiembro",verificarToken, (req, res) => {
+app.get("/miembro-equipos/:idMiembro", verificarToken, (req, res) => {
     const idMiembro = req.params.idMiembro;
     const sql = "SELECT ER.*, I.Direccion FROM Vista_Miembro_Equipos ER JOIN Iconos I ON I.Id_Iconos = ER.Id_Iconos_Id WHERE Id_Miembro = ? AND Estado > 0";
     const values = [idMiembro];
@@ -357,7 +357,7 @@ app.get("/miembro-equipos/:idMiembro",verificarToken, (req, res) => {
         }
     });
 });
-app.get("/miembros-miembros/:idMiembro",verificarToken, (req, res) => {
+app.get("/miembros-miembros/:idMiembro", verificarToken, (req, res) => {
     const idMiembro = req.params.idMiembro;
     const sql = "SELECT ER.*, I.Direccion FROM Vista_Miembros_Miembros ER JOIN Iconos I ON I.Id_Iconos = ER.Id_Iconos_Id WHERE Lider_Proyecto_ID = ? AND Nivel > 0";
     const values = [idMiembro];
@@ -677,11 +677,12 @@ app.get("/contarMiembro", (req, res) => {
 app.get("/miembro", (req, res) => {
     conexion.query("SELECT * FROM miembro", (error, results) => {
         if (error) {
-            return res.status(500).json({ Estatus: "Error", Mensaje: "Error al obtener los miembro" });
+            return res.status(500).json({ Estatus: "Error", Mensaje: "Error al obtener los miembros" });
         }
         res.json({ miembros: results });
     });
 });
+
 
 // Ruta para agregar un miembro
 app.post("/miembro", (req, res) => {

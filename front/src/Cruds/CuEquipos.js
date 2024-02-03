@@ -13,7 +13,7 @@ export default function CuEquipos() {
     const [formData, setFormData] = useState({ nombre: '', descripcion: '' });
 
     useEffect(() => {
-        fetch("http://localhost:3001/equipos")
+        fetch(`http://localhost:1800/equipos`)
             .then((response) => response.json())
             .then((data) => setEquipos(data))
             .catch((error) => console.error("Error:", error));
@@ -29,21 +29,6 @@ export default function CuEquipos() {
         setIcono(true);
     };
 
-    const abrirModal = () => {
-        setAgregar(true);
-        // Restablecer los valores del formulario aquí si es necesario
-    };
-
-    const agregarEquipo = () => {
-        // Implementa la lógica para agregar un nuevo equipo
-        // Por ejemplo, realizar una petición POST a tu API
-        cerrarModal();
-    };
-
-    const editarEquipo = (id) => {
-        // Implementa la lógica para editar un equipo existente
-        // Podrías abrir un modal con los datos del equipo y luego enviar una petición PUT a tu API
-    };
     const abrirModalAgregar = () => {
         setAgregar(true);
         setFormData({ nombre: '', descripcion: '' });
@@ -52,8 +37,8 @@ export default function CuEquipos() {
 
     const abrirModalEditar = (equipo) => {
         setAgregar(true);
-        setFormData({ nombre: equipo.Nombre, descripcion: equipo.Descripcion });
-        setEquipoEditando(equipo.Id_Equipo);
+        setFormData({ nombre: equipo.nombre, descripcion: equipo.descripcion });
+        setEquipoEditando(equipo.id);
     };
 
     const cerrarModal = () => {
@@ -67,7 +52,7 @@ export default function CuEquipos() {
 
     const agregarEditarEquipo = () => {
         const metodo = equipoEditando ? 'PUT' : 'POST';
-        const url = equipoEditando ? `http://localhost:3001/equipo/${equipoEditando}` : 'http://localhost:3001/equipo';
+        const url = equipoEditando ? `http://localhost:1800/equipos/${equipoEditando}` : 'http://localhost:1800/equipos';
 
         fetch(url, {
             method: metodo,
@@ -77,9 +62,9 @@ export default function CuEquipos() {
             .then((response) => response.json())
             .then((data) => {
                 if (metodo === 'POST') {
-                    setEquipos([...equipos, { ...formData, Id_Equipo: data.id }]);
+                    setEquipos([...equipos, { ...formData, id: data.id }]);
                 } else {
-                    const equiposActualizados = equipos.map((eq) => eq.Id_Equipo === equipoEditando ? { ...eq, ...formData } : eq);
+                    const equiposActualizados = equipos.map((eq) => eq.id === equipoEditando ? { ...eq, ...formData } : eq);
                     setEquipos(equiposActualizados);
                 }
                 cerrarModal();
@@ -89,37 +74,38 @@ export default function CuEquipos() {
 
     const eliminarEquipo = (id) => {
         if (window.confirm("¿Estás seguro de querer eliminar este equipo?")) {
-            fetch(`http://localhost:3001/equipos/${id}`, { method: 'DELETE' })
+            fetch(`http://localhost:1800/equipos/${id}`, { method: 'DELETE' })
                 .then(() => {
-                    const equiposActualizados = equipos.filter((eq) => eq.Id_Equipo !== id);
+                    const equiposActualizados = equipos.filter((eq) => eq.id !== id);
                     setEquipos(equiposActualizados);
                 })
                 .catch((error) => console.error("Error:", error));
         }
     };
+
     return (
         <>
             <header className="head">
                 <div>
                     {icono ?
-                        <i class="nf nf-cod-three_bars" onClick={() => mostrar()}></i>
+                        <i className="nf nf-cod-three_bars" onClick={() => mostrar()}></i>
                         :
-                        <i class="nf nf-oct-x" onClick={() => ocultar()}></i>
+                        <i className="nf nf-oct-x" onClick={() => ocultar()}></i>
                     }
                     <p>Gestion</p>
                 </div>
                 <button className="cerrar">Cerrar sesion</button>
             </header>
             <main>
-
                 <nav className={clases}>
                     <DashSlider></DashSlider>
                 </nav>
-                <div class="main-content">
+                <div className="main-content">
                     <h1> CRUD de Equipos </h1>
-                    <div class="buscador">
-                        <input placeholder="Buscar"></input><button>Buscar</button>
-                        <button onClick={abrirModal}>Agregar</button>
+                    <div className="buscador">
+                        <input placeholder="Buscar"></input>
+                        <button>Buscar</button>
+                        <button id="agregarBtn" onClick={abrirModalAgregar}>Agregar</button>
                     </div>
                     <div className="tabla-contenedor">
                         <table>
@@ -131,13 +117,17 @@ export default function CuEquipos() {
                                     <th>Eliminar</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="equiposTableBody">
                                 {equipos.map((equipo) => (
                                     <tr key={equipo.id}>
                                         <td>{equipo.id}</td>
                                         <td>{equipo.nombre}</td>
-                                        <td><button onClick={() => editarEquipo(equipo.id)}>Editar</button></td>
-                                        <td><button onClick={() => eliminarEquipo(equipo.id)}>Eliminar</button></td>
+                                        <td>
+                                            <button onClick={() => abrirModalEditar(equipo)}>Editar</button>
+                                        </td>
+                                        <td>
+                                            <button onClick={() => eliminarEquipo(equipo.id)}>Eliminar</button>
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -145,20 +135,41 @@ export default function CuEquipos() {
                     </div>
                 </div>
                 {Agregar && (
-                    <div className="modal">
+                    <div className="modal" id="modal">
                         <div className="modal-content">
-                            <h2>Agregar Equipo</h2>
+                            <h2 id="modalTitle">
+                                {equipoEditando ? "Editar Equipo" : "Agregar Equipo"}
+                            </h2>
                             <div className="form">
                                 <p>Ingresa el nombre del equipo</p>
-                                <input type="text" />
-                                <button onClick={agregarEquipo}>Agregar Equipo</button>
-                                <button onClick={cerrarModal}>Cerrar</button>
+                                <input
+                                    type="text"
+                                    id="nombreInput"
+                                    onChange={handleInputChange}
+                                    value={formData.nombre}
+                                    name="nombre"
+                                />
+                                <p>Ingresa la descripción del equipo</p>
+                                <input
+                                    type="text"
+                                    id="descripcionInput"
+                                    onChange={handleInputChange}
+                                    value={formData.descripcion}
+                                    name="descripcion"
+                                />
+                                <button id={equipoEditando ? "guardarEditarBtn" : "agregarEquipoBtn"} onClick={agregarEditarEquipo}>
+                                    {equipoEditando ? "Guardar" : "Agregar Equipo"}
+                                </button>
+
+                                <button id="cerrarModalBtn" onClick={cerrarModal}>Cerrar</button>
                             </div>
                         </div>
                     </div>
                 )}
             </main>
-
         </>
-    )
+    );
 }
+
+
+

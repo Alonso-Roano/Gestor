@@ -1,11 +1,9 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "../CSS/Header.css";
 import "../CSS/Principal.css";
 import "./tabla.css";
 import "./modales.css";
 import DashSlider from "../Dashboard/DashSider";
-
 
 export default function CuMiembros() {
     const [clases, setClases] = useState("ocultar");
@@ -13,6 +11,7 @@ export default function CuMiembros() {
     const [miembros, setMiembros] = useState([]);
     const [Agregar, setAgregar] = useState(false);
     const [miembroEditando, setMiembroEditando] = useState(null);
+
     // Suponiendo que tienes un estado para manejar los valores del formulario de agregar/editar
     const [formData, setFormData] = useState({
         nombre: '',
@@ -20,6 +19,7 @@ export default function CuMiembros() {
         habilidades: '',
         rol: ''
     });
+
     const abrirModalEditar = (miembro) => {
         setAgregar(true);
         setFormData({
@@ -31,7 +31,6 @@ export default function CuMiembros() {
         setMiembroEditando(miembro.Id_Miembro);
     };
 
-
     const abrirModal = () => {
         setAgregar(true);
         setFormData({ nombre: '', descripcion: '', habilidades: '', rol: '' }); // Resetear formulario
@@ -42,7 +41,6 @@ export default function CuMiembros() {
         setMiembroEditando(null); // Resetear el estado de edición
         setFormData({ nombre: '', descripcion: '', habilidades: '', rol: '' }); // Resetear el formulario
     };
-
 
     const mostrar = () => {
         setClases("mostrar");
@@ -78,6 +76,7 @@ export default function CuMiembros() {
             })
             .catch((error) => console.error("Error:", error));
     };
+
     const editarMiembro = () => {
         fetch(`http://localhost:3001/miembro/${miembroEditando}`, {
             method: "PUT",
@@ -97,10 +96,8 @@ export default function CuMiembros() {
                 setMiembros(miembrosActualizados);
                 cerrarModal();
             })
-
             .catch((error) => console.error("Error:", error));
     };
-
 
     const eliminarMiembro = (id) => {
         if (window.confirm("¿Estás seguro de querer eliminar este miembro?")) {
@@ -114,7 +111,6 @@ export default function CuMiembros() {
                 .catch((error) => console.error("Error:", error));
         }
     };
-
 
     useEffect(() => {
         fetch("http://localhost:3001/miembro")
@@ -130,29 +126,26 @@ export default function CuMiembros() {
             .catch((error) => console.error("Error:", error));
     }, []);
 
-
-
     return (
         <>
             <header className="head">
                 <div>
                     {icono ?
-                        <i class="nf nf-cod-three_bars" onClick={() => mostrar()}></i>
+                        <i className="nf nf-cod-three_bars" onClick={() => mostrar()}></i>
                         :
-                        <i class="nf nf-oct-x" onClick={() => ocultar()}></i>
+                        <i className="nf nf-oct-x" onClick={() => ocultar()}></i>
                     }
                     <p>Gestion</p>
                 </div>
-                <button className="cerrar">Cerrar sesion</button>
+                <button className="cerrar">Cerrar sesión</button>
             </header>
             <main>
-
                 <nav className={clases}>
                     <DashSlider></DashSlider>
                 </nav>
-                <div class="main-content">
-                    <h1> CRUD de Miembros </h1>
-                    <div class="buscador">
+                <div className="main-content">
+                    <h1>CRUD de Miembros</h1>
+                    <div className="buscador">
                         <input placeholder="Buscar"></input><button>Buscar</button>
                         <button onClick={abrirModal}>Agregar</button>
                     </div>
@@ -161,8 +154,8 @@ export default function CuMiembros() {
                             <tr>
                                 <th>ID</th>
                                 <th>Nombre</th>
-                                <th>Descripcion</th>
-                                <th>Habiliades</th>
+                                <th>Descripción</th>
+                                <th>Habilidades</th>
                                 <th>Rol</th>
                                 <th>Editar</th>
                                 <th>Eliminar</th>
@@ -185,7 +178,6 @@ export default function CuMiembros() {
                                 </tr>
                             ))}
                         </tbody>
-
                     </table>
                 </div>
                 {Agregar && (

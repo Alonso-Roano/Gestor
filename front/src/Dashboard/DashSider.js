@@ -122,18 +122,6 @@ export default function Slider() {
                     </details>
                 </li>
             </ul >
-            <aside>
-                <Link className="link" to={"/recursos"}>
-                    <div>
-                        <i class="nf nf-md-package"></i>
-                        <p>Inventario</p>
-                    </div>
-                </Link>
-                <div>
-                    <i class="nf nf-fa-user"></i>
-                    <p>Perfil</p>
-                </div>
-            </aside>
         </>
     );
 }
