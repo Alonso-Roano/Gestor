@@ -292,7 +292,7 @@ app.get("/miembros/:equipoId",verificarToken, (req, res) => {
 });
 app.get("/recursos-lider/:miembroId",verificarToken, (req, res) => {
     const miembroId = req.params.miembroId;
-    const sql = "SELECT RL.*, I.Direccion FROM Vista_Recursos_Lider RL JOIN Iconos I ON I.Id_Iconos = RL.Id_Iconos_Id WHERE Id_Miembro = ? AND Estado > 0";
+    const sql = "select vr.Id_Miembro,e.Nombre,e.Descripcion,e.Id_Recurso as Id_Elemento,vr.Nombre_Proyecto,vr.Id_Proyecto_Id,vr.Nombre as Nombre_Recurso,vr.Id_Recurso,e.Estado as Estado from Vista_Recursos_Lider vr join Elemento e on vr.Id_Recurso = e.Id_Recurso_Id WHERE Id_Miembro = ? AND e.Estado > 0";
     conexion.query(sql, [miembroId], (error, results) => {
         if (error) {
             console.error("Error al obtener los recursos del líder:", error);

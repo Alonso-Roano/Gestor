@@ -339,7 +339,7 @@ export default function Slider() {
                                                     <p>{lista.Nombre_Equipo}</p>
                                                 </span>
                                             </Link>
-                                            <Link className="link" to={`/equipos/${lista.Id_Proyecto_Id}`}>
+                                            <Link className="link" to={`/Proyectos/${lista.Id_Proyecto_Id}/${lista.Nombre_Proyecto}`}>
                                                 <p className="pro">{lista.Nombre_Proyecto}</p>
                                             </Link>
                                         </li>
@@ -380,7 +380,7 @@ export default function Slider() {
                 </li>
             </ul>
             <aside>
-                <Link className="link" to={"/recursos"}>
+                <Link className="link" to={`/Elementos/${datos.Id_Miembro}/${datos.Nombre}`}>
                     <div>
                         <i className="nf nf-md-package"></i>
                         <p>Inventario</p>

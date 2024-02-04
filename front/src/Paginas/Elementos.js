@@ -98,11 +98,12 @@ export default function Elementos() {
             <header className="head">
                 <div>
                     {icono ?
-                        <i class="nf nf-cod-three_bars" onClick={() => mostrar()}></i>
+                        <i className="nf nf-cod-three_bars" onClick={() => mostrar()}></i>
                         :
-                        <i class="nf nf-oct-x" onClick={() => ocultar()}></i>
+                        <i className="nf nf-oct-x" onClick={() => ocultar()}></i>
                     }
-                    <p>Gestion</p>
+                    <img className="logo" src="/Logo.png"></img>
+                    <p>Project Manager</p>
                 </div>
                 <Cerrar></Cerrar>
             </header>

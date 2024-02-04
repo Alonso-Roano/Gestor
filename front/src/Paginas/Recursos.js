@@ -1,25 +1,185 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import "../CSS/Header.css";
 import "../CSS/Principal.css"
 import "../CSS/Recursos.css"
 import Slider from "../Componentes/Slider";
 import Cerrar from "../Componentes/CerrarSesion";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 export default function Recursos() {
+    const [acometario, setaComentario] = useState(true);
     const navigate = useNavigate();
+    const { idProyecto, NombreProyecto } = useParams();
+    const autenticado = localStorage.getItem("token");
+    const [iconos, setIconos] = useState([]);
+    const [header, payload, signature] = autenticado.split('.');
+    const [selectedIcono, setSelectedIcono] = useState("nf-oct-circle");
+    var decodedPayload = JSON.parse(atob(payload));
     const [clases, setClases] = useState("ocultar");
     const [icono, setIcono] = useState(true);
-    const [Agregar, setAgregar] = useState(false);
+    const [rol, setRol] = useState(3);
+    const [recursos, setRecursos] = useState([]); // Estado para almacenar los recursos
     const [body, setBody] = useState({
         Nombre: "",
-        Foto: "",
-        Biografia: "",
+        Descripcion: "",
+        Id_Iconos_Id: "0"
     });
+    const [Agregar, setAgregar] = useState(false); // Estado para controlar la visibilidad del formulario
     const cambioEntrada = ({ target }) => {
-        const { name, value } = target;
-        setBody({ ...body, [name]: value });
+        const { name, value, id } = target;
+        if ((name === "Nombre" || name == "Descripcion" || name == "Proposito") && /[&$+,:;=?@#|'<>.^*()%-]/.test(value)) {
+            return;
+        }
+        if (name === "opciones") {
+            setSelectedIcono(value);
+            setBody({ ...body, Id_Iconos_Id: value });
+            const idIconoSeleccionado = target.options[target.selectedIndex].id;
+            setSelectedIcono(idIconoSeleccionado)
+        } else {
+            setBody({ ...body, [name]: value });
+        }
     };
+    const cargarRecursos = async () => {
+        try {
+            const respuesta = await axios.get(
+                `https://localhost:1800/recursos/${idProyecto}`, // Reemplaza con tu URL
+                {
+                    headers: {
+                        Authorization: autenticado,
+                    },
+                }
+            );
+            if(respuesta.data.Resultados.length==0){setaComentario(false)}
+            else{setaComentario(true)}
+            setRecursos(respuesta.data.Resultados);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    const fetchIconos = async () => {
+        try {
+            const respuesta = await axios.get(`https://localhost:1800/vista-iconos`, {
+                headers: {
+                    Authorization: autenticado,
+                },
+            });
+            setIconos(respuesta.data)
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        const fetchRol = async () => {
+            try {
+                const respuesta = await axios.get(`https://localhost:1800/validacion_equipos/${decodedPayload.id}/${idProyecto}`, {
+                    headers: {
+                        Authorization: autenticado,
+                    },
+                });
+                if (!respuesta.data.Equipos[0].Id_Rol_Id) navigate("/Proyectos");
+                if (respuesta.data.Equipos[0].Id_Rol_Id !== 1) navigate("/Proyectos");
+                setRol(respuesta.data.Equipos[0].Id_Rol_Id)
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchRol()
+        cargarRecursos();
+        fetchIconos();
+    }, []);
+    const agregarRecurso = async () => {
+        if (!body.Nombre.length || !body.Descripcion.length || body.Id_Iconos_Id == 0) {
+            Swal.fire({
+                title: '¡Error!',
+                text: 'Rellene todos los campos y escoja un icono',
+                icon: 'error',
+            });
+            return;
+        }
+        try {
+            const autenticado = localStorage.getItem("token");
+            const respuesta = await axios.post(
+                `https://localhost:1800/AgregarRecurso/${idProyecto}`, // Reemplaza con tu URL
+                {
+                    Nombre: body.Nombre,
+                    Descripcion: body.Descripcion,
+                    Id_Iconos_Id: body.Id_Iconos_Id,
+                    Id_Proyecto_Id: idProyecto,
+                },
+                {
+                    headers: {
+                        Authorization: autenticado,
+                    },
+                }
+            );
+
+            if (respuesta.data.Estatus === "Exitoso") {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Recurso creado con éxito',
+                });
+                setAgregar(false);
+                setBody({
+                    Nombre: "",
+                    Foto: "",
+                    Biografia: "",
+                });
+                cargarRecursos(); // Recarga la lista de recursos después de agregar uno nuevo
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al crear el recurso',
+                });
+            }
+        } catch (error) {
+            console.log("Error al crear el recurso:", error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error al crear el recurso',
+            });
+        }
+    };
+    const borrarRecurso = async (idRecurso) => {
+        const { value: confirmed } = await Swal.fire({
+            title: '¿Estás seguro?',
+            text: 'Se borrará el recurso',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, estoy seguro',
+            cancelButtonText: 'Cancelar',
+        });
+
+        if (confirmed) {
+            try {
+                const autenticado = localStorage.getItem("token");
+                const respuesta = await axios.put(
+                    `https://localhost:1800/borrarRecurso/${idProyecto}/${idRecurso}`, // Reemplaza con tu URL
+                    {},
+                    {
+                        headers: {
+                            Authorization: autenticado,
+                        },
+                    }
+                );
+                if (respuesta.data.Estatus === "Exitoso") {
+                    Swal.fire(
+                        'Recurso eliminado correctamente'
+                    );
+                    cargarRecursos(); // Recarga la lista de recursos después de borrar uno
+                } else {
+                    console.log("Error al eliminar el recurso");
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
+
     const mostrar = () => {
         setClases("mostrar");
         setIcono(false);
@@ -35,7 +195,7 @@ export default function Recursos() {
                     <h1>Agregar Recurso</h1>
                     <button
                         className="salir"
-                        onClick={() => { setBody({ Nombre: "", Foto: "", Biografia: "", }); setAgregar(false); }}
+                        onClick={() => { setBody({ Nombre: "", Id_Iconos_Id: "0", Descripcion: "", }); setAgregar(false); setSelectedIcono("nf-oct-circle") }}
                     >
                         <i className="nf nf-oct-x text-2xl"></i>
                     </button>
@@ -48,23 +208,29 @@ export default function Recursos() {
                             placeholder="Ingrese nombre del recurso"
                         />
                     </div>
-                    <select id="opciones" name="opciones">
-                        <option value="0">Escoge el icono del recurso</option>
-                        <option value="opcion2">Opción 2</option>
-                        <option value="opcion3">Opción 3</option>
-                    </select>
+                    <div className="flex">
+                        <i className={`nf ${selectedIcono} gran`}></i>
+                        <select name="opciones" value={body.Id_Iconos_Id} onChange={cambioEntrada}>
+                            <option value="0" id="nf-oct-circle">Escoge el icono del proyecto</option>
+                            {iconos.map((lista2, index) => {
+                                return (
+                                    <option id={lista2.Direccion} value={`${lista2.Id_Iconos}`} key={index}><div>{lista2.Nombre}</div></option>
+                                );
+                            })}
+                        </select>
+                    </div>
                     <div className="entrada">
                         <textarea
                             type="text"
-                            value={body.Biografia}
+                            value={body.Descripcion}
                             onChange={cambioEntrada}
-                            name="Biografia"
+                            name="Descripcion"
                             placeholder="Ingrese descripcion"
                         />
                     </div>
                     <button
                         className="w-full py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
-                    //onClick={agregarArtista}
+                        onClick={() => agregarRecurso()}
                     >
                         AGREGAR RECURSO
                     </button>
@@ -73,11 +239,12 @@ export default function Recursos() {
             <header className="head">
                 <div>
                     {icono ?
-                        <i class="nf nf-cod-three_bars" onClick={() => mostrar()}></i>
+                        <i className="nf nf-cod-three_bars" onClick={() => mostrar()}></i>
                         :
-                        <i class="nf nf-oct-x" onClick={() => ocultar()}></i>
+                        <i className="nf nf-oct-x" onClick={() => ocultar()}></i>
                     }
-                    <p>Gestion</p>
+                    <img className="logo" src="/Logo.png"></img>
+                    <p>Project Manager</p>
                 </div>
                 <Cerrar></Cerrar>
             </header>
@@ -86,88 +253,29 @@ export default function Recursos() {
                     <Slider></Slider>
                 </nav>
                 <section className="Recursos">
-                    <h1 className="titulo">Recursos <i class="nf nf-oct-plus_circle ma" tabIndex="1" onClick={() => setAgregar(true)}></i></h1>
+                    <h1 className="titulo">Recursos {rol == 1 ? <i class="nf nf-oct-plus_circle ma" tabIndex="1" onClick={() => setAgregar(true)}></i> : <></>} </h1>
                     <section>
                         <div className="equipos">
-                            <div>
-                                <span className="elem">
-                                    <h3>Titulo</h3>
-                                    <i class="nf nf-fa-circle_thin"></i>
-                                </span>
-                                <p className="des">Cantidad: N</p>
-                                <span className="elem">
-                                    <i class="nf nf-cod-trash" tabIndex="1"></i>
-                                    <Link className="link" to={"/elemento"}><p>Visualizar</p></Link>
-                                </span>
-                            </div>
-                            <div>
-                                <span className="elem">
-                                    <h3>Titulo</h3>
-                                    <i class="nf nf-fa-circle_thin"></i>
-                                </span>
-                                <p className="des">Cantidad: N</p>
-                                <span className="elem">
-                                    <i class="nf nf-cod-trash" tabIndex="1"></i>
-                                    <p>Visualizar</p>
-                                </span>
-                            </div>
-                            <div>
-                                <span className="elem">
-                                    <h3>Titulo</h3>
-                                    <i class="nf nf-fa-circle_thin"></i>
-                                </span>
-                                <p className="des">Cantidad: N</p>
-                                <span className="elem">
-                                    <i class="nf nf-cod-trash" tabIndex="1"></i>
-                                    <p>Visualizar</p>
-                                </span>
-                            </div>
-                            <div>
-                                <span className="elem">
-                                    <h3>Titulo</h3>
-                                    <i class="nf nf-fa-circle_thin"></i>
-                                </span>
-                                <p className="des">Cantidad: N</p>
-                                <span className="elem">
-                                    <i class="nf nf-cod-trash" tabIndex="1"></i>
-                                    <p>Visualizar</p>
-                                </span>
-                            </div>
-                            <div>
-                                <span className="elem">
-                                    <h3>Titulo</h3>
-                                    <i class="nf nf-fa-circle_thin"></i>
-                                </span>
-                                <p className="des">Cantidad: N</p>
-                                <span className="elem">
-                                    <i class="nf nf-cod-trash" tabIndex="1"></i>
-                                    <p>Visualizar</p>
-                                </span>
-                            </div>
-                            <div>
-                                <span className="elem">
-                                    <h3>Titulo</h3>
-                                    <i class="nf nf-fa-circle_thin"></i>
-                                </span>
-                                <p className="des">Cantidad: N</p>
-                                <span className="elem">
-                                    <i class="nf nf-cod-trash" tabIndex="1"></i>
-                                    <p>Visualizar</p>
-                                </span>
-                            </div>
-                            <div>
-                                <span className="elem">
-                                    <h3>Titulo</h3>
-                                    <i class="nf nf-fa-circle_thin"></i>
-                                </span>
-                                <p className="des">Cantidad: N</p>
-                                <span className="elem">
-                                    <i class="nf nf-cod-trash" tabIndex="1"></i>
-                                    <p>Visualizar</p>
-                                </span>
-                            </div>
+                            {acometario ?
+                                recursos.map((recurso, index) => (
+                                    <div key={index}>
+                                        <span className="elem">
+                                            <h3>{recurso.Nombre}</h3>
+                                            <i className={`nf ${recurso.Direccion}`}></i>
+                                        </span>
+                                        <p className="des">Descripcion: {recurso.Descripcion}</p>
+                                        <span className="elem">
+                                            {rol == 1 ? <i className="nf nf-cod-trash" tabIndex="1" onClick={() => borrarRecurso(recurso.Id_Recurso)}></i> : <></>}
+                                            <Link className="link" to={`/Proyectos/${recurso.Id_Proyecto_Id}/${recurso.Nombre_Proyecto}/recursos/${recurso.Id_Recurso}/${recurso.Nombre}`}>Visualizar</Link>
+                                        </span>
+                                    </div>
+                                ))
+
+                                :
+                                <p>Ningun recurso agregado</p>
+                            }
                         </div>
-                        <button onClick={()=>{navigate("/proyectos")}}>Volver</button>
+                        <button onClick={() => { navigate("/proyectos") }}>Volver</button>
                     </section>
                 </section>
             </main>
