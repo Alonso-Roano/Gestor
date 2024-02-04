@@ -149,7 +149,9 @@ export default function Proyectos() {
     };
     const cambioEntrada = ({ target }) => {
         const { name, value } = target;
-
+        if ( (name === "Nombre"||name=="Fecha"||name=="Proposito") && /[&$+,´:;=?@#|'<>.^*()%-]/.test(value)) {
+            return;
+        }
         if (name === "radio") {
             setSelectedOption(value);
         } else {

@@ -121,3 +121,13 @@ export function verificarRol1o2(req, res, next) {
         return res.status(401).json({ Estatus: "Error", Mensaje: "Acceso no permitido" });
     }
 }
+
+export function limpiarDatos(datos) {
+    const regex = /[\&\$\+\,\:\;\=\?\@\#\|\'\<\>\.\^\*\(\)\%\-\"]/g;
+    for (const key in datos) {
+        if (key !== 'Contrasenia' && typeof datos[key] === 'string') {
+            datos[key] = datos[key].replace(regex, '');
+        }
+    }
+    return datos;
+}

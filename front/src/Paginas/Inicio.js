@@ -42,6 +42,9 @@ export default function Inicio() {
         if ((name === "Nombre" || name === "Contrasenia") && value.startsWith(" ")) {
             return;
         }
+        if ( (name === "Nombre") && /[&$+,´:;=?@#|'<>.^*()%-]/.test(value)) {
+            return;
+        }
         setBody({
             ...body,
             [name]: value,

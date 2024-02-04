@@ -176,7 +176,9 @@ export default function Miembros() {
     }
     const cambioEntrada = ({ target }) => {
         const { name, value } = target;
-
+        if ( (name === "Nombre"||name=="Carga") && /[&$+,´:;=?@#|'<>.^*()%-]/.test(value)) {
+            return;
+        }
         if (name === "radio") {
             setSelectedOption(value);
         } else {
@@ -572,7 +574,7 @@ export default function Miembros() {
                                         }
 
                                     </div>
-                                    {rol == 1 || rol == 2 ? <button onClick={() => setComentarios(true)}>Agregar comentario</button> : <></>}
+                                    <button onClick={() => setComentarios(true)}>Agregar comentario</button>
                                 </span>
                             </div>
                             <div className="opciones">

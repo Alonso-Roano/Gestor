@@ -133,7 +133,9 @@ export default function Slider() {
     const [selectedIcono, setSelectedIcono] = useState("nf-oct-circle");
     const cambioEntrada = ({ target }) => {
         const { name, value, id } = target;
-
+        if ( (name === "Nombre"||name=="Habilidades"||name=="Proposito") && /[&$+,:;=?@#|'<>.^*()%-]/.test(value)) {
+            return;
+        }
         if (name === "opciones") {
             setSelectedIcono(value);
             setBody({ ...body, Id_Iconos_Id: value });

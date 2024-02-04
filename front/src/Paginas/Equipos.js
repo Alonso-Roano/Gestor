@@ -203,7 +203,9 @@ export default function Equipos() {
     }
     const cambioEntrada = ({ target }) => {
         const { name, value } = target;
-
+        if ( (name === "Nombre"||name=="Proposito") && /[&$+,´:;=?@#|'<>.^*()%-]/.test(value)) {
+            return;
+        }
         if (name === "radio") {
             setSelectedOption(value);
         } else {

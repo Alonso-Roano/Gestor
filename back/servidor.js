@@ -3,7 +3,7 @@ import cors from 'cors';
 import mysql from 'mysql';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { verificarToken, verificarAdmin, verificarRol1, verificarRol1o2 } from './auth.js';
+import { verificarToken, verificarAdmin, verificarRol1, verificarRol1o2, limpiarDatos } from './auth.js';
 import https from "https";
 import fs from "fs";
 
@@ -34,7 +34,11 @@ conexion.connect(function (error) {
     }
 });
 app.post("/Registro", async (req, res) => {
-    const { Nombre, Contrasenia } = req.body;
+    let { Nombre, Contrasenia } = req.body;
+
+    const datosFiltrados = limpiarDatos(req.body);
+    Nombre = datosFiltrados.Nombre;
+
     const NVerificacion = "SELECT * FROM Miembros WHERE Nombre = ?";
     const NUsuario = [Nombre];
 
@@ -67,7 +71,9 @@ app.post("/Registro", async (req, res) => {
     });
 });
 app.post("/InicioSesion", async (req, res) => {
-    const { Nombre, Contrasenia } = req.body;
+    let { Nombre, Contrasenia } = req.body;
+    const datosFiltrados = limpiarDatos(req.body);
+    Nombre = datosFiltrados.Nombre;
     const sql = "SELECT * FROM Miembros WHERE Nombre = ?";
     const values = [Nombre];
     try {
@@ -96,7 +102,11 @@ app.post("/InicioSesion", async (req, res) => {
     }
 });
 app.post("/CrearProyecto", verificarToken, (req, res) => {
-    const { Nombre, Id_Iconos_Id, Descripcion, Fecha_Final, Estado } = req.body;
+    let { Nombre, Id_Iconos_Id, Descripcion, Fecha_Final, Estado } = req.body;
+    const datosFiltrados = limpiarDatos(req.body);
+    Nombre = datosFiltrados.Nombre;
+    Descripcion = datosFiltrados.Descripcion;
+    Fecha_Final = datosFiltrados.Fecha_Final;
     const token = req.headers.authorization;
     const decoded = jwt.verify(token, "secreto");
     req.usuarioId = decoded.id;
@@ -114,8 +124,10 @@ app.post("/CrearProyecto", verificarToken, (req, res) => {
     });
 });
 app.post("/RegistrarEquipo/:id", verificarToken, verificarRol1,(req, res) => {
-    const { Nombre, Descripcion, Id_Iconos_Id, Id_Proyecto_Id, Estado } = req.body;
-
+    let { Nombre, Descripcion, Id_Iconos_Id, Id_Proyecto_Id, Estado } = req.body;
+    const datosFiltrados = limpiarDatos(req.body);
+    Nombre = datosFiltrados.Nombre;
+    Descripcion = datosFiltrados.Descripcion;
     const sql = "CALL SP_Registrar_Equipo(?, ?, ?, ?, ?)";
     const values = [Nombre, Descripcion, Id_Iconos_Id, Id_Proyecto_Id, Estado];
 
@@ -129,8 +141,9 @@ app.post("/RegistrarEquipo/:id", verificarToken, verificarRol1,(req, res) => {
     });
 });
 app.post("/AgregarMiembroAEquipo/:id", verificarToken, verificarRol1o2, (req, res) => {
-    const { miembroId, equipoId, rolId, carga } = req.body;
-
+    let { miembroId, equipoId, rolId, carga } = req.body;
+    const datosFiltrados = limpiarDatos(req.body);
+    carga = datosFiltrados.carga;
     const sql = "CALL SP_Agregar_Miembro_A_Equipo(?, ?, ?, ?)";
     const values = [miembroId, equipoId, rolId, carga];
 
@@ -144,8 +157,9 @@ app.post("/AgregarMiembroAEquipo/:id", verificarToken, verificarRol1o2, (req, re
     });
 });
 app.post("/AgregarComentarioProyecto/:id", verificarToken, verificarRol1o2,(req, res) => {
-    const { Id_Proyecto, Id_Miembro, Descripcion, Estado } = req.body;
-
+    let { Id_Proyecto, Id_Miembro, Descripcion, Estado } = req.body;
+    const datosFiltrados = limpiarDatos(req.body);
+    Descripcion = datosFiltrados.Descripcion;
     const sql = "CALL SP_Agregar_Comentario_Proyecto(?, ?, ?, ?)";
     const values = [Id_Proyecto, Id_Miembro, Descripcion, Estado];
 
@@ -159,8 +173,9 @@ app.post("/AgregarComentarioProyecto/:id", verificarToken, verificarRol1o2,(req,
     });
 });
 app.post("/AgregarComentarioEquipo", verificarToken, (req, res) => {
-    const { Id_Equipo, Id_Miembro, Descripcion, Estado } = req.body;
-
+    let { Id_Equipo, Id_Miembro, Descripcion, Estado } = req.body;
+    const datosFiltrados = limpiarDatos(req.body);
+    Descripcion = datosFiltrados.Descripcion;
     const sql = "CALL SP_Agregar_Comentario_Equipo(?, ?, ?, ?)";
     const values = [Id_Equipo, Id_Miembro, Descripcion, Estado];
 
@@ -174,8 +189,10 @@ app.post("/AgregarComentarioEquipo", verificarToken, (req, res) => {
     });
 });
 app.post("/AgregarRecurso/:id", verificarToken, verificarRol1,(req, res) => {
-    const { Nombre, Descripcion, Id_Iconos_Id, Id_Proyecto_Id } = req.body;
-
+    let { Nombre, Descripcion, Id_Iconos_Id, Id_Proyecto_Id } = req.body;
+    const datosFiltrados = limpiarDatos(req.body);
+    Nombre = datosFiltrados.Nombre;
+    Descripcion = datosFiltrados.Descripcion;
     const sql = "CALL SP_Agregar_Recurso(?, ?, ?, ?)";
     const values = [Nombre, Descripcion, Id_Iconos_Id, Id_Proyecto_Id];
 
@@ -189,8 +206,11 @@ app.post("/AgregarRecurso/:id", verificarToken, verificarRol1,(req, res) => {
     });
 });
 app.post("/AgregarElemento/:id", verificarToken, verificarRol1,(req, res) => {
-    const { Nombre, Descripcion, Precio, Id_Iconos_Id, Id_Recurso_Id, Id_Miembro_Id, Estado } = req.body;
-
+    let { Nombre, Descripcion, Precio, Id_Iconos_Id, Id_Recurso_Id, Id_Miembro_Id, Estado } = req.body;
+    const datosFiltrados = limpiarDatos(req.body);
+    Nombre = datosFiltrados.Nombre;
+    Descripcion = datosFiltrados.Descripcion;
+    Precio = datosFiltrados.Precio;
     const sql = "CALL SP_Agregar_Elemento(?, ?, ?, ?, ?, ?, ?)";
     const values = [Nombre, Descripcion, Precio, Id_Iconos_Id, Id_Recurso_Id, Id_Miembro_Id, Estado];
 
@@ -205,6 +225,10 @@ app.post("/AgregarElemento/:id", verificarToken, verificarRol1,(req, res) => {
 });
 app.post("/AgregarIcono", verificarToken,verificarAdmin,(req, res) => {
     const { Nombre, Direccion } = req.body;
+
+    const datosFiltrados = limpiarDatos(req.body);
+    Nombre = datosFiltrados.Nombre;
+    Direccion = datosFiltrados.Direccion;
 
     const sql = "CALL SP_Agregar_Icono(?, ?)";
     const values = [Nombre, Direccion];
@@ -417,7 +441,11 @@ app.get("/miembros-miembros/:idMiembro",verificarToken, (req, res) => {
 });
 app.put("/editarProyecto/:id", verificarToken, verificarRol1, (req, res) => {
     const id = req.params.id;
-    const { Nombre, Descripcion, Id_Iconos, Fecha_Final, Estado } = req.body;
+    let { Nombre, Descripcion, Id_Iconos, Fecha_Final, Estado } = req.body;
+    const datosFiltrados = limpiarDatos(req.body);
+    Nombre = datosFiltrados.Nombre;
+    Descripcion = datosFiltrados.Descripcion;
+    Fecha_Final = datosFiltrados.Fecha_Final;
 
     const sql = "CALL SP_Editar_Proyecto(?, ?, ?, ?, ?, ?)";
     const values = [id, Nombre, Descripcion, Id_Iconos, Fecha_Final, Estado];
@@ -448,8 +476,10 @@ app.put("/borrarProyecto/:id", verificarToken, verificarRol1, (req, res) => {
 });
 app.put("/editarEquipo/:id/:ids", verificarToken, verificarRol1, (req, res) => {
     const id = req.params.ids;
-    const { Nombre, Descripcion, Id_Iconos, Id_Proyecto, Estado } = req.body;
-
+    let { Nombre, Descripcion, Id_Iconos, Id_Proyecto, Estado } = req.body;
+    const datosFiltrados = limpiarDatos(req.body);
+    Nombre = datosFiltrados.Nombre;
+    Descripcion = datosFiltrados.Descripcion;
     const sql = "CALL SP_Editar_Equipo(?, ?, ?, ?, ?, ?)";
     const values = [id, Nombre, Descripcion, Id_Iconos, Id_Proyecto, Estado];
 
@@ -479,7 +509,9 @@ app.put("/borrarEquipo/:id/:ids", verificarToken, verificarRol1, (req, res) => {
 });
 app.put("/editarComentarioProyecto/:id/:ids", verificarToken, verificarRol1, (req, res) => {
     const id = req.params.ids;
-    const { Descripcion, Estado } = req.body;
+    let { Descripcion, Estado } = req.body;
+    const datosFiltrados = limpiarDatos(req.body);
+    Descripcion = datosFiltrados.Descripcion;
 
     const sql = "CALL SP_Editar_Comentario_Proyecto(?, ?, ?)";
     const values = [id, Descripcion, Estado];
@@ -537,7 +569,9 @@ app.delete("/borrarMiembro/:id/:idMiembro/:idEquipo", verificarToken, verificarR
 });
 app.put("/editarComentarioEquipo/:id/:ids", verificarToken, verificarRol1, (req, res) => {
     const id = req.params.ids;
-    const { Descripcion, Estado } = req.body;
+    let { Descripcion, Estado } = req.body;
+    const datosFiltrados = limpiarDatos(req.body);
+    Descripcion = datosFiltrados.Descripcion;
 
     const sql = "CALL SP_Editar_Comentario_Equipo(?, ?, ?)";
     const values = [id, Descripcion, Estado];
@@ -584,7 +618,9 @@ app.put("/editarEstadoProyecto/:id/:ids", verificarToken, verificarRol1, (req, r
 });
 app.put("/editarCargaMiembroEquipo/:id/:idsMiembro/:idsEquipo", verificarToken, verificarRol1, (req, res) => {
     const { idsMiembro, idsEquipo } = req.params;
-    const { Carga } = req.body;
+    let { Carga } = req.body;
+    const datosFiltrados = limpiarDatos(req.body);
+    Carga = datosFiltrados.Carga;
     const sql = "CALL SP_Editar_Carga_Miembro_Equipo(?, ?, ?)";
     const values = [idsMiembro, idsEquipo, Carga];
     conexion.query(sql, values, (error, results) => {
@@ -598,7 +634,10 @@ app.put("/editarCargaMiembroEquipo/:id/:idsMiembro/:idsEquipo", verificarToken, 
 });
 app.put("/editarRecurso/:id/:ids", verificarToken, verificarRol1, (req, res) => {
     const id = req.params.ids;
-    const { Nombre, Descripcion, Id_Iconos, Id_Proyecto, Estado } = req.body;
+    let { Nombre, Descripcion, Id_Iconos, Id_Proyecto, Estado } = req.body;
+    const datosFiltrados = limpiarDatos(req.body);
+    Nombre = datosFiltrados.Nombre;
+    Descripcion = datosFiltrados.Descripcion;
 
     const sql = "CALL SP_Editar_Recurso(?, ?, ?, ?, ?, ?)";
     const values = [id, Nombre, Descripcion, Id_Iconos, Id_Proyecto, Estado];
@@ -629,8 +668,11 @@ app.put("/borrarRecurso/:id/:ids", verificarToken, verificarRol1, (req, res) => 
 });
 app.put("/editarElemento/:id/:ids", verificarToken, verificarRol1, (req, res) => {
     const id = req.params.ids;
-    const { Nombre, Descripcion, Precio, Id_Iconos, Id_Recurso, Id_Miembro, Estado } = req.body;
-
+    let { Nombre, Descripcion, Precio, Id_Iconos, Id_Recurso, Id_Miembro, Estado } = req.body;
+    const datosFiltrados = limpiarDatos(req.body);
+    Nombre = datosFiltrados.Nombre;
+    Descripcion = datosFiltrados.Descripcion;
+    Precio = datosFiltrados.Precio;
     const sql = "CALL SP_Editar_Elemento(?, ?, ?, ?, ?, ?, ?)";
     const values = [id, Nombre, Descripcion, Precio, Id_Iconos, Id_Recurso, Id_Miembro, Estado];
 
@@ -690,7 +732,10 @@ app.put("/desasignarElemento/:id/:ids", verificarToken, verificarRol1,(req, res)
 });
 app.put("/editarUsuario/:ids", verificarToken, async (req, res) => {
     const id = req.params.ids;
-    const { Contrasenia, Descripcion, Id_Iconos, Habilidades, Nivel} = req.body;
+    let { Contrasenia, Descripcion, Id_Iconos, Habilidades, Nivel} = req.body;
+    const datosFiltrados = limpiarDatos(req.body);
+    Descripcion = datosFiltrados.Descripcion;
+    Habilidades = datosFiltrados.Habilidades;
     let Vcontrasenia=""
     if(Contrasenia){Vcontrasenia = await bcrypt.hash(Contrasenia, 10);}
     else{Vcontrasenia = Contrasenia}
