@@ -48,7 +48,7 @@ export default function Miembros() {
     const fetchEquipos = async () => {
         try {
             const respuesta = await axios.get(
-                `http://localhost:1800/miembros/${idEquipo}`,
+                `https://localhost:1800/miembros/${idEquipo}`,
                 {
                     headers: {
                         Authorization: `${autenticado}`,
@@ -66,7 +66,7 @@ export default function Miembros() {
     }
     const fetchComentarios = async () => {
         try {
-            const respuesta = await axios.get(`http://localhost:1800/comentarios-equipo/${idEquipo}`, {
+            const respuesta = await axios.get(`https://localhost:1800/comentarios-equipo/${idEquipo}`, {
                 headers: {
                     Authorization: autenticado,
                 },
@@ -82,7 +82,7 @@ export default function Miembros() {
         const fetchEquipo = async () => {
             try {
                 const respuesta = await axios.get(
-                    `http://localhost:1800/equipo/${idEquipo}`,
+                    `https://localhost:1800/equipo/${idEquipo}`,
                     {
                         headers: {
                             Authorization: `${autenticado}`,
@@ -99,7 +99,7 @@ export default function Miembros() {
         fetchEquipos();
         const fetchRol = async () => {
             try {
-                const respuesta = await axios.get(`http://localhost:1800/validacion_equipos/${decodedPayload.id}/${idProyecto}`, {
+                const respuesta = await axios.get(`https://localhost:1800/validacion_equipos/${decodedPayload.id}/${idProyecto}`, {
                     headers: {
                         Authorization: autenticado,
                     },
@@ -138,7 +138,7 @@ export default function Miembros() {
 
         try {
             const response = await axios.put(
-                `http://localhost:1800/editarCargaMiembroEquipo/${idProyecto}/${body.Id}/${idEquipo}`,
+                `https://localhost:1800/editarCargaMiembroEquipo/${idProyecto}/${body.Id}/${idEquipo}`,
                 {
                     Carga:body.Carga
                 },
@@ -221,7 +221,7 @@ export default function Miembros() {
         try {
             const autenticado = localStorage.getItem("token");
 
-            const respuesta = await axios.post(`http://localhost:1800/AgregarMiembroAEquipo/${idProyecto}`, {
+            const respuesta = await axios.post(`https://localhost:1800/AgregarMiembroAEquipo/${idProyecto}`, {
                 miembroId: body.Nombre,
                 equipoId: idEquipo,
                 rolId: body.Rol,
@@ -276,7 +276,7 @@ export default function Miembros() {
             try {
                 const autenticado = localStorage.getItem("token");
                 const respuesta = await axios.delete(
-                    `http://localhost:1800/borrarMiembro/${idProyecto}/${id}/${idEquipo}`,
+                    `https://localhost:1800/borrarMiembro/${idProyecto}/${id}/${idEquipo}`,
                     {
                         headers: {
                             Authorization: autenticado,
@@ -311,7 +311,7 @@ export default function Miembros() {
             try {
                 const autenticado = localStorage.getItem("token");
                 const respuesta = await axios.put(
-                    `http://localhost:1800/borrarComentarioEquipo/${idProyecto}/${id}`,
+                    `https://localhost:1800/borrarComentarioEquipo/${idProyecto}/${id}`,
                     {},
                     {
                         headers: {
@@ -344,7 +344,7 @@ export default function Miembros() {
         try {
             const autenticado = localStorage.getItem("token");
 
-            const respuesta = await axios.post(`http://localhost:1800/AgregarComentarioEquipo`, {
+            const respuesta = await axios.post(`https://localhost:1800/AgregarComentarioEquipo`, {
                 Id_Equipo: idEquipo,
                 Id_Miembro: decodedPayload.id,
                 Descripcion: comentario,

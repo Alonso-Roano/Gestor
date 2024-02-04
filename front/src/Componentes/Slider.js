@@ -25,7 +25,7 @@ export default function Slider() {
         }
         try {
             const respuesta = await axios.get(
-                `http://localhost:1800/usuario/${decodedPayload.id}`,
+                `https://localhost:1800/usuario/${decodedPayload.id}`,
                 {
                     headers: {
                         Authorization: autenticado,
@@ -50,7 +50,7 @@ export default function Slider() {
             const fetchProyectos = async () => {
                 try {
                     const respuesta = await axios.get(
-                        `http://localhost:1800/miembro-proyectos/${decodedPayload.id}`,
+                        `https://localhost:1800/miembro-proyectos/${decodedPayload.id}`,
                         {
                             headers: {
                                 Authorization: `${autenticado}`,
@@ -67,7 +67,7 @@ export default function Slider() {
             const fetchEquipos = async () => {
                 try {
                     const respuesta = await axios.get(
-                        `http://localhost:1800/miembro-equipos/${decodedPayload.id}`,
+                        `https://localhost:1800/miembro-equipos/${decodedPayload.id}`,
                         {
                             headers: {
                                 Authorization: autenticado,
@@ -84,7 +84,7 @@ export default function Slider() {
             const fetchMiembros = async () => {
                 try {
                     const respuesta = await axios.get(
-                        `http://localhost:1800/miembros-miembros/${decodedPayload.id}`,
+                        `https://localhost:1800/miembros-miembros/${decodedPayload.id}`,
                         {
                             headers: {
                                 Authorization: autenticado,
@@ -100,7 +100,7 @@ export default function Slider() {
             fetchMiembros();
             const fetchIcono = async () => {
                 try {
-                    const respuesta = await axios.get(`http://localhost:1800/vista-iconos`, {
+                    const respuesta = await axios.get(`https://localhost:1800/vista-iconos`, {
                         headers: {
                             Authorization: autenticado,
                         },
@@ -169,7 +169,7 @@ export default function Slider() {
             });
     
             if (textoIngresado) {
-              const verificarUsuario = await axios.post("http://localhost:1800/InicioSesion", {
+              const verificarUsuario = await axios.post("https://localhost:1800/InicioSesion", {
                 Nombre: datos.Nombre,
                 Contrasenia: textoIngresado,
               });
@@ -189,7 +189,7 @@ export default function Slider() {
 
         try {
             const response = await axios.put(
-                `http://localhost:1800/editarUsuario/${decodedPayload.id}`,
+                `https://localhost:1800/editarUsuario/${decodedPayload.id}`,
                 {
                     Contrasenia: body.Contrasenia == "" ? null : body.Contrasenia,
                     Descripcion: body.Proposito == "" ? null : body.Proposito,

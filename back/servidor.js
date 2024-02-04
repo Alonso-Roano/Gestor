@@ -4,6 +4,8 @@ import mysql from 'mysql';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { verificarToken, verificarAdmin, verificarRol1, verificarRol1o2 } from './auth.js';
+import https from "https";
+import fs from "fs";
 
 const app = express();
 app.use(cors());
@@ -16,7 +18,10 @@ const conexion = mysql.createConnection({
     database: 'ProjectAdministrator'
 });
 
-app.listen(1800, () => {
+https.createServer({
+    cert:fs.readFileSync('cert.crt'),
+    key:fs.readFileSync('cert.key')
+}, app).listen(1800, () => {
     console.log("Iniciando Servidor...");
 });
 

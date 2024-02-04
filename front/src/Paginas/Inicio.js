@@ -59,7 +59,7 @@ export default function Inicio() {
         }
 
         try {
-            const respuesta = await axios.post("http://localhost:1800/InicioSesion", body);
+            const respuesta = await axios.post("https://localhost:1800/InicioSesion", body);
 
             if (respuesta.data.Mensaje === "Inicio de sesión exitoso") {
                 console.log("Inicio de sesión exitoso");

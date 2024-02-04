@@ -56,7 +56,7 @@ export default function Registro(){
         }
 
         try {
-            const respuesta = await axios.post("http://localhost:1800/Registro", {
+            const respuesta = await axios.post("https://localhost:1800/Registro", {
                 Nombre: body.Nombre,
                 Contrasenia: body.Contrasenia,
             });

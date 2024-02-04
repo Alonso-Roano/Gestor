@@ -39,7 +39,7 @@ export default function Equipos() {
     const fetchEquipos = async () => {
         try {
             const respuesta = await axios.get(
-                `http://localhost:1800/equipos/${idProyecto}`,
+                `https://localhost:1800/equipos/${idProyecto}`,
                 {
                     headers: {
                         Authorization: `${autenticado}`,
@@ -56,7 +56,7 @@ export default function Equipos() {
     }
     const fetchComentarios = async () => {
         try {
-            const respuesta = await axios.get(`http://localhost:1800/comentarios-proyecto/${idProyecto}`, {
+            const respuesta = await axios.get(`https://localhost:1800/comentarios-proyecto/${idProyecto}`, {
                 headers: {
                     Authorization: autenticado,
                 },
@@ -72,7 +72,7 @@ export default function Equipos() {
         const fetchProyectos = async () => {
             try {
                 const respuesta = await axios.get(
-                    `http://localhost:1800/proyecto/${idProyecto}`,
+                    `https://localhost:1800/proyecto/${idProyecto}`,
                     {
                         headers: {
                             Authorization: `${autenticado}`,
@@ -82,7 +82,7 @@ export default function Equipos() {
                 setProyecto(respuesta.data[0]);
                 const fetchIcono = async () => {
                     try {
-                        const respuesta = await axios.get(`http://localhost:1800/vista-iconos`, {
+                        const respuesta = await axios.get(`https://localhost:1800/vista-iconos`, {
                             headers: {
                                 Authorization: autenticado,
                             },
@@ -101,7 +101,7 @@ export default function Equipos() {
         fetchEquipos();
         const fetchIcono = async () => {
             try {
-                const respuesta = await axios.get(`http://localhost:1800/vista-iconos`, {
+                const respuesta = await axios.get(`https://localhost:1800/vista-iconos`, {
                     headers: {
                         Authorization: autenticado,
                     },
@@ -114,7 +114,7 @@ export default function Equipos() {
         fetchIcono();
         const fetchRol = async () => {
             try {
-                const respuesta = await axios.get(`http://localhost:1800/validacion_equipos/${decodedPayload.id}/${idProyecto}`, {
+                const respuesta = await axios.get(`https://localhost:1800/validacion_equipos/${decodedPayload.id}/${idProyecto}`, {
                     headers: {
                         Authorization: autenticado,
                     },
@@ -158,7 +158,7 @@ export default function Equipos() {
 
         try {
             const response = await axios.put(
-                `http://localhost:1800/editarEquipo/${idProyecto}/${id}`,
+                `https://localhost:1800/editarEquipo/${idProyecto}/${id}`,
                 {
                     Nombre: body.Nombre.length == 0 ? null : body.Nombre,
                     Descripcion: body.Proposito.length == 0 ? null : body.Proposito,
@@ -248,7 +248,7 @@ export default function Equipos() {
         try {
             const autenticado = localStorage.getItem("token");
 
-            const respuesta = await axios.post(`http://localhost:1800/RegistrarEquipo/${idProyecto}`, {
+            const respuesta = await axios.post(`https://localhost:1800/RegistrarEquipo/${idProyecto}`, {
                 Nombre: body.Nombre,
                 Descripcion: body.Proposito,
                 Id_Iconos_Id: body.Id_Iconos_Id,
@@ -306,7 +306,7 @@ export default function Equipos() {
             try {
                 const autenticado = localStorage.getItem("token");
                 const respuesta = await axios.put(
-                    `http://localhost:1800/borrarEquipo/${idProyecto}/${id}`,
+                    `https://localhost:1800/borrarEquipo/${idProyecto}/${id}`,
                     {},
                     {
                         headers: {
@@ -342,7 +342,7 @@ export default function Equipos() {
             try {
                 const autenticado = localStorage.getItem("token");
                 const respuesta = await axios.put(
-                    `http://localhost:1800/borrarComentarioProyecto/${idProyecto}/${id}`,
+                    `https://localhost:1800/borrarComentarioProyecto/${idProyecto}/${id}`,
                     {},
                     {
                         headers: {
@@ -375,7 +375,7 @@ export default function Equipos() {
         try {
             const autenticado = localStorage.getItem("token");
 
-            const respuesta = await axios.post(`http://localhost:1800/AgregarComentarioProyecto/${idProyecto}`, {
+            const respuesta = await axios.post(`https://localhost:1800/AgregarComentarioProyecto/${idProyecto}`, {
                 Id_Proyecto: idProyecto,
                 Id_Miembro: decodedPayload.id,
                 Descripcion: comentario,
