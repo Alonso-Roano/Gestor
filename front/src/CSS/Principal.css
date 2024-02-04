@@ -1,15 +1,17 @@
-main{
+main {
     width: 100vw;
     height: calc(100vh - 50px);
     display: flex;
     position: relative;
     overflow-y: hidden;
 }
-.link{
+
+.link {
     text-decoration: none !important;
     color: black;
 }
-main nav{
+
+main nav {
     background-color: #1465BB;
     width: 25%;
     height: 100%;
@@ -20,7 +22,8 @@ main nav{
     flex-wrap: wrap;
     padding: 20px;
 }
-main section{
+
+main section {
     width: 100%;
 }
 
@@ -38,6 +41,7 @@ main section{
     margin-top: 30px;
     border-radius: 10px;
 }
+
 ul {
     width: 100%;
     height: 85%;
@@ -48,19 +52,23 @@ ul {
     align-content: start;
     overflow: scroll;
     overflow-x: hidden;
+
     &::-webkit-scrollbar {
         display: none;
     }
 }
-li{
+
+li {
     width: 100%;
 }
-details{
+
+details {
     color: #fff;
     width: 100%;
     cursor: pointer;
 }
-summary{
+
+summary {
     width: 100%;
     height: 100%;
     display: flex;
@@ -71,101 +79,155 @@ summary{
     background-color: #1f1f1f;
     border-radius: 10px;
 }
-.mostrar{
+
+.mostrar {
     position: relative;
     left: 0;
     z-index: 50;
 }
-.ocultar{
+
+.ocultar {
     position: absolute;
     left: -1000px;
     z-index: 20;
 }
-main nav aside{
+
+main nav aside {
     display: flex;
     width: 100%;
     justify-content: space-evenly;
 }
-.top{
+
+.top {
     margin-right: 10px;
     margin-left: 10px;
 }
-main nav aside div{
+
+main nav aside div {
     display: flex;
     flex-direction: column;
     justify-content: center;
     cursor: pointer;
 }
-main nav aside i,main nav aside p{
+
+main nav aside i,
+main nav aside p {
     font-size: 20px;
     color: #fff;
     text-align: center;
 }
-details ul{
+
+details ul {
     margin-left: 40px;
     margin-top: 15px;
 }
-details ul span{
+
+details ul span {
     display: flex;
     align-items: center;
 }
-details ul li i,details ul li p{
+
+details ul li i,
+details ul li p {
     font-size: 18px;
     color: #fff;
 }
 
-details ul li i{
+details ul li i {
     margin-right: 5px;
 }
-.pro{
+
+.pro {
     font-size: 15px !important;
     color: #bbb !important;
 }
-.titulo{
+
+.titulo {
     font-size: 45px;
     width: 100%;
     text-align: center;
     margin-top: 19px;
     margin-bottom: 19px;
 }
-.ma{
+
+.ma {
     color: #000;
 }
-.ma:active{
+
+.ma:active {
     transform: scale(0.9);
 }
-.proyectos{
+
+.proyectos {
     width: 100%;
     height: calc(100% - 100px);
     display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 40px;
     justify-items: center;
     align-content: start;
-    padding: 5px 20px;
+    padding: 10px 20px;
     overflow-y: scroll;
+
     &::-webkit-scrollbar {
         display: none;
     }
 }
+
 .proyectos div {
     border-radius: 8px;
     width: 100%;
     max-width: 300px;
     height: 225px;
     outline: 2px solid hsl(0, 0%, 42%);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
     padding: 10px 15px;
     display: flex;
     flex-wrap: wrap;
+    transition: all .3s;
+    animation: iniciar .5s;
+    position: relative;
 }
-.proyectos div *{
+
+.proyectos div:hover {
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.6);
+    translate: 0 5px;
+    transform: scale(1.01);
+}
+
+.borrar {
+    position: absolute;
+    width: auto !important;
+    background-color: #fff0 !important;
+    padding: 0px !important;
+    top: -30px;
+    right: -10px;
+    font-size: 30px !important;
+    color: #f00 !important;
+    cursor: pointer;
+}
+
+@keyframes iniciar {
+    0% {
+        transform: scale(.9);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.proyectos div * {
     width: 100%;
 }
+
 .proyectos i {
     width: 100%;
     height: 70px;
     background-color: #1465BB;
-    border-radius: 10px; 
+    border-radius: 10px;
     display: flex;
     justify-content: right;
     align-items: center;
@@ -173,17 +235,21 @@ details ul li i{
     font-size: 50px;
     color: #fff;
 }
-.des{
+
+.des {
     color: #444;
     text-align: justify;
+    max-height: 60px;
     overflow: hidden;
 }
-.elem{
+
+.elem {
     display: flex;
-    gap:20px;
+    gap: 20px;
     justify-content: space-between;
 }
-.elem *{
+
+.elem * {
     width: 100%;
     border-radius: 10px;
     height: 100%;
@@ -193,29 +259,57 @@ details ul li i{
     border: none;
     cursor: pointer;
 }
-.elem span{
+
+.elem span {
     background-color: #bbb;
     color: #fff;
 }
-.elem button{
+
+.elem button {
     color: #fff;
     background-color: #1465BB;
     cursor: pointer;
 }
-.elem button:hover{
+
+.elem button:hover {
     background-color: #10539a;
 }
-.elem button:active{
+
+.elem button:active {
     background-color: #1874d6;
     transform: scale(.9);
 }
-.elem p{
+
+.elem p {
     text-decoration: underline;
     cursor: pointer;
 }
-.rojo{background-color: red !important;} .verde{background-color: green !important;} .amarillo{background-color: yellow !important;}
-.nf-oct-plus_circle{cursor: pointer;}
-.buscador{
+
+.rojo {
+    background-color: #f00 !important;
+    padding: 5px;
+}
+
+.verde {
+    background-color: #0f0 !important;
+    padding: 5px;
+}
+
+.amarillo {
+    background-color: #ff0 !important;
+    color: #770 !important;
+    padding: 5px;
+}
+
+.nf-oct-plus_circle {
+    cursor: pointer;
+}
+
+.logo {
+    height: 100%;
+}
+
+.buscador {
     display: flex;
     width: 100%;
     padding: 10px 20px;
@@ -223,7 +317,8 @@ details ul li i{
     font-size: 20px;
     align-items: center;
 }
-.buscador input{
+
+.buscador input {
     outline: none;
     width: 100%;
     max-width: 300px;
@@ -234,10 +329,12 @@ details ul li i{
     margin-top: 25px;
     border-radius: 6px;
 }
-.buscador i{
+
+.buscador i {
     font-size: 25px;
 }
-.buscador button{
+
+.buscador button {
     font-size: 20px;
     padding: 5px;
     color: #fff;
@@ -246,34 +343,40 @@ details ul li i{
     border: none;
     outline: none;
 }
-.buscador button:hover{
+
+.buscador button:hover {
     background-color: #10539a;
 }
-.buscador button:active{
+
+.buscador button:active {
     background-color: #1874d6;
     transform: scale(.9);
 }
-.equi{
+
+.equi {
     width: 100%;
     height: calc(100% - 150px);
     padding: 0 20px;
     overflow-y: scroll;
     display: flex;
+
     &::-webkit-scrollbar {
         display: none;
     }
 }
-.partes{
+
+.partes {
     width: 65%;
     height: 100%;
     display: flex;
     flex-direction: column;
 }
-.equipos{
+
+.equipos {
     width: 100%;
     height: 450px;
     display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
     justify-items: center;
     align-content: start;
@@ -281,10 +384,12 @@ details ul li i{
     overflow-y: scroll;
     border: 2px solid #8c8b8b;
     border-radius: 20px;
+
     &::-webkit-scrollbar {
         display: none;
     }
 }
+
 .equipos div {
     border-radius: 8px;
     width: 100%;
@@ -295,40 +400,47 @@ details ul li i{
     display: flex;
     flex-wrap: wrap;
 }
-.equipos div *{
+
+.equipos div * {
     width: 100%;
 }
+
 .equipos img {
     width: 100%;
     height: 60px;
-    object-fit:cover;
+    object-fit: cover;
     background-color: rebeccapurple;
-    border-radius: 10px; 
+    border-radius: 10px;
 }
-.decrip{
+
+.decrip {
     padding: 10px 0;
     color: #1465BB;
     width: 100%;
     height: 25%;
     overflow-y: scroll;
+
     &::-webkit-scrollbar {
         display: none;
     }
 }
-.decrip b{
+
+.decrip b {
     color: #000;
 }
-.elementos{
+
+.elementos {
     width: 35%;
     height: 100%;
 }
-.comentarios{
+
+.comentarios {
     width: 100%;
     height: 450px;
     padding: 0 20px;
 }
 
-.cont{
+.cont {
     padding: 20px;
     height: 100%;
     border: 2px solid #8c8b8b;
@@ -336,17 +448,20 @@ details ul li i{
     flex-direction: column;
     border-radius: 10px;
 }
-.comentarios span div{
+
+.comentarios span div {
     width: 100%;
     height: 100%;
     padding: 10px 0;
     overflow-y: scroll;
     margin-bottom: 10px;
+
     &::-webkit-scrollbar {
         display: none;
     }
 }
-.comentarios button{
+
+.comentarios button {
     font-size: 20px;
     padding: 10px;
     background-color: #1465BB;
@@ -356,80 +471,97 @@ details ul li i{
     outline: none;
     border: none;
 }
-.comentarios button:hover{
+
+.comentarios button:hover {
     background-color: #10539a;
 }
-.comentarios button:active{
+
+.comentarios button:active {
     background-color: #1874d6;
     transform: scale(.9);
 }
-.comentarios article{
+
+.comentarios article {
     width: 100%;
     background-color: #D9D9D9;
     border-radius: 10px;
     padding: 5px;
     margin-bottom: 10px;
 }
-.comentarios article span{
+
+.comentarios article span {
     width: 100%;
     display: flex;
     justify-content: space-between;
 }
-.comentarios article p{
+
+.comentarios article p {
     overflow-x: hidden;
 }
-.comentarios article b{
+
+.comentarios article b {
     font-size: 17px;
     margin-bottom: 5px;
 }
-.cont h4{
+
+.cont h4 {
     font-size: 20px;
     margin-bottom: 10px;
     width: 100%;
     text-align: center;
 }
-.actua{
+
+.actua {
     margin-top: 10px;
     margin-left: 20px;
     font-size: 20px;
     font-weight: bold;
 }
-.opciones{
+
+.opciones {
     display: flex;
     justify-content: space-evenly;
     margin-top: 10px;
-    
+
 }
-.opciones button{
+
+.opciones button {
     padding: 10px;
     border-radius: 10px;
     color: #fff;
     border: none;
     font-size: 15px;
 }
-.opciones button:active{
+
+.opciones button:active {
     transform: scale(.9);
 }
-.elem i, .nf-oct-person_fill{
+
+.elem i,
+.nf-oct-person_fill {
     font-size: 50px;
     color: #1465BB;
 }
-.miembro i{
+
+.miembro i {
     width: 100%;
     text-align: center;
 }
-.miembro h3{
+
+.miembro h3 {
     width: 100%;
     text-align: center;
 }
-.miembro{
+
+.miembro {
     max-width: 170px !important;
 }
-.miembros{
+
+.miembros {
     width: 100%;
     height: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 20px;
     justify-items: center;
     align-content: start;
@@ -437,13 +569,16 @@ details ul li i{
     overflow-y: scroll;
     border: 2px solid #8c8b8b;
     border-radius: 20px;
+
     &::-webkit-scrollbar {
         display: none;
     }
 }
-.comiem{
+
+.comiem {
     height: 100%;
 }
+
 .miembros div {
     border-radius: 8px;
     width: 100%;
@@ -454,22 +589,27 @@ details ul li i{
     display: flex;
     flex-wrap: wrap;
 }
-.miembros div *{
+
+.miembros div * {
     width: 100%;
 }
-.tex{
+
+.tex {
     margin: 5px 0;
 }
-.elemento{
+
+.elemento {
     height: 250px !important;
 }
-.titulo2{
+
+.titulo2 {
     width: 100%;
     display: flex;
-    margin-bottom:10px;
+    margin-bottom: 10px;
     height: 50px;
 }
-.titulo2 .icono_cont{
+
+.titulo2 .icono_cont {
     width: 70px;
     height: 50px;
     border-radius: 5px;
@@ -481,6 +621,7 @@ details ul li i{
     font-size: 40px;
     margin-right: 15px;
 }
+
 .titulo2 .titulo_cont {
     font-size: 40px;
     font-weight: bold;
@@ -488,44 +629,86 @@ details ul li i{
     border-bottom: 4px solid #1465BB;
 }
 
-.ele{
+/* Estilos para el contenedor del título y el botón */
+.titulo-seccion {
+    text-align: center;
+    /* Alineación central para el texto y elementos dentro */
+    margin-bottom: 20px;
+    /* Espacio debajo del contenedor */
+}
+
+/* Estilos para el botón de agregar proyecto */
+.titulo-seccion .agregar-proyecto {
+    padding: 10px 20px;
+    /* Espaciado interno */
+    background-color: #008CBA;
+    /* Color de fondo */
+    color: white;
+    /* Color del texto */
+    border: none;
+    /* Sin borde */
+    border-radius: 5px;
+    /* Bordes redondeados */
+    font-size: 16px;
+    /* Tamaño del texto */
+    cursor: pointer;
+    /* Cursor tipo puntero */
+    display: block;
+    /* Hacer que el botón sea un bloque para permitir el centrado */
+    margin: 10px auto;
+    /* Margen automático para centrar horizontalmente */
+    transition: background-color 0.3s;
+    /* Transición suave al cambiar de color */
+}
+
+.titulo-seccion .agregar-proyecto:hover {
+    background-color: #006f9b;
+    /* Color al pasar el mouse */
+}
+
+.ele {
     height: 90% !important;
     position: relative;
 }
+
 @media only screen and (max-width: 1200px) {
-    .equi{
+    .equi {
         flex-direction: column;
     }
-    .partes{
+
+    .partes {
         width: 100%;
         height: 500px;
     }
-    .elementos{
+
+    .elementos {
         width: 100%;
     }
 }
+
 @media only screen and (max-width: 730px) {
-    .mostrar{
+    .mostrar {
         position: absolute;
         left: 0;
-		transition: all 1s;
+        transition: all 1s;
         z-index: 50;
     }
-    .ocultar{
+
+    .ocultar {
         position: absolute;
         left: -300px;
         z-index: 20;
         transition: all 1s;
     }
-    .partes{
+
+    .partes {
         width: 100%;
         height: 500px;
     }
 }
+
 @media only screen and (max-width: 600px) {
     .proyectos div {
         max-width: 100%;
     }
 }
-
-

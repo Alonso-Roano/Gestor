@@ -1,0 +1,26 @@
+.boton-estilo_editar,
+.boton-estilo_eliminar {
+    padding: 10px 20px;
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 10px auto;
+    transition: background-color 0.3s;
+    height: auto;
+}
+
+.boton-estilo_eliminar{
+    background-color: red;
+    margin-left: 20px;
+}
+
+.boton-estilo_editar{
+    background-color: green;
+}
+
+.boton-estilo:hover {
+    background-color: #006f9b;
+}

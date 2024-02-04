@@ -17,7 +17,7 @@ export default function Registro(){
                 const token = autenticado.split('.');
 
                 if (token.length === 3) {
-                    var decodificado = JSON.parse(atob(token[1]));
+                    window.location.href = '/proyectos';
                 } else {
                     console.error("Formato de token incorrecto");
                 }
@@ -91,7 +91,7 @@ export default function Registro(){
             <main className="inicio2">
                 <div className="contenedor">
                 <Link to={"/"}><h3 className="volv">Volver</h3></Link>
-                    <h1>REGISTRAR USUARIOS</h1>
+                    <h1>REGISTRAR</h1>
                     <img src="/Logo.png"/>
                     <input
                         type="text"

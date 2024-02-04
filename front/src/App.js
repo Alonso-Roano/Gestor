@@ -43,6 +43,7 @@ function App() {
           <Route path='/inicio' element={<Inicio/>} />
           <Route path='/registro' element={<Registro/>} />
           <Route path='/' element={<Index/>} />
+          <Route path='*' element={<Page404/>} />
         </Routes>
       </BrowserRouter>
     </>

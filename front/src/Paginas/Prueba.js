@@ -21,7 +21,7 @@ export default function Proyectos() {
     const [aproyecto, setaProyecto] = useState(true);
     const [selectedOption, setSelectedOption] = useState('1');
 
-    
+
     const fetchProyectos = async () => {
         const autenticado = localStorage.getItem("token");
         const [header, payload, signature] = autenticado.split('.');
@@ -254,6 +254,13 @@ export default function Proyectos() {
             }
         }
     }
+
+    const agregarProyecto = () => {
+        setAgregar(true);
+        setBody({ Nombre: "", Fecha: "", Proposito: "", Id_Iconos_Id: "" });
+    };
+
+
     return (
         <>
             {Editar && (
@@ -417,31 +424,36 @@ export default function Proyectos() {
                 <nav className={clases}>
                     <Slider></Slider>
                 </nav>
-                <section >
-                    <h1 className="titulo">Proyectos <i class="nf nf-oct-plus_circle ma" tabIndex="1" onClick={() => setAgregar(true)}></i></h1>
-                    <aside className="proyectos">
-                        {aproyecto ? <>
-                            {proyecto.map((lista, index) => {
-                                return (<>
-                                    <div>
-                                        <i class={`nf ${lista.Direccion}`}></i>
-                                        <h3>{lista.Nombre}</h3>
-                                        <p className="des">{lista.Descripcion}</p>
-                                        <span className="elem">
-                                            <span className={lista.Estado == 1 ? "rojo" : lista.Estado == 2 ? "amarillo" : "verde"}>{lista.Estado == 1 ? "Pendiente" : lista.Estado == 2 ? "En curso" : "Terminado"}</span>
-                                            {lista.Id_Rol_Id == 1 ? <button onClick={() => modificar(lista.Id_Proyecto, lista.Nombre_Proyecto, lista.Descripcion, lista.Fecha_Final, lista.Estado, lista.Direccion, lista.Id_Iconos_Id)}>Editar</button> : <></>}
-                                            <p onClick={() => { navigate(`/equipos/${lista.Id_Proyecto_Id}`) }}>Visualizar</p>
-                                        </span>
-                                        {lista.Id_Rol_Id == 1 ? <i tabIndex="1" onClick={() => borrar(lista.Id_Proyecto_Id)} class={`nf nf-cod-trash borrar`}></i> : <></>}
-                                    </div>
-                                </>
-                                );
-                            })}
-                        </>
-                            :
-                            <p>No tinenes ningun proyecto asignado</p>
-                        }
-                    </aside>
+
+                <section>
+                    <h1 className="titulo">Proyectos</h1>
+                    <button onClick={agregarProyecto}>Agregar Proyecto</button>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>Fecha Final</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {proyecto.map((lista) => (
+                                <tr key={lista.Id_Proyecto}>
+                                    <td>{lista.Nombre}</td>
+                                    <td>{lista.Descripcion}</td>
+                                    <td>{lista.Fecha_Final}</td>
+                                    <td>{lista.Estado === 1 ? "Pendiente" : lista.Estado === 2 ? "En curso" : "Terminado"}</td>
+                                    <td>
+                                        <button onClick={() => modificar(lista.Id_Proyecto, lista.Nombre_Proyecto, lista.Descripcion, lista.Fecha_Final, lista.Estado, lista.Direccion, lista.Id_Iconos_Id)}>Editar</button>
+                                        <button onClick={() => borrar(lista.Id_Proyecto)}>Eliminar</button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </section>
             </main>
         </>

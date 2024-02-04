@@ -4,6 +4,7 @@ import "../CSS/Header.css";
 import "../CSS/Principal.css";
 import "../CSS/Recursos.css";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export default function Slider() {
     const navigate = useNavigate();
@@ -11,141 +12,277 @@ export default function Slider() {
     const [proyecto, setProyecto] = useState([]);
     const [equipos, setEquipos] = useState([]);
     const [miembros, setMiembros] = useState([]);
+    const [aproyecto, setaProyecto] = useState(true);
+    const [aequipos, setaEquipos] = useState(true);
+    const [amiembros, setaMiembros] = useState(true);
+    const [icono, setIcono] = useState(true);
+    const [iconos, setIconos] = useState([]);
+    const fetchDatos = async () => {
+        const autenticado = localStorage.getItem("token");
+        if(autenticado){
+            const [header, payload, signature] = autenticado.split('.');
+            var decodedPayload = JSON.parse(atob(payload));
+        }
+        try {
+            const respuesta = await axios.get(
+                `http://localhost:1800/usuario/${decodedPayload.id}`,
+                {
+                    headers: {
+                        Authorization: autenticado,
+                    },
+                }
+            );
+            setBody({Id_Iconos_Id:`${respuesta.data.Usuario.Id_Iconos_Id}`});
+            setSelectedIcono(`${respuesta.data.Usuario.Direccion}`)
+            setDatos(respuesta.data.Usuario)
+        } catch (error) {
+            console.log(error);
+        }
+    };
     useEffect(() => {
         const autenticado = localStorage.getItem("token");
-        if(!autenticado){
+        const [header, payload, signature] = autenticado.split('.');
+        var decodedPayload = JSON.parse(atob(payload));
+        if (!autenticado) {
             navigate("/")
-        }else{
-            const fetchDatos = async () => {
-                const autenticado = localStorage.getItem("token");
-                const [header, payload, signature] = autenticado.split('.');
-                const decodedPayload = JSON.parse(atob(payload));
+        } else {
+            fetchDatos();
+            const fetchProyectos = async () => {
                 try {
                     const respuesta = await axios.get(
-                        `http://localhost:1800/usuario/${decodedPayload.Id}`,
+                        `http://localhost:1800/miembro-proyectos/${decodedPayload.id}`,
+                        {
+                            headers: {
+                                Authorization: `${autenticado}`,
+                            },
+                        }
+                    );
+                    if (respuesta.data.Proyectos.length==0) setaProyecto(false);
+                    setProyecto(respuesta.data.Proyectos)
+                } catch (error) {
+                    console.log(error);
+                }
+            };
+            fetchProyectos();
+            const fetchEquipos = async () => {
+                try {
+                    console.log(decodedPayload.id)
+                    const respuesta = await axios.get(
+                        `http://localhost:1800/miembro-equipos/${decodedPayload.id}`,
                         {
                             headers: {
                                 Authorization: autenticado,
                             },
                         }
                     );
-                    setDatos(respuesta.data.Proyectos)
+                    if (respuesta.data.Equipos.length==0) setaEquipos(false);
+                    console.log(respuesta.data.Equipos)
+                    setEquipos(respuesta.data.Equipos);
                 } catch (error) {
                     console.log(error);
                 }
             };
-            fetchDatos();
-        const fetchProyectos = async () => {
-            const autenticado = localStorage.getItem("token");
-            const [header, payload, signature] = autenticado.split('.');
-            const decodedPayload = JSON.parse(atob(payload));
-            try {
-                const respuesta = await axios.get(
-                    `http://localhost:1800/miembro-proyectos/${decodedPayload.Id}`,
-                    {
+            fetchEquipos();
+            const fetchMiembros = async () => {
+                try {
+                    const respuesta = await axios.get(
+                        `http://localhost:1800/miembros-miembros/${decodedPayload.id}`,
+                        {
+                            headers: {
+                                Authorization: autenticado,
+                            },
+                        }
+                    );
+                    if (respuesta.data.MiembrosRelacionados.length==0) setaMiembros(false);
+                    setMiembros(respuesta.data.MiembrosRelacionados);
+                } catch (error) {
+                    console.log(error);
+                }
+            };
+            fetchMiembros();
+            const fetchIcono = async () => {
+                try {
+                    const respuesta = await axios.get(`http://localhost:1800/vista-iconos`, {
                         headers: {
                             Authorization: autenticado,
                         },
-                    }
-                );
-                setProyecto(respuesta.data.Proyectos)
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        fetchProyectos();
-        const fetchEquipos = async () => {
-            const autenticado = localStorage.getItem("token");
-            const [header, payload, signature] = autenticado.split('.');
-            const decodedPayload = JSON.parse(atob(payload));
-            try {
-                const respuesta = await axios.get(
-                    `http://localhost:1800/miembro-equipos/${decodedPayload.Id}`,
-                    {
-                        headers: {
-                            Authorization: autenticado,
-                        },
-                    }
-                );
-                setEquipos(respuesta.data.Equipos)
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        fetchEquipos();
-        const fetchMiembros = async () => {
-            const autenticado = localStorage.getItem("token");
-            const [header, payload, signature] = autenticado.split('.');
-            const decodedPayload = JSON.parse(atob(payload));
-            try {
-                const respuesta = await axios.get(
-                    `http://localhost:1800/miembros-miembros/${decodedPayload.Id}`,
-                    {
-                        headers: {
-                            Authorization: autenticado,
-                        },
-                    }
-                );
-               
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        fetchMiembros();
-    }
+                    });
+                    console.log(respuesta.data)
+                    setIconos(respuesta.data)
+                } catch (error) {
+                    console.log(error);
+                }
+            };
+            fetchIcono();
+            const fetchDatosWrapper = async () => {
+                await fetchProyectos();
+            };
+            const intervalId = setInterval(fetchDatosWrapper, 5000);
+            return () => clearInterval(intervalId);
+        }
     }, []);
     const [Perfil, setPerfil] = useState(false);
     const [body, setBody] = useState({
-        Nombre: "",
-        Foto: "",
-        Biografia: "",
+        Contrasenia: "",
+        Habilidades: "",
+        Proposito: "",
+        Id_Iconos_Id: ""
     });
+    const [selectedIcono, setSelectedIcono] = useState("nf-oct-circle");
     const cambioEntrada = ({ target }) => {
-        const { name, value } = target;
-        setBody({ ...body, [name]: value });
+        const { name, value, id } = target;
+
+        if (name === "opciones") {
+            setSelectedIcono(value);
+            setBody({ ...body, Id_Iconos_Id: value });
+            const idIconoSeleccionado = target.options[target.selectedIndex].id;
+            setSelectedIcono(idIconoSeleccionado)
+        } else {
+            setBody({ ...body, [name]: value });
+        }
+    };
+    const editarUsuario = async () => {
+        if (body.Contrasenia == "") {
+            if (body.Habilidades == "") {
+                if (body.Proposito == "") {
+                    if (body.Id_Iconos_Id == 0 || body.Id_Iconos_Id == "") {
+                        Swal.fire({
+                            title: '¡Error!',
+                            text: 'Rellene almenos un campo',
+                            icon: 'error',
+                        });
+                        return;
+                    }
+                }
+            }
+        }
+        if (body.Contrasenia == "") {
+            const { value: textoIngresado } = await Swal.fire({
+              title: "Introduce la contraseña antigua",
+              input: "text",
+              inputPlaceholder: "Contraseña",
+              showCancelButton: true,
+              confirmButtonText: "Aceptar",
+              cancelButtonText: "Cancelar",
+            });
+    
+            if (textoIngresado) {
+              const verificarUsuario = await axios.post("http://localhost:1800/InicioSesion", {
+                Nombre: datos.Nombre,
+                Contrasenia: textoIngresado,
+              });
+              if (verificarUsuario.data.Estatus === "Exitoso") {
+              } else {
+                Swal.fire("Contraseña incorrecta");
+                return;
+              }
+            } else {
+              return;
+            }
+          }
+
+        const autenticado = localStorage.getItem("token");
+        const [header, payload, signature] = autenticado.split('.');
+        var decodedPayload = JSON.parse(atob(payload));
+
+        try {
+            const response = await axios.put(
+                `http://localhost:1800/editarUsuario/${decodedPayload.id}`,
+                {
+                    Contrasenia: body.Contrasenia == "" ? null : body.Contrasenia,
+                    Descripcion: body.Proposito == "" ? null : body.Proposito,
+                    Id_Iconos: body.Id_Iconos_Id == 0 ? null : body.Id_Iconos_Id,
+                    Habilidades: body.Habilidades == "" ? null : body.Habilidades,
+                    Nivel:null
+                },
+                {
+                    headers: {
+                        Authorization: autenticado,
+                    },
+                }
+            );
+            console.log(response.data);
+            Swal.fire({
+                icon: "success",
+                title: "Usuario editado con éxito",
+                showConfirmButton: false,
+                timer: 1500,
+            });
+            setBody({
+                Contrasenia: "",
+                Habilidades: "",
+                Proposito: "",
+                Id_Iconos_Id: "0"
+            });
+            fetchDatos();
+            setSelectedIcono("nf-oct-circle")
+        } catch (error) {
+            console.error("Error al editar el usuario:", error);
+            Swal.fire({
+                icon: "error",
+                title: "Error al editar el usuario",
+                text: "Por favor, inténtalo de nuevo",
+            });
+        }
     };
     return (
         <>
             {Perfil && (
                 <div className="modal perfil">
-                    <h1>Perfil</h1>
+                    <h1>{datos.Nombre}</h1>
                     <button
                         className="salir"
-                        onClick={() => { setBody({ Nombre: "", Foto: "", Biografia: "", }); setPerfil(false); }}
+                        onClick={() => { setPerfil(false); }}
                     >
                         <i className="nf nf-oct-x text-2xl"></i>
                     </button>
-                    <i class="nf nf-cod-three_bars per"></i>
-                    <select id="opciones" name="opciones">
-                        <option value="0">Escoge el icono del elemento</option>
-                        <option value="opcion2">Opción 2</option>
-                        <option value="opcion3">Opción 3</option>
-                    </select>
-                    <p><b>Matricula:</b></p>
-                    <p><b>Nombre:</b></p>
-                    <p><b>Habilidades:</b></p>
+                    <i class={`nf ${datos.Direccion} per`}></i>
+                    <div className="flex">
+                        <i class={`nf ${selectedIcono} gran`}></i>
+                        <select name="opciones" value={body.Id_Iconos_Id} onChange={cambioEntrada}>
+                            <option value="0" id="nf-oct-circle">Escoge el icono del usuario</option>
+                            {iconos.map((lista2, index) => {
+                                return (
+                                    <option id={lista2.Direccion} value={`${lista2.Id_Iconos}`}><div>{lista2.Nombre}</div></option>
+                                );
+                            })}
+                        </select>
+                    </div>
+                    <p><b>Matricula: </b>{datos.Id_Miembro}</p>
+                    <p><b>Nombre: </b>{datos.Nombre}</p>
+                    <div className="entrada"><p><b>Contraseña: </b></p>
+                    <div className="entrada">
+                        <input
+                            type="text"
+                            value={body.Contrasenia}
+                            onChange={cambioEntrada}
+                            name="Contrasenia"
+                            placeholder="Contraseña"
+                        />
+                    </div></div>
+                    <p><b>Habilidades: </b></p>
                     <div className="entrada">
                         <textarea
                             type="text"
-                            value={body.Biografia}
+                            value={body.Habilidades}
                             onChange={cambioEntrada}
-                            name="Biografia"
-                            placeholder="Ingrese sus habilidades"
+                            name="Habilidades"
+                            placeholder={`${datos.Habilidades ? datos.Habilidades : "Sin habilidades"}`}
                         />
                     </div>
                     <p><b>Descripcion:</b></p>
                     <div className="entrada">
                         <textarea
                             type="text"
-                            value={body.Biografia}
+                            value={body.Proposito}
                             onChange={cambioEntrada}
-                            name="Biografia"
-                            placeholder="Ingrese sus habilidades"
+                            name="Proposito"
+                            placeholder={`${datos.Descripcion ? datos.Descripcion : "Sin descripcion"}`}
                         />
                     </div>
                     <button
                         className=""
-                    //onClick={agregarArtista}
+                        onClick={() => editarUsuario()}
                     >
                         Editar
                     </button>
@@ -164,14 +301,23 @@ export default function Slider() {
                     <details>
                         <summary><i class="nf nf-fa-file top"></i>Proyectos </summary>
                         <ul>
-                            <li>
-                                <Link className="link" to={"/equipos"}>
-                                    <span>
-                                        <i class="nf nf-fa-file"></i>
-                                        <p>Nombre del proyecto</p>
-                                    </span>
-                                </Link>
-                            </li>
+                            {aproyecto ? <>
+                                {proyecto.map((lista, index) => {
+                                    return (
+                                        <li>
+                                            <Link className="link" to={`/equipos/${lista.Id_Proyecto}`}>
+                                                <span>
+                                                    <i class={`nf ${lista.Direccion}`}></i>
+                                                    <p>{lista.Nombre}</p>
+                                                </span>
+                                            </Link>
+                                        </li>
+                                    );
+                                })}
+                            </>
+                                :
+                                <p>No tinenes ningun proyecto asignado</p>
+                            }
                         </ul>
                     </details>
                 </li>
@@ -179,17 +325,26 @@ export default function Slider() {
                     <details>
                         <summary><i class="nf nf-md-account_group top"></i>Equipos</summary>
                         <ul>
-                            <li>
-                                <Link className="link" to={"/miembros"}>
-                                    <span>
-                                        <i class="nf nf-md-account_group"></i>
-                                        <p>Nombre del equipo</p>
-                                    </span>
-                                </Link>
-                                <Link className="link" to={"/equipos"}>
-                                    <p className="pro">Nombre del proyecto</p>
-                                </Link>
-                            </li>
+                            {aequipos ? <>
+                                {equipos.map((lista, index) => {
+                                    return (
+                                        <li>
+                                            <Link className="link" to={`/miembros/${lista.Id_Equipo}`}>
+                                                <span>
+                                                    <i class={`nf ${lista.Direccion}`}></i>
+                                                    <p>{lista.Nombre_Equipo}</p>
+                                                </span>
+                                            </Link>
+                                            <Link className="link" to={`/equipos/${lista.Id_Proyecto_Id}`}>
+                                                <p className="pro">{lista.Nombre_Proyecto}</p>
+                                            </Link>
+                                        </li>
+                                    );
+                                })}
+                            </>
+                                :
+                                <p>No tinenes ningun equipo asignado</p>
+                            }
                         </ul>
                     </details>
                 </li>
@@ -197,15 +352,25 @@ export default function Slider() {
                     <details>
                         <summary><i class="nf nf-oct-person top"></i>Miembros</summary>
                         <ul>
-                            <li>
-                                <span>
-                                    <i class="nf nf-oct-person"></i>
-                                    <p>Nombre del miembro</p>
-                                </span>
-                                <Link className="link" to={"/miembros"}>
-                                    <p className="pro">Nombre del equipo</p>
-                                </Link>
-                            </li>
+                            {amiembros ? <>
+                                {miembros.map((lista, index) => {
+                                    return (
+                                        <li>
+                                            <span>
+                                                <i class={`nf ${lista.Direccion}`}></i>
+                                                <p>{lista.Nombre_Miembro}</p>
+                                            </span>
+                                            <Link className="link" to={`/miembros/${lista.Proyecto_ID}`}>
+                                                <p className="pro">{lista.Nombre_Proyecto}</p>
+                                            </Link>
+                                        </li>
+                                    );
+                                })}
+
+                            </>
+                                :
+                                <p>No tinenes ningun miembro asignado</p>
+                            }
                         </ul>
                     </details>
                 </li>
