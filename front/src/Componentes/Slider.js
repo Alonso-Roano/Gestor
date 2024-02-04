@@ -113,6 +113,8 @@ export default function Slider() {
             fetchIcono();
             const fetchDatosWrapper = async () => {
                 await fetchProyectos();
+                await fetchEquipos();
+                await fetchMiembros();
                 if(proyecto.length>0){
                     setaProyecto(true);
                 }
@@ -304,8 +306,8 @@ export default function Slider() {
                             {aproyecto ? <>
                                 {proyecto.map((lista, index) => {
                                     return (
-                                        <li key={lista.Id_Proyecto}>
-                                            <Link className="link" to={`/equipos/${lista.Id_Proyecto}`}>
+                                        <li key={index}>
+                                            <Link className="link" to={`/Proyectos/${lista.Id_Proyecto}/${lista.Nombre}`}>
                                                 <span>
                                                     <i className={`nf ${lista.Direccion}`}></i>
                                                     <p>{lista.Nombre}</p>
@@ -328,8 +330,8 @@ export default function Slider() {
                             {aequipos ? <>
                                 {equipos.map((lista, index) => {
                                     return (
-                                        <li key={lista.Id_Equipo}>
-                                            <Link className="link" to={`/miembros/${lista.Id_Equipo}`}>
+                                        <li key={index}>
+                                            <Link className="link" to={`/Proyectos/${lista.Id_Proyecto_Id}/${lista.Nombre_Proyecto}/equipos/${lista.Id_Equipo}/${lista.Nombre_Equipo}`}>
                                                 <span>
                                                     <i className={`nf ${lista.Direccion}`}></i>
                                                     <p>{lista.Nombre_Equipo}</p>
@@ -355,7 +357,7 @@ export default function Slider() {
                             {amiembros ? <>
                                 {miembros.map((lista, index) => {
                                     return (
-                                        <li key={lista.Proyecto_ID}>
+                                        <li key={index}>
                                             <span>
                                                 <i className={`nf ${lista.Direccion}`}></i>
                                                 <p>{lista.Nombre_Miembro}</p>

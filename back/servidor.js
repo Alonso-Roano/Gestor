@@ -225,6 +225,18 @@ app.get("/proyecto/:proyectoId",verificarToken, (req, res) => {
         }
     });
 });
+app.get("/equipo/:proyectoId",verificarToken, (req, res) => {
+    const proyectoId = req.params.proyectoId;
+    const sql = "SELECT ER.*, I.Direccion FROM Equipo ER JOIN Iconos I ON I.Id_Iconos = ER.Id_Iconos_Id WHERE Id_Equipo = ?";
+    conexion.query(sql, [proyectoId], (error, results) => {
+        if (error) {
+            console.error("Error al obtener los equipos del proyecto:", error);
+            res.status(500).json({ Estatus: "Error", Mensaje: "Error al obtener los equipos del proyecto" });
+        } else {
+            res.json(results);
+        }
+    });
+});
 app.get("/equipos/:proyectoId",verificarToken, (req, res) => {
     const proyectoId = req.params.proyectoId;
     const sql = "SELECT ER.*,I.Direccion FROM Vista_Equipos_Proyecto ER JOIN Iconos I ON I.Id_Iconos = ER.Id_Iconos_Id WHERE Id_Proyecto = ? AND Estado_Equipo > 0";
@@ -239,7 +251,7 @@ app.get("/equipos/:proyectoId",verificarToken, (req, res) => {
 });
 app.get("/miembros/:equipoId",verificarToken, (req, res) => {
     const equipoId = req.params.equipoId;
-    const sql = "SELECT * FROM Vista_Miembros_Equipo WHERE Id_Equipo = ? AND Nivel > 0";
+    const sql = "SELECT ER.*,Direccion FROM Vista_Miembros_Equipo ER JOIN Iconos I ON I.Id_Iconos = ER.Id_Iconos_Id WHERE Id_Equipo = ? AND Nivel > 0";
     conexion.query(sql, [equipoId], (error, results) => {
         if (error) {
             console.error("Error al obtener los miembros del equipo:", error);
@@ -491,6 +503,33 @@ app.put("/borrarComentarioProyecto/:id/:ids", verificarToken, verificarRol1, (re
         }
     });
 });
+app.delete("/borrarMiembro/:id/:idMiembro/:idEquipo", verificarToken, verificarRol1, (req, res) => {
+    const idMiembro = req.params.idMiembro;
+    const idEquipo = req.params.idEquipo;
+    const idProyecto = req.params.id;
+
+    const sql1 = "DELETE FROM Equipo_Miembro WHERE Id_Miembro_Id = ? AND Id_Equipo_Id = ?";
+    const values1 = [idMiembro, idEquipo];
+
+    const sql2 = "DELETE FROM Asignacion_Rol WHERE Id_Miembro_Id = ? AND Id_Proyecto_Id = ?";
+    const values2 = [idMiembro, idProyecto];
+
+    // Ejecutar la primera consulta
+    conexion.query(sql1, values1, (error1, results1) => {
+        if (error1) {
+            console.error("Error al borrar el comentario del proyecto:", error1);
+            return res.status(500).json({ Estatus: "Error", Mensaje: "Error al borrar el comentario del proyecto" });
+        }
+        conexion.query(sql2, values2, (error2, results2) => {
+            if (error2) {
+                console.error("Error al borrar el comentario del proyecto:", error2);
+                return res.status(500).json({ Estatus: "Error", Mensaje: "Error al borrar el comentario del proyecto" });
+            }
+
+            res.json({ Estatus: "Exitoso", Mensaje: "Comentario del proyecto borrado con éxito" });
+        });
+    });
+});
 app.put("/editarComentarioEquipo/:id/:ids", verificarToken, verificarRol1, (req, res) => {
     const id = req.params.ids;
     const { Descripcion, Estado } = req.body;
@@ -538,13 +577,11 @@ app.put("/editarEstadoProyecto/:id/:ids", verificarToken, verificarRol1, (req, r
         }
     });
 });
-app.put("/editarCargaMiembroEquipo/:id/:idsMiembro/:idsEquipo", verificarToken, (req, res) => {
-    const { idMiembro, idEquipo } = req.params.ids;
+app.put("/editarCargaMiembroEquipo/:id/:idsMiembro/:idsEquipo", verificarToken, verificarRol1, (req, res) => {
+    const { idsMiembro, idsEquipo } = req.params;
     const { Carga } = req.body;
-
     const sql = "CALL SP_Editar_Carga_Miembro_Equipo(?, ?, ?)";
-    const values = [idMiembro, idEquipo, Carga];
-
+    const values = [idsMiembro, idsEquipo, Carga];
     conexion.query(sql, values, (error, results) => {
         if (error) {
             console.error("Error al editar la carga del miembro en el equipo:", error);
@@ -631,7 +668,7 @@ app.put("/asignarElemento/:id/:idsElemento/:idsMiembro", verificarToken, (req, r
         }
     });
 });
-app.put("/desasignarElemento/:id/:ids", verificarToken, (req, res) => {
+app.put("/desasignarElemento/:id/:ids", verificarToken, verificarRol1,(req, res) => {
     const id = req.params.ids;
 
     const sql = "CALL SP_Desasignar_Elemento(?)";

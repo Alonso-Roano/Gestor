@@ -304,7 +304,7 @@ export default function Proyectos() {
                             <option value="0" id="nf-oct-circle">Escoge el icono del proyecto</option>
                             {iconos.map((lista2, index) => {
                                 return (
-                                    <option id={lista2.Direccion} value={`${lista2.Id_Iconos}`}><div>{lista2.Nombre}</div></option>
+                                    <option key={index} id={lista2.Direccion} value={`${lista2.Id_Iconos}`}><div>{lista2.Nombre}</div></option>
                                 );
                             })}
                         </select>
@@ -393,7 +393,7 @@ export default function Proyectos() {
                             <option value="0" id="nf-oct-circle">Escoge el icono del proyecto</option>
                             {iconos.map((lista2, index) => {
                                 return (
-                                    <option id={lista2.Direccion} value={`${lista2.Id_Iconos}`}><div>{lista2.Nombre}</div></option>
+                                    <option key={index} id={lista2.Direccion} value={`${lista2.Id_Iconos}`}><div>{lista2.Nombre}</div></option>
                                 );
                             })}
                         </select>
@@ -449,7 +449,7 @@ export default function Proyectos() {
                         {aproyecto ? <>
                             {Filtrados.map((lista, index) => {
                                 return (
-                                    <div key={lista.Id_Proyecto_Id}>
+                                    <div key={index}>
                                         <i className={`nf ${lista.Direccion}`}></i>
                                         <h3>{lista.Nombre}</h3>
                                         <p className="des">{lista.Descripcion}</p>

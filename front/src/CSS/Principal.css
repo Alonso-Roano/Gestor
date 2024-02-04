@@ -122,7 +122,7 @@ details ul li i{
 }
 .proyectos{
     width: 100%;
-    height: calc(100% - 100px);
+    height: calc(100% - 170px);
     display: grid;
     grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
     gap: 40px;
@@ -215,6 +215,15 @@ i.borrar2{
     align-items: center;
     border: none;
     cursor: pointer;
+}
+.elem h3{
+    width: 100%;
+    text-align: center;
+    height: auto;
+    overflow:scroll;
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }
 .elem span{
     background-color: #bbb;
@@ -408,6 +417,9 @@ i.borrar2{
 article i{
     top: 40px !important;
     right: 10px !important;
+}
+.mar{
+    margin-left: 20px !important;
 }
 .comentarios article span{
     width: 100%;

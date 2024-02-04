@@ -437,7 +437,7 @@ export default function Equipos() {
                             <option value="0" id="nf-oct-circle">Escoge el icono del proyecto</option>
                             {iconos.map((lista2, index) => {
                                 return (
-                                    <option id={lista2.Direccion} value={`${lista2.Id_Iconos}`}><div>{lista2.Nombre}</div></option>
+                                    <option id={lista2.Direccion} value={`${lista2.Id_Iconos}`} key={index}><div>{lista2.Nombre}</div></option>
                                 );
                             })}
                         </select>
@@ -484,7 +484,7 @@ export default function Equipos() {
                             <option value="0" id="nf-oct-circle">Escoge el icono del proyecto</option>
                             {iconos.map((lista2, index) => {
                                 return (
-                                    <option id={lista2.Direccion} value={`${lista2.Id_Iconos}`}><div>{lista2.Nombre}</div></option>
+                                    <option key={index} id={lista2.Direccion} value={`${lista2.Id_Iconos}`}><div>{lista2.Nombre}</div></option>
                                 );
                             })}
                         </select>
@@ -565,11 +565,12 @@ export default function Equipos() {
                                 {aproyecto ? <>
                                     {Filtrados.map((lista, index) => {
                                         return (
-                                            <div key={lista.Id_Equipo}>
+                                            <div key={index}>
                                                 <span className="elem">
-                                                    <h3>{lista.Nombre_Equipo}</h3>
+                                                    
                                                     <i className={`nf ${lista.Direccion}`}></i>
                                                 </span>
+                                                <h3>{lista.Nombre_Equipo}</h3>
                                                 <p className="des">{lista.Descripcion_Equipo}</p>
                                                 <span className="elem">
                                                     {rol == 1 ? <button onClick={() => modificar(lista.Id_Equipo, lista.Nombre_Equipo, lista.Descripcion_Equipo, lista.Direccion, lista.Id_Iconos_Id)}>Editar</button> : <></>}
@@ -598,7 +599,7 @@ export default function Equipos() {
                                             comentarios.map((lista, index) => {
                                                 const fecha = lista.Fecha.split("T");
                                                 return (
-                                                    <article key={lista.Id_Comentarios}>
+                                                    <article key={index}>
                                                         <span><b>{lista.Nombre_Miembro}</b><b>{fecha[0]}</b></span>
                                                         <p>{lista.Descripcion}</p>
                                                         {rol == 1 ? <i tabIndex="1" onClick={() => borrar2(lista.Id_Comentarios)} className={`nf nf-cod-trash borrar borrar2`}></i> : <></>}
