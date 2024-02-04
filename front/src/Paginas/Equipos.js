@@ -306,7 +306,7 @@ export default function Equipos() {
             try {
                 const autenticado = localStorage.getItem("token");
                 const respuesta = await axios.put(
-                    `http://localhost:1800//borrarEquipo/${idProyecto}/${id}`,
+                    `http://localhost:1800/borrarEquipo/${idProyecto}/${id}`,
                     {},
                     {
                         headers: {
@@ -318,6 +318,42 @@ export default function Equipos() {
                     fetchEquipos();
                     Swal.fire(
                         'Equipo eliminado correctamente'
+                    );
+                } else {
+                    console.log("Error al eliminar la categoria")
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    }
+    const borrar2 = async (valor) => {
+        const { value: confirmed } = await Swal.fire({
+            title: '¿Estás seguro?',
+            text: 'Se borrara el comentario',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, estoy seguro',
+            cancelButtonText: 'Cancelar',
+        });
+
+        if (confirmed) {
+            const id = valor;
+            try {
+                const autenticado = localStorage.getItem("token");
+                const respuesta = await axios.put(
+                    `http://localhost:1800/borrarComentarioProyecto/${idProyecto}/${id}`,
+                    {},
+                    {
+                        headers: {
+                            Authorization: autenticado,
+                        },
+                    }
+                );
+                if (respuesta.data.Estatus === "Exitoso") {
+                    fetchComentarios();
+                    Swal.fire(
+                        'Cometario eliminado correctamente'
                     );
                 } else {
                     console.log("Error al eliminar la categoria")
@@ -565,6 +601,7 @@ export default function Equipos() {
                                                     <article key={lista.Id_Comentarios}>
                                                         <span><b>{lista.Nombre_Miembro}</b><b>{fecha[0]}</b></span>
                                                         <p>{lista.Descripcion}</p>
+                                                        {rol == 1 ? <i tabIndex="1" onClick={() => borrar2(lista.Id_Comentarios)} className={`nf nf-cod-trash borrar borrar2`}></i> : <></>}
                                                     </article>
                                                 );
                                             })

@@ -51,7 +51,6 @@ export default function Proyectos() {
         if (!autenticado) {
             navigate("/")
         } else {
-
             fetchProyectos();
             const fetchIcono = async () => {
                 try {

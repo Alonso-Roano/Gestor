@@ -139,8 +139,7 @@ details ul li i{
     width: 100%;
     max-width: 300px;
     height: 225px;
-    outline: 2px solid hsl(0, 0%, 42%);
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+    box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.6);
     padding: 10px 15px;
     display: flex;
     flex-wrap: wrap;
@@ -149,7 +148,7 @@ details ul li i{
     position: relative;
 }
 .proyectos div:hover {
-    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.6);
+    box-shadow: 2px 2px 14px rgba(0, 0, 0, 0.6);
     translate:0 5px;
     transform: scale(1.01);
 }
@@ -315,14 +314,22 @@ i.borrar2{
     width: 100%;
     max-width: 200px;
     height: 200px;
-    outline: 2px solid hsl(0, 0%, 42%);
+    box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.6);
     padding: 10px 15px;
     display: flex;
     position: relative;
     flex-wrap: wrap;
+    transition: all .3s;
+    animation: iniciar .5s;
+    position: relative;
 }
 .equipos div *{
     width: 100%;
+}
+.equipos div:hover {
+    box-shadow: 2px 2px 14px rgba(0, 0, 0, 0.6);
+    translate:0 5px;
+    transform: scale(1.01);
 }
 .equipos img {
     width: 100%;
@@ -355,7 +362,7 @@ i.borrar2{
 }
 
 .cont{
-    padding: 20px;
+    padding: 10px;
     height: 100%;
     border: 2px solid #8c8b8b;
     display: flex;
@@ -365,7 +372,7 @@ i.borrar2{
 .comentarios span div{
     width: 100%;
     height: 100%;
-    padding: 10px 0;
+    padding: 10px 10px;
     overflow-y: scroll;
     margin-bottom: 10px;
     &::-webkit-scrollbar {
@@ -393,8 +400,14 @@ i.borrar2{
     width: 100%;
     background-color: #D9D9D9;
     border-radius: 10px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
     padding: 15px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    position: relative;
+}
+article i{
+    top: 40px !important;
+    right: 10px !important;
 }
 .comentarios article span{
     width: 100%;
@@ -477,10 +490,18 @@ i.borrar2{
     width: 100%;
     max-width: 150px;
     height: 150px;
-    outline: 2px solid hsl(0, 0%, 42%);
     padding: 10px 15px;
     display: flex;
     flex-wrap: wrap;
+    box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.6);
+    transition: all .3s;
+    animation: iniciar .5s;
+    position: relative;
+}
+.miembros div:hover {
+    box-shadow: 2px 2px 14px rgba(0, 0, 0, 0.6);
+    translate:0 5px;
+    transform: scale(1.01);
 }
 .miembros div *{
     width: 100%;
