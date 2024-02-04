@@ -213,9 +213,21 @@ app.post("/AgregarIcono", verificarToken,verificarAdmin,(req, res) => {
         }
     });
 });
+app.get("/proyecto/:proyectoId",verificarToken, (req, res) => {
+    const proyectoId = req.params.proyectoId;
+    const sql = "SELECT ER.*, I.Direccion FROM Proyecto ER JOIN Iconos I ON I.Id_Iconos = ER.Id_Iconos_Id WHERE Id_Proyecto = ?";
+    conexion.query(sql, [proyectoId], (error, results) => {
+        if (error) {
+            console.error("Error al obtener los equipos del proyecto:", error);
+            res.status(500).json({ Estatus: "Error", Mensaje: "Error al obtener los equipos del proyecto" });
+        } else {
+            res.json(results);
+        }
+    });
+});
 app.get("/equipos/:proyectoId",verificarToken, (req, res) => {
     const proyectoId = req.params.proyectoId;
-    const sql = "SELECT * FROM Vista_Equipos_Proyecto WHERE Id_Proyecto = ? AND Estado_Equipo > 0";
+    const sql = "SELECT ER.*,I.Direccion FROM Vista_Equipos_Proyecto ER JOIN Iconos I ON I.Id_Iconos = ER.Id_Iconos_Id WHERE Id_Proyecto = ? AND Estado_Equipo > 0";
     conexion.query(sql, [proyectoId], (error, results) => {
         if (error) {
             console.error("Error al obtener los equipos del proyecto:", error);
@@ -340,6 +352,21 @@ app.get("/miembro-proyectos/:idMiembro",verificarToken, (req, res) => {
             res.status(500).json({ Estatus: "Error", Mensaje: "Error al obtener los proyectos del miembro" });
         } else {
             res.json({ Estatus: "Exitoso", Proyectos: results });
+        }
+    });
+});
+app.get("/validacion_equipos/:idMiembro/:idEquipo",verificarToken, (req, res) => {
+    const idMiembro = req.params.idMiembro;
+    const idEquipo = req.params.idEquipo;
+    const sql = "SELECT Id_Rol_Id FROM Vista_Miembro_Proyectos WHERE Id_Miembro = ? AND Id_Proyecto_Id = ? AND Estado > 0 ";
+    const values = [idMiembro,idEquipo];
+
+    conexion.query(sql, values, (error, results) => {
+        if (error) {
+            console.error("Error al obtener los equipos del miembro:", error);
+            res.status(500).json({ Estatus: "Error", Mensaje: "Error al obtener los equipos del miembro" });
+        } else {
+            res.json({ Estatus: "Exitoso", Equipos: results });
         }
     });
 });

@@ -94,29 +94,28 @@ export function verificarRol1o2(req, res, next) {
     try {
         const decoded = jwt.verify(token, "secreto");
         req.usuarioId = decoded.id;
-        const sql = "SELECT * FROM TeamRolesView WHERE TeamID = ? AND MemberID = ?";
+        const sql = "SELECT * FROM ProjectRolesView WHERE ProjectID = ? AND MemberID = ?";
         const values = [Proyecto, req.usuarioId];
 
         conexion.query(sql, values, (error, results) => {
-            const sql2 = "SELECT * FROM Miembro WHERE Id_Miembro = ?";
-            const values2 = [req.usuarioId];
-            conexion.query(sql2, values2, (error2, results2) => {
-                if(results2[0].Nivel==1){
+                let rol = results[0].RoleID
+                if(results[0].Nivel==1){
 
                 }else{
                     if (error) {
                         console.error("Error al verificar la existencia del usuario: ", error);
                         return res.status(500).json({ Estatus: "Error", Mensaje: "Error al verificar la existencia del usuario" });
                     }
-                    if (!results[0]) {
+                    if (results[0].length) {
+                        console.log("No se devolvio nada")
                         return res.status(403).json({ Estatus: "Error", Mensaje: "Acceso no permitido. Se requiere rol 1." });
                     }
-                    if (results[0].RoleID !== 1 && results[0].Nivel !== 1) {
+                    if (results[0].RoleID == 1||results[0].RoleID == 2) {
+                    }else{
                         return res.status(403).json({ Estatus: "Error", Mensaje: "Acceso no permitido. Se requiere rol 1 o ser administrador." });
                     }
                 }
                 next();
-            }) 
         });
     } catch (err) {
         return res.status(401).json({ Estatus: "Error", Mensaje: "Acceso no permitido" });

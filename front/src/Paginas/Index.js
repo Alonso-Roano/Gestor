@@ -12,7 +12,7 @@ export default function Index() {
                 const token = autenticado.split('.');
 
                 if (token.length === 3) {
-                    window.location.href = '/proyectos';
+                    navigate("/proyectos");
                 } else {
                     console.error("Formato de token incorrecto");
                 }

@@ -66,7 +66,6 @@ export default function Slider() {
             fetchProyectos();
             const fetchEquipos = async () => {
                 try {
-                    console.log(decodedPayload.id)
                     const respuesta = await axios.get(
                         `http://localhost:1800/miembro-equipos/${decodedPayload.id}`,
                         {
@@ -76,7 +75,6 @@ export default function Slider() {
                         }
                     );
                     if (respuesta.data.Equipos.length==0) setaEquipos(false);
-                    console.log(respuesta.data.Equipos)
                     setEquipos(respuesta.data.Equipos);
                 } catch (error) {
                     console.log(error);
@@ -107,7 +105,6 @@ export default function Slider() {
                             Authorization: autenticado,
                         },
                     });
-                    console.log(respuesta.data)
                     setIconos(respuesta.data)
                 } catch (error) {
                     console.log(error);
@@ -116,6 +113,9 @@ export default function Slider() {
             fetchIcono();
             const fetchDatosWrapper = async () => {
                 await fetchProyectos();
+                if(proyecto.length>0){
+                    setaProyecto(true);
+                }
             };
             const intervalId = setInterval(fetchDatosWrapper, 5000);
             return () => clearInterval(intervalId);
@@ -236,9 +236,9 @@ export default function Slider() {
                     >
                         <i className="nf nf-oct-x text-2xl"></i>
                     </button>
-                    <i class={`nf ${datos.Direccion} per`}></i>
+                    <i className={`nf ${datos.Direccion} per`}></i>
                     <div className="flex">
-                        <i class={`nf ${selectedIcono} gran`}></i>
+                        <i className={`nf ${selectedIcono} gran`}></i>
                         <select name="opciones" value={body.Id_Iconos_Id} onChange={cambioEntrada}>
                             <option value="0" id="nf-oct-circle">Escoge el icono del usuario</option>
                             {iconos.map((lista2, index) => {
@@ -292,22 +292,22 @@ export default function Slider() {
                 <li>
                     <Link className="link" to={"/proyectos"}>
                         <span className="inicio">
-                            <i class="nf nf-md-view_dashboard top"></i>
+                            <i className="nf nf-md-view_dashboard top"></i>
                             <p>Principal</p>
                         </span>
                     </Link>
                 </li>
                 <li>
                     <details>
-                        <summary><i class="nf nf-fa-file top"></i>Proyectos </summary>
+                        <summary><i className="nf nf-fa-file top"></i>Proyectos </summary>
                         <ul>
                             {aproyecto ? <>
                                 {proyecto.map((lista, index) => {
                                     return (
-                                        <li>
+                                        <li key={lista.Id_Proyecto}>
                                             <Link className="link" to={`/equipos/${lista.Id_Proyecto}`}>
                                                 <span>
-                                                    <i class={`nf ${lista.Direccion}`}></i>
+                                                    <i className={`nf ${lista.Direccion}`}></i>
                                                     <p>{lista.Nombre}</p>
                                                 </span>
                                             </Link>
@@ -323,15 +323,15 @@ export default function Slider() {
                 </li>
                 <li>
                     <details>
-                        <summary><i class="nf nf-md-account_group top"></i>Equipos</summary>
+                        <summary><i className="nf nf-md-account_group top"></i>Equipos</summary>
                         <ul>
                             {aequipos ? <>
                                 {equipos.map((lista, index) => {
                                     return (
-                                        <li>
+                                        <li key={lista.Id_Equipo}>
                                             <Link className="link" to={`/miembros/${lista.Id_Equipo}`}>
                                                 <span>
-                                                    <i class={`nf ${lista.Direccion}`}></i>
+                                                    <i className={`nf ${lista.Direccion}`}></i>
                                                     <p>{lista.Nombre_Equipo}</p>
                                                 </span>
                                             </Link>
@@ -350,14 +350,14 @@ export default function Slider() {
                 </li>
                 <li>
                     <details>
-                        <summary><i class="nf nf-oct-person top"></i>Miembros</summary>
+                        <summary><i className="nf nf-oct-person top"></i>Miembros</summary>
                         <ul>
                             {amiembros ? <>
                                 {miembros.map((lista, index) => {
                                     return (
-                                        <li>
+                                        <li key={lista.Proyecto_ID}>
                                             <span>
-                                                <i class={`nf ${lista.Direccion}`}></i>
+                                                <i className={`nf ${lista.Direccion}`}></i>
                                                 <p>{lista.Nombre_Miembro}</p>
                                             </span>
                                             <Link className="link" to={`/miembros/${lista.Proyecto_ID}`}>
@@ -378,12 +378,12 @@ export default function Slider() {
             <aside>
                 <Link className="link" to={"/recursos"}>
                     <div>
-                        <i class="nf nf-md-package"></i>
+                        <i className="nf nf-md-package"></i>
                         <p>Inventario</p>
                     </div>
                 </Link>
                 <div onClick={() => setPerfil(true)}>
-                    <i class="nf nf-fa-user"></i>
+                    <i className="nf nf-fa-user"></i>
                     <p>Perfil</p>
                 </div>
             </aside>

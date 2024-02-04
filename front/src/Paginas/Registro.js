@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Swal from 'sweetalert2';
 import axios from 'axios';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 export default function Registro(){
-    const [body, setBody] = useState({
-        Nombre: "",
-        Contrasenia: "",
-    });
-    const [mostrar, setMostrar] = useState(false);
-
+    const navigate = useNavigate()
     useEffect(() => {
         const autenticado = localStorage.getItem("token");
 
@@ -17,7 +12,7 @@ export default function Registro(){
                 const token = autenticado.split('.');
 
                 if (token.length === 3) {
-                    window.location.href = '/proyectos';
+                    navigate("/proyectos");
                 } else {
                     console.error("Formato de token incorrecto");
                 }
@@ -28,6 +23,11 @@ export default function Registro(){
         }
 
     }, []);
+    const [body, setBody] = useState({
+        Nombre: "",
+        Contrasenia: "",
+    });
+    const [mostrar, setMostrar] = useState(false);
 
     const most = () =>{
         let mot = mostrar;

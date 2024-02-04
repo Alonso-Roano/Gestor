@@ -5,6 +5,27 @@ import axios from "axios";
 import swal from "sweetalert2"
 
 export default function Inicio() {
+    const navigate = useNavigate();
+    useEffect(() => {
+        const autenticado = localStorage.getItem("token");
+
+        if (autenticado) {
+            try {
+                const token = autenticado.split('.');
+
+                if (token.length === 3) {
+                    navigate("/proyectos");
+                } else {
+                    console.error("Formato de token incorrecto");
+                }
+            } catch (error) {
+                console.error("Error al decodificar el token:", error);
+            }
+        }else{
+        }
+
+    }, []);
+
     const [body, setBody] = useState({
         Nombre: "",
         Contrasenia: "",
@@ -26,26 +47,6 @@ export default function Inicio() {
             [name]: value,
         });
     };
-
-    useEffect(() => {
-        const autenticado = localStorage.getItem("token");
-
-        if (autenticado) {
-            try {
-                const token = autenticado.split('.');
-
-                if (token.length === 3) {
-                    window.location.href = '/proyectos';
-                } else {
-                    console.error("Formato de token incorrecto");
-                }
-            } catch (error) {
-                console.error("Error al decodificar el token:", error);
-            }
-        }else{
-        }
-
-    }, []);
 
     const handleInicioSesion = async () => {
         if (!body.Nombre || !body.Contrasenia) {
