@@ -39,6 +39,9 @@ function App() {
           <Route path='/cuiconos' element={<CuIconos />} />
           <Route path='/cuelementos' element={<CuElementos />} />
           <Route path='/recursos' element={<Recursos/>} />
+          <Route path='/Proyectos/:idProyecto/:NombreProyecto' element={<Equipos/>} />
+          <Route path='/Proyectos/:idProyecto/:NombreProyecto/equipos/:idEquipo/:NombreEquipo' element={<Miembros/>} />
+          <Route path='/Proyectos/:idProyecto/:NombreProyecto/recursos' element={<Recursos/>} />
           <Route path='/elemento' element={<Elementos/>} />
           <Route path='/inicio' element={<Inicio/>} />
           <Route path='/registro' element={<Registro/>} />

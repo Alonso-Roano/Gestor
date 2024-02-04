@@ -22,7 +22,7 @@ export default function CrudIconos() {
     // Obtener íconos
     const fetchIconos = async () => {
         try {
-            const respuesta = await axios.get('http://localhost:1800/vista-iconos');
+            const respuesta = await axios.get('https://localhost:1800/vista-iconos');
             setIconos(respuesta.data);
         } catch (error) {
             console.error("Error al obtener los íconos:", error);
@@ -50,7 +50,7 @@ export default function CrudIconos() {
             if (editar) {
                 // Aquí iría la lógica para actualizar un ícono, si tienes un endpoint para ello
             } else {
-                respuesta = await axios.post('http://localhost:1800/AgregarIcono', iconoActual);
+                respuesta = await axios.post('https://localhost:1800/AgregarIcono', iconoActual);
             }
 
             if (respuesta.data.Estatus === "Exitoso") {
@@ -70,7 +70,7 @@ export default function CrudIconos() {
 
     const borrarIcono = async (id) => {
         try {
-            const respuesta = await axios.put(`http://localhost:1800/borrarIconos/${id}`);
+            const respuesta = await axios.put(`https://localhost:1800/borrarIconos/${id}`);
             if (respuesta.data.Estatus === "Exitoso") {
                 Swal.fire('¡Éxito!', respuesta.data.Mensaje, 'success');
                 fetchIconos();
@@ -93,7 +93,7 @@ export default function CrudIconos() {
 
             const fetchIcono = async () => {
                 try {
-                    const respuesta = await axios.get(`http://localhost:1800/vista-iconos`, {
+                    const respuesta = await axios.get(`https://localhost:1800/vista-iconos`, {
                         headers: {
                             Authorization: autenticado,
                         },

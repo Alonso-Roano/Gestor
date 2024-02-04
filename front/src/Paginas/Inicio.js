@@ -5,6 +5,27 @@ import axios from "axios";
 import swal from "sweetalert2"
 
 export default function Inicio() {
+    const navigate = useNavigate();
+    useEffect(() => {
+        const autenticado = localStorage.getItem("token");
+
+        if (autenticado) {
+            try {
+                const token = autenticado.split('.');
+
+                if (token.length === 3) {
+                    navigate("/proyectos");
+                } else {
+                    console.error("Formato de token incorrecto");
+                }
+            } catch (error) {
+                console.error("Error al decodificar el token:", error);
+            }
+        }else{
+        }
+
+    }, []);
+
     const [body, setBody] = useState({
         Nombre: "",
         Contrasenia: "",
@@ -21,31 +42,14 @@ export default function Inicio() {
         if ((name === "Nombre" || name === "Contrasenia") && value.startsWith(" ")) {
             return;
         }
+        if ( (name === "Nombre") && /[&$+,´:;=?@#|'<>.^*()%-]/.test(value)) {
+            return;
+        }
         setBody({
             ...body,
             [name]: value,
         });
     };
-
-    useEffect(() => {
-        const autenticado = localStorage.getItem("token");
-
-        if (autenticado) {
-            try {
-                const token = autenticado.split('.');
-
-                if (token.length === 3) {
-                    window.location.href = '/proyectos';
-                } else {
-                    console.error("Formato de token incorrecto");
-                }
-            } catch (error) {
-                console.error("Error al decodificar el token:", error);
-            }
-        }else{
-        }
-
-    }, []);
 
     const handleInicioSesion = async () => {
         if (!body.Nombre || !body.Contrasenia) {
@@ -58,7 +62,7 @@ export default function Inicio() {
         }
 
         try {
-            const respuesta = await axios.post("http://localhost:1800/InicioSesion", body);
+            const respuesta = await axios.post("https://localhost:1800/InicioSesion", body);
 
             if (respuesta.data.Mensaje === "Inicio de sesión exitoso") {
                 console.log("Inicio de sesión exitoso");

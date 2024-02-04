@@ -25,7 +25,7 @@ export default function Slider() {
         }
         try {
             const respuesta = await axios.get(
-                `http://localhost:1800/usuario/${decodedPayload.id}`,
+                `https://localhost:1800/usuario/${decodedPayload.id}`,
                 {
                     headers: {
                         Authorization: autenticado,
@@ -50,7 +50,7 @@ export default function Slider() {
             const fetchProyectos = async () => {
                 try {
                     const respuesta = await axios.get(
-                        `http://localhost:1800/miembro-proyectos/${decodedPayload.id}`,
+                        `https://localhost:1800/miembro-proyectos/${decodedPayload.id}`,
                         {
                             headers: {
                                 Authorization: `${autenticado}`,
@@ -66,9 +66,8 @@ export default function Slider() {
             fetchProyectos();
             const fetchEquipos = async () => {
                 try {
-                    console.log(decodedPayload.id)
                     const respuesta = await axios.get(
-                        `http://localhost:1800/miembro-equipos/${decodedPayload.id}`,
+                        `https://localhost:1800/miembro-equipos/${decodedPayload.id}`,
                         {
                             headers: {
                                 Authorization: autenticado,
@@ -76,7 +75,6 @@ export default function Slider() {
                         }
                     );
                     if (respuesta.data.Equipos.length==0) setaEquipos(false);
-                    console.log(respuesta.data.Equipos)
                     setEquipos(respuesta.data.Equipos);
                 } catch (error) {
                     console.log(error);
@@ -86,7 +84,7 @@ export default function Slider() {
             const fetchMiembros = async () => {
                 try {
                     const respuesta = await axios.get(
-                        `http://localhost:1800/miembros-miembros/${decodedPayload.id}`,
+                        `https://localhost:1800/miembros-miembros/${decodedPayload.id}`,
                         {
                             headers: {
                                 Authorization: autenticado,
@@ -102,12 +100,11 @@ export default function Slider() {
             fetchMiembros();
             const fetchIcono = async () => {
                 try {
-                    const respuesta = await axios.get(`http://localhost:1800/vista-iconos`, {
+                    const respuesta = await axios.get(`https://localhost:1800/vista-iconos`, {
                         headers: {
                             Authorization: autenticado,
                         },
                     });
-                    console.log(respuesta.data)
                     setIconos(respuesta.data)
                 } catch (error) {
                     console.log(error);
@@ -116,6 +113,11 @@ export default function Slider() {
             fetchIcono();
             const fetchDatosWrapper = async () => {
                 await fetchProyectos();
+                await fetchEquipos();
+                await fetchMiembros();
+                if(proyecto.length>0){
+                    setaProyecto(true);
+                }
             };
             const intervalId = setInterval(fetchDatosWrapper, 5000);
             return () => clearInterval(intervalId);
@@ -131,7 +133,9 @@ export default function Slider() {
     const [selectedIcono, setSelectedIcono] = useState("nf-oct-circle");
     const cambioEntrada = ({ target }) => {
         const { name, value, id } = target;
-
+        if ( (name === "Nombre"||name=="Habilidades"||name=="Proposito") && /[&$+,:;=?@#|'<>.^*()%-]/.test(value)) {
+            return;
+        }
         if (name === "opciones") {
             setSelectedIcono(value);
             setBody({ ...body, Id_Iconos_Id: value });
@@ -167,7 +171,7 @@ export default function Slider() {
             });
     
             if (textoIngresado) {
-              const verificarUsuario = await axios.post("http://localhost:1800/InicioSesion", {
+              const verificarUsuario = await axios.post("https://localhost:1800/InicioSesion", {
                 Nombre: datos.Nombre,
                 Contrasenia: textoIngresado,
               });
@@ -187,7 +191,7 @@ export default function Slider() {
 
         try {
             const response = await axios.put(
-                `http://localhost:1800/editarUsuario/${decodedPayload.id}`,
+                `https://localhost:1800/editarUsuario/${decodedPayload.id}`,
                 {
                     Contrasenia: body.Contrasenia == "" ? null : body.Contrasenia,
                     Descripcion: body.Proposito == "" ? null : body.Proposito,
@@ -236,9 +240,9 @@ export default function Slider() {
                     >
                         <i className="nf nf-oct-x text-2xl"></i>
                     </button>
-                    <i class={`nf ${datos.Direccion} per`}></i>
+                    <i className={`nf ${datos.Direccion} per`}></i>
                     <div className="flex">
-                        <i class={`nf ${selectedIcono} gran`}></i>
+                        <i className={`nf ${selectedIcono} gran`}></i>
                         <select name="opciones" value={body.Id_Iconos_Id} onChange={cambioEntrada}>
                             <option value="0" id="nf-oct-circle">Escoge el icono del usuario</option>
                             {iconos.map((lista2, index) => {
@@ -292,22 +296,22 @@ export default function Slider() {
                 <li>
                     <Link className="link" to={"/proyectos"}>
                         <span className="inicio">
-                            <i class="nf nf-md-view_dashboard top"></i>
+                            <i className="nf nf-md-view_dashboard top"></i>
                             <p>Principal</p>
                         </span>
                     </Link>
                 </li>
                 <li>
                     <details>
-                        <summary><i class="nf nf-fa-file top"></i>Proyectos </summary>
+                        <summary><i className="nf nf-fa-file top"></i>Proyectos </summary>
                         <ul>
                             {aproyecto ? <>
                                 {proyecto.map((lista, index) => {
                                     return (
-                                        <li>
-                                            <Link className="link" to={`/equipos/${lista.Id_Proyecto}`}>
+                                        <li key={index}>
+                                            <Link className="link" to={`/Proyectos/${lista.Id_Proyecto}/${lista.Nombre}`}>
                                                 <span>
-                                                    <i class={`nf ${lista.Direccion}`}></i>
+                                                    <i className={`nf ${lista.Direccion}`}></i>
                                                     <p>{lista.Nombre}</p>
                                                 </span>
                                             </Link>
@@ -323,15 +327,15 @@ export default function Slider() {
                 </li>
                 <li>
                     <details>
-                        <summary><i class="nf nf-md-account_group top"></i>Equipos</summary>
+                        <summary><i className="nf nf-md-account_group top"></i>Equipos</summary>
                         <ul>
                             {aequipos ? <>
                                 {equipos.map((lista, index) => {
                                     return (
-                                        <li>
-                                            <Link className="link" to={`/miembros/${lista.Id_Equipo}`}>
+                                        <li key={index}>
+                                            <Link className="link" to={`/Proyectos/${lista.Id_Proyecto_Id}/${lista.Nombre_Proyecto}/equipos/${lista.Id_Equipo}/${lista.Nombre_Equipo}`}>
                                                 <span>
-                                                    <i class={`nf ${lista.Direccion}`}></i>
+                                                    <i className={`nf ${lista.Direccion}`}></i>
                                                     <p>{lista.Nombre_Equipo}</p>
                                                 </span>
                                             </Link>
@@ -350,14 +354,14 @@ export default function Slider() {
                 </li>
                 <li>
                     <details>
-                        <summary><i class="nf nf-oct-person top"></i>Miembros</summary>
+                        <summary><i className="nf nf-oct-person top"></i>Miembros</summary>
                         <ul>
                             {amiembros ? <>
                                 {miembros.map((lista, index) => {
                                     return (
-                                        <li>
+                                        <li key={index}>
                                             <span>
-                                                <i class={`nf ${lista.Direccion}`}></i>
+                                                <i className={`nf ${lista.Direccion}`}></i>
                                                 <p>{lista.Nombre_Miembro}</p>
                                             </span>
                                             <Link className="link" to={`/miembros/${lista.Proyecto_ID}`}>
@@ -378,12 +382,12 @@ export default function Slider() {
             <aside>
                 <Link className="link" to={"/recursos"}>
                     <div>
-                        <i class="nf nf-md-package"></i>
+                        <i className="nf nf-md-package"></i>
                         <p>Inventario</p>
                     </div>
                 </Link>
                 <div onClick={() => setPerfil(true)}>
-                    <i class="nf nf-fa-user"></i>
+                    <i className="nf nf-fa-user"></i>
                     <p>Perfil</p>
                 </div>
             </aside>

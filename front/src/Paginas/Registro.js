@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Swal from 'sweetalert2';
 import axios from 'axios';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 export default function Registro(){
-    const [body, setBody] = useState({
-        Nombre: "",
-        Contrasenia: "",
-    });
-    const [mostrar, setMostrar] = useState(false);
-
+    const navigate = useNavigate()
     useEffect(() => {
         const autenticado = localStorage.getItem("token");
 
@@ -17,7 +12,7 @@ export default function Registro(){
                 const token = autenticado.split('.');
 
                 if (token.length === 3) {
-                    window.location.href = '/proyectos';
+                    navigate("/proyectos");
                 } else {
                     console.error("Formato de token incorrecto");
                 }
@@ -28,6 +23,11 @@ export default function Registro(){
         }
 
     }, []);
+    const [body, setBody] = useState({
+        Nombre: "",
+        Contrasenia: "",
+    });
+    const [mostrar, setMostrar] = useState(false);
 
     const most = () =>{
         let mot = mostrar;
@@ -37,6 +37,9 @@ export default function Registro(){
     const handleChange = (e) => {
         const { name, value } = e.target;
         if ((name === "Nombre" || name === "Contrasenia") && value.startsWith(" ")) {
+            return;
+        }
+        if ( (name === "Nombre") && /[&$+,:;=?@#|'<>.^*()%-]/.test(value)) {
             return;
         }
         setBody({
@@ -56,7 +59,7 @@ export default function Registro(){
         }
 
         try {
-            const respuesta = await axios.post("http://localhost:1800/Registro", {
+            const respuesta = await axios.post("https://localhost:1800/Registro", {
                 Nombre: body.Nombre,
                 Contrasenia: body.Contrasenia,
             });
