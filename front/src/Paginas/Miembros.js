@@ -29,22 +29,24 @@ export default function Miembros() {
     const [body, setBody] = useState({
         Nombre: "",
         Carga: "",
-        Rol:"1",
-        Id:""
+        Rol: "1",
+        Id: ""
     });
     const [editar, setEdiar] = useState({
-        Icono:"",
+        Icono: "",
         Nombre: "",
         Carga: "",
-        Rol:"0",
-        Habilidades:"",
-        Id:""
+        Rol: "0",
+        Habilidades: "",
+        Id: ""
     });
     const { idProyecto, NombreProyecto, idEquipo, NombreEquipo } = useParams();
     const autenticado = localStorage.getItem("token");
     const [header, payload, signature] = autenticado.split('.');
     var decodedPayload = JSON.parse(atob(payload));
     const [id, setId] = useState("");
+
+
     const fetchEquipos = async () => {
         try {
             const respuesta = await axios.get(
@@ -124,12 +126,12 @@ export default function Miembros() {
     };
     const Edit = async () => {
         if (body.Carga == "") {
-                        Swal.fire({
-                            title: '¡Error!',
-                            text: 'Rellene carga',
-                            icon: 'error',
-                        });
-                        return;
+            Swal.fire({
+                title: '¡Error!',
+                text: 'Rellene carga',
+                icon: 'error',
+            });
+            return;
         }
 
         const autenticado = localStorage.getItem("token");
@@ -140,7 +142,7 @@ export default function Miembros() {
             const response = await axios.put(
                 `https://localhost:1800/editarCargaMiembroEquipo/${idProyecto}/${body.Id}/${idEquipo}`,
                 {
-                    Carga:body.Carga
+                    Carga: body.Carga
                 },
                 {
                     headers: {
@@ -176,7 +178,7 @@ export default function Miembros() {
     }
     const cambioEntrada = ({ target }) => {
         const { name, value } = target;
-        if ( (name === "Nombre"||name=="Carga") && /[&$+,´:;=?@#|'<>.^*()%-]/.test(value)) {
+        if ((name === "Nombre" || name == "Carga") && /[&$+,´:;=?@#|'<>.^*()%-]/.test(value)) {
             return;
         }
         if (name === "radio") {
@@ -211,11 +213,12 @@ export default function Miembros() {
     const handleSearchChange = (event) => {
         filtroBusqueda(equipo, event.target.value);
     };
+    // Agregar miembros
     const Enviar = async () => {
-        if (!body.Nombre.length || !body.Carga.length) {
+        if (!body.Nombre || !body.Proposito || body.Id_Iconos_Id == 0) {
             Swal.fire({
                 title: '¡Error!',
-                text: 'Rellene todos los campos',
+                text: 'Rellene todos los campos y escoja un icono',
                 icon: 'error',
             });
             return;
@@ -223,11 +226,12 @@ export default function Miembros() {
         try {
             const autenticado = localStorage.getItem("token");
 
-            const respuesta = await axios.post(`https://localhost:1800/AgregarMiembroAEquipo/${idProyecto}`, {
-                miembroId: body.Nombre,
-                equipoId: idEquipo,
-                rolId: body.Rol,
-                carga: body.Carga
+            const respuesta = await axios.post(`https://localhost:1800/RegistrarEquipo/${idProyecto}`, {
+                Nombre: body.Nombre,
+                Descripcion: body.Proposito,
+                Id_Iconos_Id: body.Id_Iconos_Id,
+                Id_Proyecto_Id: idProyecto,
+                Estado: 1,
             }, {
                 headers: {
                     Authorization: autenticado,
@@ -237,21 +241,23 @@ export default function Miembros() {
             if (respuesta.data.Estatus === "Exitoso") {
                 Swal.fire({
                     icon: 'success',
-                    title: 'Miembro agregado',
+                    title: 'Equipo creado con éxito',
                 });
                 setAgregar(false);
                 setBody({
                     Nombre: "",
-                    Carga: "",
-                    Rol: "0"
+                    Fecha: "",
+                    Proposito: "",
+                    Id_Iconos_Id: "0"
                 })
                 fetchEquipos();
                 setaProyecto(true);
+                setSelectedIcono("nf-oct-circle");
             } else {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Error al agregar miembro',
+                    text: 'Error al crear el equipo',
                 });
             }
         } catch (error) {
@@ -259,10 +265,11 @@ export default function Miembros() {
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: 'Matricula invalida',
+                text: 'Error al crear el equipo',
             });
         }
     };
+    //Borrar miembros 
     const borrar = async (valor) => {
         const { value: confirmed } = await Swal.fire({
             title: '¿Estás seguro?',
@@ -298,6 +305,7 @@ export default function Miembros() {
             }
         }
     }
+    
     const borrar2 = async (valor) => {
         const { value: confirmed } = await Swal.fire({
             title: '¿Estás seguro?',
@@ -406,7 +414,7 @@ export default function Miembros() {
                     </div>
                     <button
                         className="w-full py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
-                        onClick={()=>Edit()}
+                        onClick={() => Edit()}
                     >
                         EDITAR CARGA
                     </button>
@@ -447,10 +455,10 @@ export default function Miembros() {
                         />
                     </div>
                     <select name="opciones" value={body.Rol} onChange={cambioEntrada}>
-                            <option value="1" id="nf-oct-circle">Lider de proyecto</option>
-                            <option id="" value="2"><div>Sublider</div></option>
-                            <option id="" value="3"><div>Miembro</div></option>
-                        </select>
+                        <option value="1" id="nf-oct-circle">Lider de proyecto</option>
+                        <option id="" value="2"><div>Sublider</div></option>
+                        <option id="" value="3"><div>Miembro</div></option>
+                    </select>
                     <div className="entrada">
                         <textarea
                             type="text"
@@ -462,7 +470,7 @@ export default function Miembros() {
                     </div>
                     <button
                         className="w-full py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
-                        onClick={()=>Enviar()}
+                        onClick={() => Enviar()}
                     >
                         AGREGAR MIEMBRO
                     </button>
@@ -528,18 +536,19 @@ export default function Miembros() {
                                             return (
                                                 <div className="miembro" key={index}>
                                                     <span className="elem">
-                                                    <i className={`nf ${lista.Direccion}`}></i></span>
+                                                        <i className={`nf ${lista.Direccion}`}></i></span>
                                                     <h3>{lista.Nombre_Miembro}</h3>
                                                     <span className="elem">
-                                                        {rol == 1 ? <button onClick={() => modificar(lista.Id_Miembro,lista.Carga)}>Editar</button>:<></>}
-                                                        <p onClick={() =>{ setPerfil(true);
-                                                        setEdiar({
-                                                            Icono:lista.Direccion,
-                                                            Nombre:lista.Nombre_Miembro,
-                                                            Carga:lista.Carga,
-                                                            Habilidades:lista.Habilidades,
-                                                            Id:lista.Id_Miembro
-                                                        })
+                                                        {rol == 1 ? <button onClick={() => modificar(lista.Id_Miembro, lista.Carga)}>Editar</button> : <></>}
+                                                        <p onClick={() => {
+                                                            setPerfil(true);
+                                                            setEdiar({
+                                                                Icono: lista.Direccion,
+                                                                Nombre: lista.Nombre_Miembro,
+                                                                Carga: lista.Carga,
+                                                                Habilidades: lista.Habilidades,
+                                                                Id: lista.Id_Miembro
+                                                            })
                                                         }}>Visualizar</p>
                                                     </span>
                                                     {rol == 1 ? <i tabIndex="1" onClick={() => borrar(lista.Id_Miembro)} className={`nf nf-cod-trash borrar borrar2`}></i> : <></>}
@@ -586,7 +595,7 @@ export default function Miembros() {
                     </aside>
                 </section>
             </main>
-            
+
         </>
     );
 }

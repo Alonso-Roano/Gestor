@@ -1,18 +1,35 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, } from "react";
+import { useParams } from "react-router-dom";
 import "../CSS/Header.css";
 import "../CSS/Principal.css";
 import "./tabla.css";
 import "./modales.css";
 import DashSlider from "../Dashboard/DashSider";
+import "../CSS/Header.css";
+import "../CSS/Principal.css"
+import axios from "axios";
+import Swal from "sweetalert2";
 
 export default function CuMiembros() {
     const [clases, setClases] = useState("ocultar");
     const [icono, setIcono] = useState(true);
     const [miembros, setMiembros] = useState([]);
+    const [Editar, setEditar] = useState(false);
     const [Agregar, setAgregar] = useState(false);
     const [miembroEditando, setMiembroEditando] = useState(null);
-
-    // Suponiendo que tienes un estado para manejar los valores del formulario de agregar/editar
+    const [aproyecto, setaProyecto] = useState(true);
+    const [selectedIcono, setSelectedIcono] = useState("nf-oct-circle");
+    const autenticado = localStorage.getItem("token");
+    const [body, setBody] = useState({
+        Nombre: "",
+        Carga: "",
+        Rol: "1",
+        Id: ""
+    });
+    const { idProyecto, NombreProyecto, idEquipo, NombreEquipo } = useParams();
+    const [miembroActual, setMiembroActual] = useState(null);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [estaEditando, setEstaEditando] = useState(false);
     const [formData, setFormData] = useState({
         nombre: '',
         descripcion: '',
@@ -20,111 +37,98 @@ export default function CuMiembros() {
         rol: ''
     });
 
-    const abrirModalEditar = (miembro) => {
-        setAgregar(true);
-        setFormData({
-            nombre: miembro.Nombre,
-            descripcion: miembro.Descripcion,
-            habilidades: miembro.Habilidades,
-            rol: miembro.Rol // Asegúrate de que el rol esté disponible
-        });
-        setMiembroEditando(miembro.Id_Miembro);
-    };
-
-    const abrirModal = () => {
-        setAgregar(true);
-        setFormData({ nombre: '', descripcion: '', habilidades: '', rol: '' }); // Resetear formulario
-    };
-
-    const cerrarModal = () => {
-        setAgregar(false);
-        setMiembroEditando(null); // Resetear el estado de edición
-        setFormData({ nombre: '', descripcion: '', habilidades: '', rol: '' }); // Resetear el formulario
-    };
-
     const mostrar = () => {
         setClases("mostrar");
-        setIcono(false);
+        setMiembros(false);
     };
-
     const ocultar = () => {
         setClases("ocultar");
-        setIcono(true);
+        setMiembros(true);
     };
+
 
     const handleInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const agregarMiembro = () => {
-        fetch("http://localhost:3001/miembro", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.Estatus === "Exitoso") {
-                    setMiembros([...miembros, { ...formData, Id_Miembro: data.id }]);
-                    cerrarModal();
-                } else {
-                    // Manejar el error
-                    console.error("Error al agregar el miembro:", data.Mensaje);
-                }
-            })
-            .catch((error) => console.error("Error:", error));
+    const abrirModal = (miembro) => {
+        setEstaEditando(miembro != null);
+        setMiembroActual(miembro);
+        setFormData(miembro ? { nombre: miembro.nombre, descripcion: miembro.descripcion, habilidades: miembro.habilidades, rol: miembro.rol } : { nombre: '', descripcion: '', habilidades: '', rol: '' });
+        setModalVisible(true);
     };
 
-    const editarMiembro = () => {
-        fetch(`http://localhost:3001/miembro/${miembroEditando}`, {
-            method: "PUT",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                const miembrosActualizados = miembros.map((miembro) => {
-                    if (miembro.Id_Miembro === miembroEditando) {
-                        return { ...miembro, ...formData };
-                    }
-                    return miembro;
+    const cerrarModal = () => {
+        setModalVisible(false);
+    };
+
+    const cargarMiembros = async () => {
+        try {
+            const respuesta = await axios.get(`https://localhost:1800/miembros/${idEquipo}`, {
+                headers: { Authorization: autenticado },
+            });
+            if (Array.isArray(respuesta.data)) {
+                setMiembros(respuesta.data);
+            } else {
+                setMiembros([]);
+            }
+        } catch (error) {
+            Swal.fire('Error', 'No se pudieron obtener los miembros', 'error');
+            setMiembros([]);
+        }
+    };
+
+    const guardarMiembro = async () => {
+        if (estaEditando) {
+            try {
+                const respuesta = await axios.put(`https://localhost:1800/miembros/${miembroActual.Id}`, formData, {
+                    headers: { Authorization: autenticado },
                 });
-                setMiembros(miembrosActualizados);
-                cerrarModal();
-            })
-            .catch((error) => console.error("Error:", error));
+                Swal.fire('¡Éxito!', 'Miembro actualizado con éxito', 'success');
+            } catch (error) {
+                Swal.fire('Error', 'Error al actualizar miembro', 'error');
+            }
+        } else {
+            try {
+                const respuesta = await axios.post(`https://localhost:1800/miembros`, formData, {
+                    headers: { Authorization: autenticado },
+                });
+                Swal.fire('¡Éxito!', 'Miembro agregado con éxito', 'success');
+            } catch (error) {
+                Swal.fire('Error', 'Error al agregar miembro', 'error');
+            }
+        }
+        cerrarModal();
+        cargarMiembros();
     };
 
-    const eliminarMiembro = (id) => {
-        if (window.confirm("¿Estás seguro de querer eliminar este miembro?")) {
-            fetch(`http://localhost:3001/miembro/${id}`, {
-                method: "DELETE",
-            })
-                .then((response) => response.json())
-                .then(() => {
-                    setMiembros(miembros.filter((miembro) => miembro.Id_Miembro !== id));
-                })
-                .catch((error) => console.error("Error:", error));
+    const eliminarMiembro = async (idMiembro) => {
+        const { value: confirmed } = await Swal.fire({
+            title: '¿Estás seguro?',
+            text: 'Se borrará el miembro',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, estoy seguro',
+            cancelButtonText: 'Cancelar',
+        });
+
+        if (confirmed) {
+            try {
+                const respuesta = await axios.delete(`https://localhost:1800/miembros/${idMiembro}`, {
+                    headers: { Authorization: autenticado },
+                });
+                Swal.fire('¡Éxito!', 'Miembro eliminado con éxito', 'success');
+                cargarMiembros();
+            } catch (error) {
+                Swal.fire('Error', 'Error al eliminar miembro', 'error');
+            }
         }
     };
 
     useEffect(() => {
-        fetch("http://localhost:3001/miembro")
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data); // Para verificar qué estás recibiendo
-                if (data && data.miembros) {
-                    setMiembros(data.miembros);
-                } else {
-                    console.error("La respuesta no contiene la propiedad 'miembros'");
-                }
-            })
-            .catch((error) => console.error("Error:", error));
+        cargarMiembros();
     }, []);
+
 
     return (
         <>
@@ -146,8 +150,9 @@ export default function CuMiembros() {
                 <div className="main-content">
                     <h1>CRUD de Miembros</h1>
                     <div className="buscador">
-                        <input placeholder="Buscar"></input><button>Buscar</button>
-                        <button onClick={abrirModal}>Agregar</button>
+                        <input placeholder="Buscar"></input>
+                        <button>Buscar</button>
+                        <button onClick={() => abrirModal(null)}>Agregar</button>
                     </div>
                     <table>
                         <thead>
@@ -170,7 +175,7 @@ export default function CuMiembros() {
                                     <td>{miembro.Habilidades}</td>
                                     <td>{miembro.Rol}</td>
                                     <td>
-                                        <button onClick={() => abrirModalEditar(miembro)}>Editar</button>
+                                        <button onClick={() => abrirModal(miembro)}>Editar</button>
                                     </td>
                                     <td>
                                         <button onClick={() => eliminarMiembro(miembro.Id_Miembro)}>Eliminar</button>
@@ -180,32 +185,20 @@ export default function CuMiembros() {
                         </tbody>
                     </table>
                 </div>
-                {Agregar && (
+                {modalVisible && (
                     <div className="modal">
                         <div className="modal-content">
-                            <h2>{miembroEditando ? "Editar Miembro" : "Agregar Miembro"}</h2>
-                            <div className="form">
-                                <p>Ingresa el nombre del miembro</p>
-                                <input type="text" name="nombre" value={formData.nombre} onChange={handleInputChange} />
-                                <div className="desc">
-                                    <p>Agregar Descripcion</p>
-                                    <input type="text" name="descripcion" value={formData.descripcion} onChange={handleInputChange} />
-                                </div>
-                                <p>Agregar Habilidades</p>
-                                <div className="desc">
-                                    <input type="text" name="habilidades" value={formData.habilidades} onChange={handleInputChange} />
-                                </div>
-                                <p>Agregar Rol</p>
-                                <select className="text" name="rol" value={formData.rol} onChange={handleInputChange}>
-                                    <option value="rol1">Rol 1</option>
-                                    <option value="rol2">Rol 2</option>
-                                    <option value="rol3">Rol 3</option>
-                                </select>
-                                <button onClick={miembroEditando ? editarMiembro : agregarMiembro}>
-                                    {miembroEditando ? "Guardar Cambios" : "Agregar Miembro"}
-                                </button>
-                                <button onClick={cerrarModal}>Cerrar</button>
-                            </div>
+                            <h2>{estaEditando ? "Editar Miembro" : "Agregar Miembro"}</h2>
+                            <input type="text" name="nombre" value={formData.nombre} onChange={handleInputChange} placeholder="Nombre" />
+                            <input type="text" name="descripcion" value={formData.descripcion} onChange={handleInputChange} placeholder="Descripción" />
+                            <input type="text" name="habilidades" value={formData.habilidades} onChange={handleInputChange} placeholder="Habilidades" />
+                            <select name="rol" value={formData.rol} onChange={handleInputChange}>
+                                <option value="rol1">Rol 1</option>
+                                <option value="rol2">Rol 2</option>
+                                <option value="rol3">Rol 3</option>
+                            </select>
+                            <button onClick={guardarMiembro}>{estaEditando ? "Guardar Cambios" : "Agregar Miembro"}</button>
+                            <button onClick={cerrarModal}>Cerrar</button>
                         </div>
                     </div>
                 )}

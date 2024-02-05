@@ -56,13 +56,15 @@
     justify-content: center;
     margin: 20px 0;
     overflow-x: auto;
+    max-height: 400px; /* Altura máxima antes de mostrar scroll vertical */
+    overflow-y: auto; /* Agrega scroll vertical si el contenido excede la altura máxima */
 }
 
 table {
     margin: 0 auto;
     background-color: #fff;
     border-collapse: collapse;
-    width: 80%;
+    width: 80%; /* Puedes ajustar esto según tus necesidades */
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
 }
 

@@ -34,11 +34,23 @@ export default function Equipos() {
         Proposito: "",
         Id_Iconos_Id: ""
     });
+    
+    const [nuevoEquipo, setNuevoEquipo] = useState({ 
+        Nombre: "", 
+        Descripcion: "", 
+        Id_Iconos_Id: ""
+    });
     const { idProyecto, NombreProyecto } = useParams();
     const autenticado = localStorage.getItem("token");
     const [header, payload, signature] = autenticado.split('.');
     var decodedPayload = JSON.parse(atob(payload));
     const [id, setId] = useState("");
+
+
+    const handleNuevoEquipoChange = ({ target }) => {
+        setNuevoEquipo({ ...nuevoEquipo, [target.name]: target.value });
+    };
+
     const fetchEquipos = async () => {
         try {
             const respuesta = await axios.get(
@@ -57,6 +69,8 @@ export default function Equipos() {
             console.log(error);
         }
     }
+
+
     const fetchComentarios = async () => {
         try {
             const respuesta = await axios.get(`https://localhost:1800/comentarios-proyecto/${idProyecto}`, {

@@ -123,23 +123,7 @@ app.post("/CrearProyecto", verificarToken, (req, res) => {
         }
     });
 });
-app.post("/RegistrarEquipo/:id", verificarToken, verificarRol1, (req, res) => {
-    let { Nombre, Descripcion, Id_Iconos_Id, Id_Proyecto_Id, Estado } = req.body;
-    const datosFiltrados = limpiarDatos(req.body);
-    Nombre = datosFiltrados.Nombre;
-    Descripcion = datosFiltrados.Descripcion;
-    const sql = "CALL SP_Registrar_Equipo(?, ?, ?, ?, ?)";
-    const values = [Nombre, Descripcion, Id_Iconos_Id, Id_Proyecto_Id, Estado];
 
-    conexion.query(sql, values, (error, results) => {
-        if (error) {
-            console.error("Error al registrar el equipo:", error);
-            res.status(500).json({ Estatus: "Error", Mensaje: "Error al registrar el equipo" });
-        } else {
-            res.json({ Estatus: "Exitoso", Mensaje: "Equipo registrado con éxito" });
-        }
-    });
-});
 app.post("/AgregarMiembroAEquipo/:id", verificarToken, verificarRol1o2, (req, res) => {
     let { miembroId, equipoId, rolId, carga } = req.body;
     const datosFiltrados = limpiarDatos(req.body);
@@ -500,6 +484,28 @@ app.put("/borrarProyecto/:id", verificarToken, verificarRol1, (req, res) => {
         }
     });
 });
+
+//Agregar
+app.post("/RegistrarEquipo/:id", verificarToken, verificarRol1, (req, res) => {
+    let { Nombre, Descripcion, Id_Iconos_Id, Id_Proyecto_Id, Estado } = req.body;
+    const datosFiltrados = limpiarDatos(req.body);
+    Nombre = datosFiltrados.Nombre;
+    Descripcion = datosFiltrados.Descripcion;
+    const sql = "CALL SP_Registrar_Equipo(?, ?, ?, ?, ?)";
+    const values = [Nombre, Descripcion, Id_Iconos_Id, Id_Proyecto_Id, Estado];
+
+    conexion.query(sql, values, (error, results) => {
+        if (error) {
+            console.error("Error al registrar el equipo:", error);
+            res.status(500).json({ Estatus: "Error", Mensaje: "Error al registrar el equipo" });
+        } else {
+            res.json({ Estatus: "Exitoso", Mensaje: "Equipo registrado con éxito" });
+        }
+    });
+});
+
+//Editar Equipos
+
 app.put("/editarEquipo/:id/:ids", verificarToken, verificarRol1, (req, res) => {
     const id = req.params.ids;
     let { Nombre, Descripcion, Id_Iconos, Id_Proyecto, Estado } = req.body;
@@ -518,6 +524,8 @@ app.put("/editarEquipo/:id/:ids", verificarToken, verificarRol1, (req, res) => {
         }
     });
 });
+
+// Borrrar Equipos
 app.put("/borrarEquipo/:id/:ids", verificarToken, verificarRol1, (req, res) => {
     const id = req.params.ids;
 

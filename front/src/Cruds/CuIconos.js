@@ -5,7 +5,7 @@ import "../CSS/Principal.css";
 import "../CSS/Recursos.css";
 import "./modales.css";
 import "./botones.css";
-import Slider from "../Componentes/Slider";
+import DashSlider from "../Dashboard/DashSider";
 import Cerrar from "../Componentes/CerrarSesion";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -123,7 +123,7 @@ export default function CrudIconos() {
 
             <main>
                 <nav className={clases}>
-                    <Slider></Slider>
+                    <DashSlider></DashSlider>
                 </nav>
                 <section>
                     <div className="titulo-seccion">
@@ -147,10 +147,10 @@ export default function CrudIconos() {
                                             setEditar(true);
                                             setAgregar(false);
                                             setIconoActual(icono);
-                                        }} className="boton-editar">
+                                        }} className="boton-estilo_editar">
                                             Editar
                                         </button>
-                                        <button onClick={() => borrarIcono(icono.Id_Iconos)} className="boton-eliminar">
+                                        <button onClick={() => borrarIcono(icono.Id_Iconos)} className="boton-estilo_eliminar">
                                             Eliminar
                                         </button>
                                     </td>
