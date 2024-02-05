@@ -48,9 +48,9 @@ export default function ElementosUsiario() {
             <header className="head">
                 <div>
                     {icono ?
-                        <i class="nf nf-cod-three_bars" onClick={() => mostrar()}></i>
+                        <i className="nf nf-cod-three_bars" onClick={() => mostrar()}></i>
                         :
-                        <i class="nf nf-oct-x" onClick={() => ocultar()}></i>
+                        <i className="nf nf-oct-x" onClick={() => ocultar()}></i>
                     }
                     <p>Gestion</p>
                 </div>
@@ -65,7 +65,7 @@ export default function ElementosUsiario() {
                     <section>
                         <article className="titulo2">
                             <span className="icono_cont">
-                                <i class="nf nf-fa-user_circle_o"></i>
+                                <i className="nf nf-fa-user_circle_o"></i>
                             </span>
                             <span className="titulo_cont">
                                 <p>Elementos de usurio</p>
@@ -78,12 +78,12 @@ export default function ElementosUsiario() {
                                         <div className="elemento" key={index}>
                                             <span className="elem">
                                                 <h3>{lista.Nombre}</h3>
-                                                <i class={`nf ${lista.Direccion}`}></i>
+                                                <i className={`nf ${lista.Direccion}`}></i>
                                             </span>
                                             <p className="des tex">Matricula: {lista.Id_Elemento}</p>
                                             <p className="des tex">Descripcion: {lista.Descripcion}</p>
-                                            <p className="des tex" onClick={()=>navigate(`/Proyectos/${lista.Id_Proyecto_Id}/${lista.Nombre_Proyecto}/recursos`)}>Proyecto: {lista.Nombre_Proyecto}</p>
-                                            <p className="des tex" onClick={()=>navigate(`/Proyectos/${lista.Id_Proyecto_Id}/${lista.Nombre_Proyecto}/recursos/${lista.Id_Recurso}/${lista.Nombre_Recurso}`)}>Recurso: {lista.Nombre_Recurso}</p>
+                                            <p className="des tex" onClick={()=>navigate(`/Proyectos/${lista.Id_Proyecto_Id}/${lista.Nombre_Proyecto}/recursos`)}>Proyecto: <b>{lista.Nombre_Proyecto}</b></p>
+                                            <p className="des tex" onClick={()=>navigate(`/Proyectos/${lista.Id_Proyecto_Id}/${lista.Nombre_Proyecto}/recursos/${lista.Id_Recurso}/${lista.Nombre_Recurso}`)}>Recurso: <b>{lista.Nombre_Recurso}</b></p>
                                         </div>
                                     );
                                 })}
@@ -91,7 +91,7 @@ export default function ElementosUsiario() {
                                 :
                                 <h4><center>No se encontró ningun recurso</center></h4>
                             }
-                            <button onClick={() => navigate("/proyectos")}>Volver</button>
+                            <button className="boton" onClick={() => navigate("/proyectos")}>Volver</button>
                         </div>
                     </section>
                 </section>

@@ -10,7 +10,9 @@ import Swal from "sweetalert2";
 
 export default function Recursos() {
     const [acometario, setaComentario] = useState(true);
+    const [Editar, setEditar] = useState(false);
     const navigate = useNavigate();
+    const [id, setId] = useState("");
     const { idProyecto, NombreProyecto } = useParams();
     const autenticado = localStorage.getItem("token");
     const [iconos, setIconos] = useState([]);
@@ -179,7 +181,6 @@ export default function Recursos() {
             }
         }
     };
-
     const mostrar = () => {
         setClases("mostrar");
         setIcono(false);
@@ -188,8 +189,120 @@ export default function Recursos() {
         setClases("ocultar");
         setIcono(true);
     };
+    const Edit = async () => {
+        if (body.Nombre == "") {
+            if (body.Fecha == "") {
+                if (body.Proposito == "") {
+                    if (body.Id_Iconos_Id == 0 || body.Id_Iconos_Id == "") {
+                        Swal.fire({
+                            title: '¡Error!',
+                            text: 'Rellene almenos un campo',
+                            icon: 'error',
+                        });
+                        return;
+                    }
+                }
+            }
+        }
+
+        const autenticado = localStorage.getItem("token");
+        const [header, payload, signature] = autenticado.split('.');
+        var decodedPayload = JSON.parse(atob(payload));
+
+        try {
+            const response = await axios.put(
+                `https://localhost:1800/editarRecurso/${idProyecto}/${id}`,
+                {
+                    Nombre: body.Nombre.length == 0 ? null : body.Nombre,
+                    Descripcion: body.Descripcion.length == 0 ? null : body.Descripcion,
+                    Id_Iconos: body.Id_Iconos_Id == 0 ? null : body.Id_Iconos_Id,
+                    Id_Proyecto: null,
+                    Estado: null
+                },
+                {
+                    headers: {
+                        Authorization: autenticado,
+                    },
+                }
+            );
+            console.log(response.data);
+            Swal.fire({
+                icon: "success",
+                title: "Equipo editado con éxito",
+                showConfirmButton: false,
+                timer: 1500,
+            });
+            setBody({ Nombre: "", Fecha: "", Proposito: "", Id_Iconos_Id: "0" }); setSelectedIcono("nf-oct-circle");
+            cargarRecursos();
+            setEditar(false);
+        } catch (error) {
+            console.error("Error al editar el equipo:", error);
+            Swal.fire({
+                icon: "error",
+                title: "Error al editar el equipo",
+                text: "Por favor, inténtalo de nuevo",
+            });
+        }
+    }
+    const modificar = (Id, Nombre, Descripcion, Id_Icono, Direccion) => {
+        setBody({
+            Nombre: Nombre,
+            Descripcion: Descripcion,
+            Id_Iconos_Id: `${Id_Icono}`
+        })
+        setSelectedIcono(Direccion)
+        setId(Id);
+        setEditar(true);
+    }
     return (
         <>
+            {Editar && (
+                <div className="modal">
+                    <h1>Editar Equipo</h1>
+                    <button
+                        className="salir"
+                        onClick={() => { setBody({ Nombre: "", Foto: "", Biografia: "", }); setEditar(false); }}
+                    >
+                        <i className="nf nf-oct-x text-2xl"></i>
+                    </button>
+                    <div className="entrada">
+                        <input
+                            type="text"
+                            value={body.Nombre}
+                            onChange={cambioEntrada}
+                            name="Nombre"
+                            placeholder="Ingrese nombre del equipo"
+                        />
+                    </div>
+                    <div className="flex">
+                        <i className={`nf ${selectedIcono} gran`}></i>
+                        <select name="opciones" value={body.Id_Iconos_Id} onChange={cambioEntrada}>
+                            <option value="0" id="nf-oct-circle">Escoge el icono del proyecto</option>
+                            {iconos.map((lista2, index) => {
+                                return (
+                                    <option id={lista2.Direccion} value={`${lista2.Id_Iconos}`} key={index}><div>{lista2.Nombre}</div></option>
+                                );
+                            })}
+                        </select>
+                    </div>
+
+                    <div className="entrada">
+                        <textarea
+                            type="text"
+                            value={body.Descripcion}
+                            onChange={cambioEntrada}
+                            name="Descripcion"
+                            placeholder="Proposito del equipo"
+                        />
+                    </div>
+                    <button
+                        className="w-full py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+                        onClick={() => Edit()}
+                    >
+                        EDITAR EQUIPO
+                    </button>
+                </div>
+            )}
             {Agregar && (
                 <div className="modal">
                     <h1>Agregar Recurso</h1>
@@ -253,21 +366,24 @@ export default function Recursos() {
                     <Slider></Slider>
                 </nav>
                 <section className="Recursos">
-                    <h1 className="titulo">Recursos {rol == 1 ? <i class="nf nf-oct-plus_circle ma" tabIndex="1" onClick={() => setAgregar(true)}></i> : <></>} </h1>
+                    <h1 className="titulo">Recursos {rol == 1 ? <i className="nf nf-oct-plus_circle ma" tabIndex="1" onClick={() => setAgregar(true)}></i> : <></>} </h1>
                     <section>
                         <div className="equipos">
                             {acometario ?
                                 recursos.map((recurso, index) => (
                                     <div key={index}>
                                         <span className="elem">
-                                            <h3>{recurso.Nombre}</h3>
                                             <i className={`nf ${recurso.Direccion}`}></i>
                                         </span>
-                                        <p className="des">Descripcion: {recurso.Descripcion}</p>
                                         <span className="elem">
-                                            {rol == 1 ? <i className="nf nf-cod-trash" tabIndex="1" onClick={() => borrarRecurso(recurso.Id_Recurso)}></i> : <></>}
+                                        <h3>{recurso.Nombre}</h3>
+                                        </span>
+                                        <p className="des2">Descripcion: {recurso.Descripcion}</p>
+                                        <span className="elem">
+                                            {rol == 1 ? <button onClick={() => modificar(recurso.Id_Recurso,recurso.Nombre, recurso.Descripcion, recurso.Id_Iconos_Id, recurso.Direccion)}>Editar</button> : <></>}
                                             <Link className="link" to={`/Proyectos/${recurso.Id_Proyecto_Id}/${recurso.Nombre_Proyecto}/recursos/${recurso.Id_Recurso}/${recurso.Nombre}`}>Visualizar</Link>
                                         </span>
+                                        {rol == 1 ? <i tabIndex="1" onClick={() => borrarRecurso(recurso.Id_Recurso)} className={`nf nf-cod-trash borrar borrar2`}></i> : <></>}
                                     </div>
                                 ))
 
@@ -275,7 +391,7 @@ export default function Recursos() {
                                 <p>Ningun recurso agregado</p>
                             }
                         </div>
-                        <button onClick={() => { navigate("/proyectos") }}>Volver</button>
+                        <button className="boton" onClick={() => { navigate(`/Proyectos/${idProyecto}/${NombreProyecto}`) }}>Volver</button>
                     </section>
                 </section>
             </main>

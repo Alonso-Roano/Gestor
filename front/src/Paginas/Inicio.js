@@ -114,7 +114,7 @@ export default function Inicio() {
                             value={body.Contrasenia}
                             onChange={handleChange}
                         />
-                        <i class={mostrar ? "nf nf-cod-eye" : "nf nf-cod-eye_closed"} onClick={() => most()}></i>
+                        <i className={mostrar ? "nf nf-cod-eye" : "nf nf-cod-eye_closed"} onClick={() => most()}></i>
                     </span>
 
                     <button onClick={() => handleInicioSesion()}>Iniciar sesion</button>

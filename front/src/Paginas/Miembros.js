@@ -195,6 +195,9 @@ export default function Miembros() {
     };
     const cambioEntrada2 = ({ target }) => {
         const { name, value } = target;
+        if(/[&$+,´:;=?@#|'<>.^*()%-]/.test(value)){
+            return;
+        }
         setComentario(value);
     };
     const filtroBusqueda = (lista, busqueda) => {
