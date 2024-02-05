@@ -22,7 +22,7 @@ export default function ElementosUsiario() {
                     `https://localhost:1800/recursos-lider/${idUsuario}`,
                     {
                         headers: {
-                            Authorization: `${autenticado}`,
+                            Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
                         },
                     }
                 );
@@ -30,7 +30,6 @@ export default function ElementosUsiario() {
                 else { setaProyecto(true) }
                 setElemento(respuesta.data);
             } catch (error) {
-                console.log(error);
             }
         };
         fetchElemento();
@@ -52,7 +51,8 @@ export default function ElementosUsiario() {
                         :
                         <i className="nf nf-oct-x" onClick={() => ocultar()}></i>
                     }
-                    <p>Gestion</p>
+                    <img className="logo" src="/Logo.png"></img>
+                    <p>Project Manager</p>
                 </div>
                 <Cerrar></Cerrar>
             </header>

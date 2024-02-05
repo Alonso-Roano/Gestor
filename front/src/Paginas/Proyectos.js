@@ -31,7 +31,7 @@ export default function Proyectos() {
                 `https://localhost:1800/miembro-proyectos/${decodedPayload.id}`,
                 {
                     headers: {
-                        Authorization: `${autenticado}`,
+                        Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
                     },
                 }
             );
@@ -39,7 +39,7 @@ export default function Proyectos() {
             setProyecto(respuesta.data.Proyectos)
             setFiltrados(respuesta.data.Proyectos);
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     };
     useEffect(() => {
@@ -56,12 +56,12 @@ export default function Proyectos() {
                 try {
                     const respuesta = await axios.get(`https://localhost:1800/vista-iconos`, {
                         headers: {
-                            Authorization: autenticado,
+                            Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
                         },
                     });
                     setIconos(respuesta.data)
                 } catch (error) {
-                    console.log(error);
+                    //console.log(error);
                 }
             };
             fetchIcono()
@@ -139,7 +139,7 @@ export default function Proyectos() {
                 });
             }
         } catch (error) {
-            console.log("Error al crear el proyecto:", error);
+            //console.log("Error al crear el proyecto:", error);
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
@@ -202,7 +202,7 @@ export default function Proyectos() {
                     },
                 }
             );
-            console.log(response.data);
+            //console.log(response.data);
             Swal.fire({
                 icon: "success",
                 title: "Proyecto editado con éxito",
@@ -250,10 +250,10 @@ export default function Proyectos() {
                         'Proyecto eliminado correctamente'
                     );
                 } else {
-                    console.log("Error al eliminar la categoria")
+                    //console.log("Error al eliminar la categoria")
                 }
             } catch (error) {
-                console.log(error)
+                //console.log(error)
             }
         }
     }

@@ -49,7 +49,7 @@ export default function Recursos() {
                 `https://localhost:1800/recursos/${idProyecto}`, // Reemplaza con tu URL
                 {
                     headers: {
-                        Authorization: autenticado,
+                        Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
                     },
                 }
             );
@@ -57,19 +57,19 @@ export default function Recursos() {
             else{setaComentario(true)}
             setRecursos(respuesta.data.Resultados);
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     };
     const fetchIconos = async () => {
         try {
             const respuesta = await axios.get(`https://localhost:1800/vista-iconos`, {
                 headers: {
-                    Authorization: autenticado,
+                    Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
                 },
             });
             setIconos(respuesta.data)
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     };
 
@@ -78,14 +78,14 @@ export default function Recursos() {
             try {
                 const respuesta = await axios.get(`https://localhost:1800/validacion_equipos/${decodedPayload.id}/${idProyecto}`, {
                     headers: {
-                        Authorization: autenticado,
+                        Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
                     },
                 });
                 if (!respuesta.data.Equipos[0].Id_Rol_Id) navigate("/Proyectos");
                 if (respuesta.data.Equipos[0].Id_Rol_Id !== 1) navigate("/Proyectos");
                 setRol(respuesta.data.Equipos[0].Id_Rol_Id)
             } catch (error) {
-                console.log(error);
+                //console.log(error);
             }
         };
         fetchRol()
@@ -138,7 +138,7 @@ export default function Recursos() {
                 });
             }
         } catch (error) {
-            console.log("Error al crear el recurso:", error);
+            //console.log("Error al crear el recurso:", error);
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
@@ -174,10 +174,10 @@ export default function Recursos() {
                     );
                     cargarRecursos(); // Recarga la lista de recursos después de borrar uno
                 } else {
-                    console.log("Error al eliminar el recurso");
+                    //console.log("Error al eliminar el recurso");
                 }
             } catch (error) {
-                console.log(error);
+                //console.log(error);
             }
         }
     };
@@ -225,7 +225,7 @@ export default function Recursos() {
                     },
                 }
             );
-            console.log(response.data);
+            //console.log(response.data);
             Swal.fire({
                 icon: "success",
                 title: "Equipo editado con éxito",

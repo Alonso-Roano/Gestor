@@ -34,13 +34,12 @@ export default function Elementos() {
                 `https://localhost:1800/recurso/${idRecurso}`, // Reemplaza con tu URL
                 {
                     headers: {
-                        Authorization: autenticado,
+                        Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
                     },
                 }
             );
             setRecursos(respuesta.data.Resultados[0]);
         } catch (error) {
-            console.log(error);
         }
     };
     const cargarElementos = async () => {
@@ -49,7 +48,7 @@ export default function Elementos() {
                 `https://localhost:1800/elementos-recurso/${idRecurso}`, // Reemplaza con tu URL
                 {
                     headers: {
-                        Authorization: autenticado,
+                        Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
                     },
                 }
             );
@@ -57,25 +56,36 @@ export default function Elementos() {
             else { setaComentario(true) }
             setElemento(respuesta.data);
         } catch (error) {
-            console.log(error);
         }
     };
     const fetchIconos = async () => {
         try {
             const respuesta = await axios.get(`https://localhost:1800/vista-iconos`, {
                 headers: {
-                    Authorization: autenticado,
+                    Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
                 },
             });
             setIconos(respuesta.data)
         } catch (error) {
-            console.log(error);
         }
     };
     useEffect(() => {
         cargarRecursos();
         fetchIconos();
         cargarElementos();
+        const fetchRol = async () => {
+            try {
+                const respuesta = await axios.get(`https://localhost:1800/validacion_equipos/${decodedPayload.id}/${idProyecto}`, {
+                    headers: {
+                        Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
+                    },
+                });
+                if (!respuesta.data.Equipos[0].Id_Rol_Id) navigate("/Proyectos");
+                if (respuesta.data.Equipos[0].Id_Rol_Id !== 1) navigate("/Proyectos");
+            } catch (error) {
+            }
+        };
+        fetchRol()
     }, []);
     const agregarRecurso = async () => {
         if (!body.Nombre.length || !body.Descripcion.length || body.Id_Iconos_Id == 0) {
@@ -127,7 +137,6 @@ export default function Elementos() {
                 });
             }
         } catch (error) {
-            console.log("Error al crear el recurso:", error);
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
@@ -172,7 +181,6 @@ export default function Elementos() {
                 });
             }
         } catch (error) {
-            console.log("Error al crear el recurso:", error);
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
@@ -218,7 +226,6 @@ export default function Elementos() {
                     });
                 }
             } catch (error) {
-                console.log("Error al crear el recurso:", error);
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
@@ -277,10 +284,8 @@ export default function Elementos() {
                     );
                     cargarElementos(); // Recarga la lista de recursos después de borrar uno
                 } else {
-                    console.log("Error al eliminar el recurso");
                 }
             } catch (error) {
-                console.log(error);
             }
         }
     };

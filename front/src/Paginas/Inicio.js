@@ -65,7 +65,7 @@ export default function Inicio() {
             const respuesta = await axios.post("https://localhost:1800/InicioSesion", body);
 
             if (respuesta.data.Mensaje === "Inicio de sesión exitoso") {
-                console.log("Inicio de sesión exitoso");
+                //console.log("Inicio de sesión exitoso");
                 const token = respuesta.data.token;
                 localStorage.setItem("token", token);
                 window.location.href = '/proyectos';

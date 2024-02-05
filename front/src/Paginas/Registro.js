@@ -79,14 +79,14 @@ export default function Registro(){
                       });
                 }
                 if(respuesta.data.Mensaje=="Usuario registrado exitosamente"){
-                    console.log("Inicio de sesión exitoso");
+                    //console.log("Inicio de sesión exitoso");
                     const token = respuesta.data.token;
                     localStorage.setItem("token", token);
                     window.location.href = '/proyectos';
                 }
             }
         } catch (error) {
-            console.log("Error al registrar el usuario: " + error);
+            //console.log("Error al registrar el usuario: " + error);
         }
     };
     return (

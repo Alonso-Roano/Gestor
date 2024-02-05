@@ -242,7 +242,7 @@ app.post("/AgregarIcono", verificarToken,verificarAdmin,(req, res) => {
         }
     });
 });
-app.get("/proyecto/:proyectoId",verificarToken, (req, res) => {
+app.get("/proyecto/:proyectoId",verificarToken, verificarAdmin, (req, res) => {
     const proyectoId = req.params.proyectoId;
     const sql = "SELECT ER.*, I.Direccion FROM Proyecto ER JOIN Iconos I ON I.Id_Iconos = ER.Id_Iconos_Id WHERE Id_Proyecto = ?";
     conexion.query(sql, [proyectoId], (error, results) => {
@@ -254,7 +254,7 @@ app.get("/proyecto/:proyectoId",verificarToken, (req, res) => {
         }
     });
 });
-app.get("/equipo/:proyectoId",verificarToken, (req, res) => {
+app.get("/equipo/:proyectoId",verificarToken, verificarAdmin,(req, res) => {
     const proyectoId = req.params.proyectoId;
     const sql = "SELECT ER.*, I.Direccion FROM Equipo ER JOIN Iconos I ON I.Id_Iconos = ER.Id_Iconos_Id WHERE Id_Equipo = ?";
     conexion.query(sql, [proyectoId], (error, results) => {
@@ -266,7 +266,7 @@ app.get("/equipo/:proyectoId",verificarToken, (req, res) => {
         }
     });
 });
-app.get("/equipos/:proyectoId",verificarToken, (req, res) => {
+app.get("/equipos/:proyectoId",verificarToken,verificarAdmin, (req, res) => {
     const proyectoId = req.params.proyectoId;
     const sql = "SELECT ER.*,I.Direccion FROM Vista_Equipos_Proyecto ER JOIN Iconos I ON I.Id_Iconos = ER.Id_Iconos_Id WHERE Id_Proyecto = ? AND Estado_Equipo > 0";
     conexion.query(sql, [proyectoId], (error, results) => {
@@ -278,7 +278,7 @@ app.get("/equipos/:proyectoId",verificarToken, (req, res) => {
         }
     });
 });
-app.get("/miembros/:equipoId",verificarToken, (req, res) => {
+app.get("/miembros/:equipoId",verificarToken,verificarAdmin, (req, res) => {
     const equipoId = req.params.equipoId;
     const sql = "SELECT ER.*,Direccion FROM Vista_Miembros_Equipo ER JOIN Iconos I ON I.Id_Iconos = ER.Id_Iconos_Id WHERE Id_Equipo = ? AND Nivel > 0";
     conexion.query(sql, [equipoId], (error, results) => {
@@ -290,7 +290,7 @@ app.get("/miembros/:equipoId",verificarToken, (req, res) => {
         }
     });
 });
-app.get("/recursos-lider/:miembroId",verificarToken, (req, res) => {
+app.get("/recursos-lider/:miembroId",verificarToken,verificarAdmin, (req, res) => {
     const miembroId = req.params.miembroId;
     const sql = "select vr.Id_Miembro,e.Nombre,e.Descripcion,e.Id_Recurso as Id_Elemento,vr.Nombre_Proyecto,vr.Id_Proyecto_Id,vr.Nombre as Nombre_Recurso,vr.Id_Recurso,e.Estado as Estado, I.Direccion from Vista_Recursos_Lider vr join Elemento e on vr.Id_Recurso = e.Id_Recurso_Id JOIN Iconos I ON I.Id_Iconos = vr.Id_Iconos_Id WHERE Id_Miembro = ? AND e.Estado > 0";
     conexion.query(sql, [miembroId], (error, results) => {
@@ -302,7 +302,7 @@ app.get("/recursos-lider/:miembroId",verificarToken, (req, res) => {
         }
     });
 });
-app.get("/elementos-recurso/:recursoId",verificarToken, (req, res) => {
+app.get("/elementos-recurso/:recursoId",verificarToken,verificarAdmin, (req, res) => {
     const recursoId = req.params.recursoId;
     const sql = "SELECT ER.*, I.Direccion FROM Vista_Elementos_Recurso ER JOIN Iconos I ON I.Id_Iconos = ER.Id_Iconos_Id WHERE Id_Recurso_Id = ? AND Estado > 0";
     conexion.query(sql, [recursoId], (error, results) => {
@@ -314,7 +314,7 @@ app.get("/elementos-recurso/:recursoId",verificarToken, (req, res) => {
         }
     });
 });
-app.get("/comentarios-proyecto/:proyectoId",verificarToken, (req, res) => {
+app.get("/comentarios-proyecto/:proyectoId",verificarToken, verificarAdmin,(req, res) => {
     const proyectoId = req.params.proyectoId;
     const sql = "SELECT * FROM Vista_Comentarios_Proyecto WHERE Id_Proyecto_Id = ? AND Estado > 0";
     conexion.query(sql, [proyectoId], (error, results) => {
@@ -326,7 +326,7 @@ app.get("/comentarios-proyecto/:proyectoId",verificarToken, (req, res) => {
         }
     });
 });
-app.get("/comentarios-equipo/:equipoId",verificarToken, (req, res) => {
+app.get("/comentarios-equipo/:equipoId",verificarToken,verificarAdmin, (req, res) => {
     const equipoId = req.params.equipoId;
     const sql = "SELECT * FROM Vista_Comentarios_Equipo WHERE Id_Equipo_Id = ? AND Estado > 0";
     conexion.query(sql, [equipoId], (error, results) => {
@@ -338,7 +338,7 @@ app.get("/comentarios-equipo/:equipoId",verificarToken, (req, res) => {
         }
     });
 });
-app.get("/recursos/:idProyecto",verificarToken, (req, res) => {
+app.get("/recursos/:idProyecto",verificarToken,verificarAdmin, (req, res) => {
     const idProyecto = req.params.idProyecto;
     const sql = "SELECT ER.*, I.Direccion FROM Vista_Recursos ER JOIN Iconos I ON I.Id_Iconos = ER.Id_Iconos_Id WHERE Id_Proyecto = ? AND Estado > 0";
     const values = [idProyecto];
@@ -352,7 +352,7 @@ app.get("/recursos/:idProyecto",verificarToken, (req, res) => {
         }
     });
 });
-app.get("/recurso/:idRecurso",verificarToken, (req, res) => {
+app.get("/recurso/:idRecurso",verificarToken, verificarAdmin,(req, res) => {
     const idProyecto = req.params.idRecurso;
     const sql = "SELECT ER.*, I.Direccion FROM Vista_Recursos ER JOIN Iconos I ON I.Id_Iconos = ER.Id_Iconos_Id WHERE Id_Recurso = ? AND Estado > 0";
     const values = [idProyecto];
@@ -366,7 +366,7 @@ app.get("/recurso/:idRecurso",verificarToken, (req, res) => {
         }
     });
 });
-app.get("/vista-iconos", verificarToken,(req, res) => {
+app.get("/vista-iconos", verificarToken,verificarAdmin,(req, res) => {
     const sql = "SELECT * FROM Vista_Iconos ORDER BY Nombre";
     conexion.query(sql, (error, results) => {
         if (error) {
@@ -377,7 +377,7 @@ app.get("/vista-iconos", verificarToken,(req, res) => {
         }
     });
 });
-app.get("/usuario/:idUsuario",verificarToken, (req, res) => {
+app.get("/usuario/:idUsuario",verificarToken, verificarAdmin,(req, res) => {
     const idUsuario = req.params.idUsuario;
     const sql = "SELECT ER.*, I.Direccion FROM Miembros ER JOIN Iconos I ON I.Id_Iconos = ER.Id_Iconos_Id WHERE Id_Miembro = ? AND Nivel > 0";
     const values = [idUsuario];
@@ -396,7 +396,7 @@ app.get("/usuario/:idUsuario",verificarToken, (req, res) => {
         }
     });
 });
-app.get("/miembro-proyectos/:idMiembro",verificarToken, (req, res) => {
+app.get("/miembro-proyectos/:idMiembro",verificarToken,verificarAdmin, (req, res) => {
     const idMiembro = req.params.idMiembro;
     const sql = "SELECT ER.*, I.Direccion FROM Vista_Miembro_Proyectos ER JOIN Iconos I ON I.Id_Iconos = ER.Id_Iconos_Id WHERE Id_Miembro = ? AND Estado > 0";
     const values = [idMiembro];
@@ -410,7 +410,7 @@ app.get("/miembro-proyectos/:idMiembro",verificarToken, (req, res) => {
         }
     });
 });
-app.get("/validacion_equipos/:idMiembro/:idEquipo",verificarToken, (req, res) => {
+app.get("/validacion_equipos/:idMiembro/:idEquipo",verificarToken, verificarAdmin,(req, res) => {
     const idMiembro = req.params.idMiembro;
     const idEquipo = req.params.idEquipo;
     const sql = "SELECT Id_Rol_Id FROM Vista_Miembro_Proyectos WHERE Id_Miembro = ? AND Id_Proyecto_Id = ? AND Estado > 0 ";
@@ -425,7 +425,7 @@ app.get("/validacion_equipos/:idMiembro/:idEquipo",verificarToken, (req, res) =>
         }
     });
 });
-app.get("/miembro-equipos/:idMiembro",verificarToken, (req, res) => {
+app.get("/miembro-equipos/:idMiembro",verificarToken, verificarAdmin,(req, res) => {
     const idMiembro = req.params.idMiembro;
     const sql = "SELECT ER.*, I.Direccion FROM Vista_Miembro_Equipos ER JOIN Iconos I ON I.Id_Iconos = ER.Id_Iconos_Id WHERE Id_Miembro = ? AND Estado > 0";
     const values = [idMiembro];
@@ -439,7 +439,7 @@ app.get("/miembro-equipos/:idMiembro",verificarToken, (req, res) => {
         }
     });
 });
-app.get("/miembros-miembros/:idMiembro",verificarToken, (req, res) => {
+app.get("/miembros-miembros/:idMiembro",verificarToken, verificarAdmin,(req, res) => {
     const idMiembro = req.params.idMiembro;
     const sql = "SELECT ER.*, I.Direccion FROM Vista_Miembros_Miembros ER JOIN Iconos I ON I.Id_Iconos = ER.Id_Iconos_Id WHERE Lider_Proyecto_ID = ? AND Nivel > 0 AND Usuario_ID <> Lider_Proyecto_ID";
     const values = [idMiembro];

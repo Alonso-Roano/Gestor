@@ -28,7 +28,7 @@ export default function Slider() {
                 `https://localhost:1800/usuario/${decodedPayload.id}`,
                 {
                     headers: {
-                        Authorization: autenticado,
+                        Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
                     },
                 }
             );
@@ -53,7 +53,7 @@ export default function Slider() {
                         `https://localhost:1800/miembro-proyectos/${decodedPayload.id}`,
                         {
                             headers: {
-                                Authorization: `${autenticado}`,
+                                Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
                             },
                         }
                     );
@@ -70,7 +70,7 @@ export default function Slider() {
                         `https://localhost:1800/miembro-equipos/${decodedPayload.id}`,
                         {
                             headers: {
-                                Authorization: autenticado,
+                                Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
                             },
                         }
                     );
@@ -87,7 +87,7 @@ export default function Slider() {
                         `https://localhost:1800/miembros-miembros/${decodedPayload.id}`,
                         {
                             headers: {
-                                Authorization: autenticado,
+                                Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
                             },
                         }
                     );
@@ -102,7 +102,7 @@ export default function Slider() {
                 try {
                     const respuesta = await axios.get(`https://localhost:1800/vista-iconos`, {
                         headers: {
-                            Authorization: autenticado,
+                            Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
                         },
                     });
                     setIconos(respuesta.data)
@@ -247,7 +247,7 @@ export default function Slider() {
                             <option value="0" id="nf-oct-circle">Escoge el icono del usuario</option>
                             {iconos.map((lista2, index) => {
                                 return (
-                                    <option id={lista2.Direccion} value={`${lista2.Id_Iconos}`}><div>{lista2.Nombre}</div></option>
+                                    <option id={lista2.Direccion} value={`${lista2.Id_Iconos}`} key={index}>{lista2.Nombre}</option>
                                 );
                             })}
                         </select>
