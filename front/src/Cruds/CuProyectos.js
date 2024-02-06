@@ -3,13 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import "../CSS/Header.css";
 import "../CSS/Principal.css";
 import "../CSS/Recursos.css";
-import "../CSS/Modales.css";
-import Slider from "../Componentes/Slider";
+import "./modales.css";
+import "./botones.css";
+import DashSlider from "../Dashboard/DashSider";
 import Cerrar from "../Componentes/CerrarSesion";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-export default function Proyectos() {
+export default function CuProyectos() {
     const navigate = useNavigate();
     const [clases, setClases] = useState("ocultar");
     const [icono, setIcono] = useState(true);
@@ -20,8 +21,8 @@ export default function Proyectos() {
     const [proyecto, setProyecto] = useState([]);
     const [aproyecto, setaProyecto] = useState(true);
     const [selectedOption, setSelectedOption] = useState('1');
-    const [selectedIcono, setSelectedIcono] = useState("nf-oct-circle");
-    const [Filtrados, setFiltrados] = useState([]);
+
+
     const fetchProyectos = async () => {
         const autenticado = localStorage.getItem("token");
         const [header, payload, signature] = autenticado.split('.');
@@ -31,37 +32,36 @@ export default function Proyectos() {
                 `https://localhost:1800/miembro-proyectos/${decodedPayload.id}`,
                 {
                     headers: {
-                        Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
+                        Authorization: `${autenticado}`,
                     },
                 }
             );
             if (respuesta.data.Proyectos.length == 0) setaProyecto(false);
+            console.log(respuesta.data.Proyectos)
             setProyecto(respuesta.data.Proyectos)
-            setFiltrados(respuesta.data.Proyectos);
         } catch (error) {
-            //console.log(error);
+            console.log(error);
         }
     };
     useEffect(() => {
-        const url = `/Proyectos`;
-        window.history.replaceState({}, "", url);
         const autenticado = localStorage.getItem("token");
         const [header, payload, signature] = autenticado.split('.');
         var decodedPayload = JSON.parse(atob(payload));
         if (!autenticado) {
             navigate("/")
         } else {
+
             fetchProyectos();
             const fetchIcono = async () => {
                 try {
-                    const respuesta = await axios.get(`https://localhost:1800/vista-iconos`, {
+                    const respuesta = await axios.get(`http://localhost:1800/vista-iconos`, {
                         headers: {
-                            Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
+                            Authorization: autenticado,
                         },
                     });
                     setIconos(respuesta.data)
                 } catch (error) {
-                    //console.log(error);
+                    console.log(error);
                 }
             };
             fetchIcono()
@@ -105,7 +105,7 @@ export default function Proyectos() {
         try {
             const autenticado = localStorage.getItem("token");
 
-            const respuesta = await axios.post("https://localhost:1800/CrearProyecto", {
+            const respuesta = await axios.post("http://localhost:1800/CrearProyecto", {
                 Nombre: body.Nombre,
                 Id_Iconos_Id: body.Id_Iconos_Id,
                 Descripcion: body.Proposito,
@@ -130,7 +130,6 @@ export default function Proyectos() {
                     Id_Iconos_Id: "0"
                 })
                 fetchProyectos();
-                setaProyecto(true);
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -139,7 +138,7 @@ export default function Proyectos() {
                 });
             }
         } catch (error) {
-            //console.log("Error al crear el proyecto:", error);
+            console.log("Error al crear el proyecto:", error);
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
@@ -147,11 +146,10 @@ export default function Proyectos() {
             });
         }
     };
+    const [selectedIcono, setSelectedIcono] = useState("nf-oct-circle");
     const cambioEntrada = ({ target }) => {
         const { name, value } = target;
-        if ((name === "Nombre" || name == "Fecha" || name == "Proposito") && /[&$+,´:;=?@#|'<>.^*()%-]/.test(value)) {
-            return;
-        }
+
         if (name === "radio") {
             setSelectedOption(value);
         } else {
@@ -188,7 +186,7 @@ export default function Proyectos() {
 
         try {
             const response = await axios.put(
-                `https://localhost:1800/editarProyecto/${id}`,
+                `http://localhost:1800/editarProyecto/${id}`,
                 {
                     Nombre: body.Nombre.length == 0 ? null : body.Nombre,
                     Descripcion: body.Proposito.length == 0 ? null : body.Proposito,
@@ -202,7 +200,7 @@ export default function Proyectos() {
                     },
                 }
             );
-            //console.log(response.data);
+            console.log(response.data);
             Swal.fire({
                 icon: "success",
                 title: "Proyecto editado con éxito",
@@ -236,7 +234,7 @@ export default function Proyectos() {
             try {
                 const autenticado = localStorage.getItem("token");
                 const respuesta = await axios.put(
-                    `https://localhost:1800/borrarProyecto/${id}`,
+                    `http://localhost:1800/borrarProyecto/${id}`,
                     {},
                     {
                         headers: {
@@ -250,27 +248,20 @@ export default function Proyectos() {
                         'Proyecto eliminado correctamente'
                     );
                 } else {
-                    //console.log("Error al eliminar la categoria")
+                    console.log("Error al eliminar la categoria")
                 }
             } catch (error) {
-                //console.log(error)
+                console.log(error)
             }
         }
     }
-    const filtroBusqueda = (lista, busqueda) => {
-        const palabrasBusqueda = busqueda.toLowerCase().split(' ');
 
-        const filtrarPorNombre = lista.filter(artist => {
-            const minusculaArtista = artist.Nombre.toLowerCase();
-            return palabrasBusqueda.every(palabra => minusculaArtista.includes(palabra));
-        });
-        if (!filtrarPorNombre.length) { setaProyecto(false); }
-        else { setaProyecto(true) }
-        setFiltrados(filtrarPorNombre);
+    const agregarProyecto = () => {
+        setAgregar(true);
+        setBody({ Nombre: "", Fecha: "", Proposito: "", Id_Iconos_Id: "" });
     };
-    const handleSearchChange = (event) => {
-        filtroBusqueda(proyecto, event.target.value);
-    };
+
+
     return (
         <>
             {Editar && (
@@ -301,12 +292,12 @@ export default function Proyectos() {
                         />
                     </div>
                     <div className="flex">
-                        <i className={`nf ${selectedIcono} gran`}></i>
+                        <i class={`nf ${selectedIcono} gran`}></i>
                         <select name="opciones" value={body.Id_Iconos_Id} onChange={cambioEntrada}>
                             <option value="0" id="nf-oct-circle">Escoge el icono del proyecto</option>
                             {iconos.map((lista2, index) => {
                                 return (
-                                    <option key={index} id={lista2.Direccion} value={`${lista2.Id_Iconos}`}><div>{lista2.Nombre}</div></option>
+                                    <option id={lista2.Direccion} value={`${lista2.Id_Iconos}`}><div>{lista2.Nombre}</div></option>
                                 );
                             })}
                         </select>
@@ -390,12 +381,12 @@ export default function Proyectos() {
                         />
                     </div>
                     <div className="flex">
-                        <i className={`nf ${selectedIcono} gran`}></i>
+                        <i class={`nf ${selectedIcono} gran`}></i>
                         <select name="opciones" value={body.Id_Iconos_Id} onChange={cambioEntrada}>
                             <option value="0" id="nf-oct-circle">Escoge el icono del proyecto</option>
                             {iconos.map((lista2, index) => {
                                 return (
-                                    <option key={index} id={lista2.Direccion} value={`${lista2.Id_Iconos}`}><div>{lista2.Nombre}</div></option>
+                                    <option id={lista2.Direccion} value={`${lista2.Id_Iconos}`}><div>{lista2.Nombre}</div></option>
                                 );
                             })}
                         </select>
@@ -421,9 +412,9 @@ export default function Proyectos() {
             <header className="head">
                 <div>
                     {icono ?
-                        <i className="nf nf-cod-three_bars" onClick={() => mostrar()}></i>
+                        <i class="nf nf-cod-three_bars" onClick={() => mostrar()}></i>
                         :
-                        <i className="nf nf-oct-x" onClick={() => ocultar()}></i>
+                        <i class="nf nf-oct-x" onClick={() => ocultar()}></i>
                     }
                     <img className="logo" src="/Logo.png"></img>
                     <p>Project Manager</p>
@@ -432,43 +423,51 @@ export default function Proyectos() {
             </header>
             <main>
                 <nav className={clases}>
-                    <Slider></Slider>
+                    <DashSlider></DashSlider>
                 </nav>
-                <section >
-                    <h1 className="titulo ma">Proyectos <i className="nf nf-oct-plus_circle " tabIndex="1" onClick={() => setAgregar(true)}></i></h1>
-                    <div className="flex2">
-                        <div>
-                            <input
-                                type="text"
-                                placeholder="Buscar por nombre de proyecto"
-                                className="w-full h-full pl-[10px] rounded-[5px] text-black outline-none"
-                                onChange={handleSearchChange}
-                            />
-                            <i className="nf nf-fa-search text-white font-medium text-xl m-3"></i>
-                        </div>
+
+                <section>
+                    <div className="titulo-seccion">
+                        <h1 className="titulo">CRUD de Proyectos</h1>
+                        <button onClick={agregarProyecto} className="agregar-proyecto">Agregar Proyecto</button>
                     </div>
-                    <aside className="proyectos">
-                        {aproyecto ? <>
-                            {Filtrados.map((lista, index) => {
-                                return (
-                                    <div key={index}>
-                                        <i className={`nf ${lista.Direccion}`}></i>
-                                        <h3>{lista.Nombre}</h3>
-                                        <p className="des">{lista.Descripcion}</p>
-                                        <span className="elem">
-                                            <span className={lista.Estado == 1 ? "rojo" : lista.Estado == 2 ? "amarillo" : "verde"}>{lista.Estado == 1 ? "Pendiente" : lista.Estado == 2 ? "En curso" : "Completado"}</span>
-                                            {lista.Id_Rol_Id == 1 ? <button onClick={() => modificar(lista.Id_Proyecto, lista.Nombre_Proyecto, lista.Descripcion, lista.Fecha_Final, lista.Estado, lista.Direccion, lista.Id_Iconos_Id)}>Editar</button> : <></>}
-                                            <p onClick={() => { navigate(`/Proyectos/${lista.Id_Proyecto_Id}/${lista.Nombre}`) }}>Visualizar</p>
-                                        </span>
-                                        {lista.Id_Rol_Id == 1 ? <i tabIndex="1" onClick={() => borrar(lista.Id_Proyecto_Id)} className={`nf nf-cod-trash borrar`}></i> : <></>}
-                                    </div>
-                                );
-                            })}
-                        </>
-                            :
-                            <p>No se encontró ningun proyecto</p>
-                        }
-                    </aside>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>Fecha Final</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {proyecto.map((lista) => (
+                                <tr key={lista.Id_Proyecto}>
+                                    <td>{lista.Nombre}</td>
+                                    <td>{lista.Descripcion}</td>
+                                    <td>{lista.Fecha_Final}</td>
+                                    <td>{lista.Estado === 1 ? "Pendiente" : lista.Estado === 2 ? "En curso" : "Terminado"}</td>
+                                    <td>
+                                        <button
+                                            onClick={() => modificar(lista.Id_Proyecto, lista.Nombre_Proyecto, lista.Descripcion, lista.Fecha_Final, lista.Estado, lista.Direccion, lista.Id_Iconos_Id)}
+                                            className="boton-estilo_editar"
+                                        >
+                                            Editar
+                                        </button>
+                                        <button
+                                            onClick={() => borrar(lista.Id_Proyecto)}
+                                            className="boton-estilo_eliminar"
+                                        >
+                                            Eliminar
+                                        </button>
+
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </section>
             </main>
         </>

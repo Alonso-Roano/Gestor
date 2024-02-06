@@ -585,6 +585,7 @@ export default function Miembros() {
                     </aside>
                 </section>
             </main>
+            
         </>
     );
 }

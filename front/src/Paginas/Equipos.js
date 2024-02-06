@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import "../CSS/Header.css";
+import "../CSS/Principal.css";
+import "../CSS/Footer.css";
+import Footer from "../Componentes/Footer";
 import "../CSS/Principal.css"
 import Cerrar from "../Componentes/CerrarSesion";
 import Slider from "../Componentes/Slider";
@@ -629,6 +632,7 @@ export default function Equipos() {
                     </aside>
                 </section>
             </main>
+            <Footer></Footer>
         </>
     );
 }

@@ -1,0 +1,81 @@
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Asegúrate de que el z-index sea suficiente para estar por encima de otros elementos */
+    /* Animación de entrada */
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px; /* Bordes más redondeados */
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4); /* Sombra más pronunciada */
+    width: 50%;
+    max-width: 500px;
+    /* Animación de entrada para el contenido */
+    animation: slideDown 0.3s;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-content .form {
+    margin-top: 20px;
+}
+
+.modal-content .form p {
+    font-weight: bold;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    color: #333; /* Color de texto más oscuro para mejor contraste */
+    font-size: 24px; /* Tamaño de letra más grande */
+}
+
+.modal-content input,
+.modal-content textarea {
+    width: 100%;
+    padding: 12px 15px; /* Espaciado más cómodo */
+    margin-bottom: 15px;
+    border: 1px solid #ccc; /* Borde más suave */
+    border-radius: 5px; /* Bordes más redondeados */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Sombra interior sutil */
+}
+
+.modal-content button {
+    padding: 12px 25px; /* Más espacioso */
+    border: none;
+    border-radius: 5px; /* Bordes más redondeados */
+    margin-right: 10px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px; /* Tamaño de letra más grande */
+    transition: background-color 0.2s; /* Transición suave */
+}
+
+.modal-content button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra al pasar el ratón */
+}
+
+.modal-content button:focus {
+    outline: none; /* Eliminar contorno al hacer foco */
+}
+

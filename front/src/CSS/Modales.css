@@ -18,7 +18,7 @@
   justify-content: center !important;
   align-content: space-between !important;
   transition: all .5s !important;
-  animation: grande !important;
+  animation: aparecer !important;
   animation-duration: .5s !important;
 }
 .modal h1{
