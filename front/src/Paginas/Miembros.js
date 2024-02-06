@@ -51,7 +51,7 @@ export default function Miembros() {
                 `https://localhost:1800/miembros/${idEquipo}`,
                 {
                     headers: {
-                        Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
+                        Authorization: autenticado,
                     },
                 }
             );
@@ -67,7 +67,7 @@ export default function Miembros() {
         try {
             const respuesta = await axios.get(`https://localhost:1800/comentarios-equipo/${idEquipo}`, {
                 headers: {
-                    Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
+                    Authorization: autenticado,
                 },
             });
             if (respuesta.data.length) { setaComentario(true) }
@@ -84,7 +84,7 @@ export default function Miembros() {
                     `https://localhost:1800/equipo/${idEquipo}`,
                     {
                         headers: {
-                            Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
+                            Authorization: autenticado,
                         },
                     }
                 );
@@ -99,7 +99,7 @@ export default function Miembros() {
             try {
                 const respuesta = await axios.get(`https://localhost:1800/validacion_equipos/${decodedPayload.id}/${idProyecto}`, {
                     headers: {
-                        Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
+                        Authorization: autenticado,
                     },
                 });
                 if (!respuesta.data.Equipos[0].Id_Rol_Id) navigate("/Proyectos");

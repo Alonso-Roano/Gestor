@@ -28,7 +28,7 @@ export default function Slider() {
                 `https://localhost:1800/usuario/${decodedPayload.id}`,
                 {
                     headers: {
-                        Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
+                        Authorization: autenticado,
                     },
                 }
             );
@@ -53,7 +53,7 @@ export default function Slider() {
                         `https://localhost:1800/miembro-proyectos/${decodedPayload.id}`,
                         {
                             headers: {
-                                Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
+                                Authorization: autenticado,
                             },
                         }
                     );
@@ -70,7 +70,7 @@ export default function Slider() {
                         `https://localhost:1800/miembro-equipos/${decodedPayload.id}`,
                         {
                             headers: {
-                                Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
+                                Authorization: autenticado,
                             },
                         }
                     );
@@ -87,7 +87,7 @@ export default function Slider() {
                         `https://localhost:1800/miembros-miembros/${decodedPayload.id}`,
                         {
                             headers: {
-                                Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
+                                Authorization: autenticado,
                             },
                         }
                     );
@@ -102,7 +102,7 @@ export default function Slider() {
                 try {
                     const respuesta = await axios.get(`https://localhost:1800/vista-iconos`, {
                         headers: {
-                            Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
+                            Authorization: autenticado,
                         },
                     });
                     setIconos(respuesta.data)

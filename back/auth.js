@@ -14,7 +14,7 @@ export async function verificarToken(req, res, next) {
         return res.status(401).json({ Estatus: "Error", Mensaje: "Acceso denegado" });
     }
     try {
-        const decoded = jwt.verify(token, "secreto");
+        const decoded = jwt.verify(token, "AlonsoRoano");
         req.usuarioId = decoded.id;
 
         const sql = "SELECT * FROM Miembro WHERE Id_Miembro = ?";
@@ -50,7 +50,7 @@ export function verificarRol1(req, res, next) {
         return res.status(401).json({ Estatus: "Error", Mensaje: "Acceso denegado" });
     }
     try {
-        const decoded = jwt.verify(token, "secreto");
+        const decoded = jwt.verify(token, "AlonsoRoano");
         req.usuarioId = decoded.id;
 
         const sql = "SELECT * FROM ProjectRolesView WHERE ProjectID = ? AND MemberID = ?";
@@ -92,7 +92,7 @@ export function verificarRol1o2(req, res, next) {
         return res.status(401).json({ Estatus: "Error", Mensaje: "Acceso denegado" });
     }
     try {
-        const decoded = jwt.verify(token, "secreto");
+        const decoded = jwt.verify(token, "AlonsoRoano");
         req.usuarioId = decoded.id;
         const sql = "SELECT * FROM ProjectRolesView WHERE ProjectID = ? AND MemberID = ?";
         const values = [Proyecto, req.usuarioId];
