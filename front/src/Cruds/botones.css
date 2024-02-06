@@ -1,5 +1,5 @@
 .boton-estilo_editar,
-.boton-estilo_eliminar {
+.boton-estilo_eliminar, .boton-agregar-icono {
     padding: 10px 20px;
     background-color: #008CBA;
     color: white;
@@ -15,6 +15,10 @@
 .boton-estilo_eliminar{
     background-color: red;
     margin-left: 20px;
+}
+.boton-agregar-icono{
+    background-color: #006f9b;
+    margin: 10px;
 }
 
 .boton-estilo_editar{

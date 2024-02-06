@@ -34,7 +34,7 @@ export default function Elementos() {
                 `https://localhost:1800/recurso/${idRecurso}`, // Reemplaza con tu URL
                 {
                     headers: {
-                        Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
+                        Authorization: autenticado,
                     },
                 }
             );
@@ -48,7 +48,7 @@ export default function Elementos() {
                 `https://localhost:1800/elementos-recurso/${idRecurso}`, // Reemplaza con tu URL
                 {
                     headers: {
-                        Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
+                        Authorization: autenticado,
                     },
                 }
             );
@@ -62,7 +62,7 @@ export default function Elementos() {
         try {
             const respuesta = await axios.get(`https://localhost:1800/vista-iconos`, {
                 headers: {
-                    Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
+                    Authorization: autenticado,
                 },
             });
             setIconos(respuesta.data)
@@ -77,7 +77,7 @@ export default function Elementos() {
             try {
                 const respuesta = await axios.get(`https://localhost:1800/validacion_equipos/${decodedPayload.id}/${idProyecto}`, {
                     headers: {
-                        Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
+                        Authorization: autenticado,
                     },
                 });
                 if (!respuesta.data.Equipos[0].Id_Rol_Id) navigate("/Proyectos");

@@ -22,7 +22,7 @@ export default function ElementosUsiario() {
                     `https://localhost:1800/recursos-lider/${idUsuario}`,
                     {
                         headers: {
-                            Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
+                            Authorization: autenticado,
                         },
                     }
                 );

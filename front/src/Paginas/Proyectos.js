@@ -31,7 +31,7 @@ export default function Proyectos() {
                 `https://localhost:1800/miembro-proyectos/${decodedPayload.id}`,
                 {
                     headers: {
-                        Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
+                        Authorization: autenticado,
                     },
                 }
             );
@@ -56,7 +56,7 @@ export default function Proyectos() {
                 try {
                     const respuesta = await axios.get(`https://localhost:1800/vista-iconos`, {
                         headers: {
-                            Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTcwNzExODEzM30.WsFaXTSOmg269S5h7UjwT7GpoZkPzeQT_3HMLfxiDoc",
+                            Authorization: autenticado,
                         },
                     });
                     setIconos(respuesta.data)
@@ -434,7 +434,7 @@ export default function Proyectos() {
                 <nav className={clases}>
                     <Slider></Slider>
                 </nav>
-                <section >
+                <section className="equipor" >
                     <h1 className="titulo ma">Proyectos <i className="nf nf-oct-plus_circle " tabIndex="1" onClick={() => setAgregar(true)}></i></h1>
                     <div className="flex2">
                         <div>

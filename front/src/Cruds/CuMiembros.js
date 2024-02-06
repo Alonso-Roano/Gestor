@@ -57,7 +57,7 @@ export default function CuMiembros() {
     };
 
     const agregarMiembro = () => {
-        fetch("http://localhost:3001/miembro", {
+        fetch("https://localhost:3001/miembro", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ export default function CuMiembros() {
     };
 
     const editarMiembro = () => {
-        fetch(`http://localhost:3001/miembro/${miembroEditando}`, {
+        fetch(`https://localhost:3001/miembro/${miembroEditando}`, {
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ export default function CuMiembros() {
 
     const eliminarMiembro = (id) => {
         if (window.confirm("¿Estás seguro de querer eliminar este miembro?")) {
-            fetch(`http://localhost:3001/miembro/${id}`, {
+            fetch(`https://localhost:3001/miembro/${id}`, {
                 method: "DELETE",
             })
                 .then((response) => response.json())
@@ -113,7 +113,7 @@ export default function CuMiembros() {
     };
 
     useEffect(() => {
-        fetch("http://localhost:3001/miembro")
+        fetch("https://localhost:3001/miembro")
             .then((response) => response.json())
             .then((data) => {
                 console.log(data); // Para verificar qué estás recibiendo

@@ -5,7 +5,7 @@ import "../CSS/Principal.css";
 import "../CSS/Recursos.css";
 import "./modales.css";
 import "./botones.css";
-import Slider from "../Componentes/Slider";
+import DashSlider from "../Dashboard/DashSider";
 import Cerrar from "../Componentes/CerrarSesion";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -18,11 +18,41 @@ export default function CrudIconos() {
     const [editar, setEditar] = useState(false);
     const [agregar, setAgregar] = useState(false);
     const [iconoActual, setIconoActual] = useState({ Id_Iconos: null, Nombre: "", Direccion: "" });
+    const [formData, setFormData] = useState({
+        nombre: '',
+        direccion: '',
+    });
+
+
+    const abrirModal = () => {
+        setAgregar(true);
+        setFormData({ nombre: '', descripcion: '' }); // Resetear formulario
+    };
+    const cambioEntrada = ({ target }) => {
+        const { name, value } = target;
+        if ((name === "Nombre" || name === "Direccion" || name == "Fecha" || name == "Proposito") && /[&$+,´:;=?@#|'<>.^*()%-]/.test(value)) {
+            return;
+        }
+            if (name === "opciones") {
+                setFormData({ ...formData, Id_Iconos_Id: value });
+                const idIconoSeleccionado = target.options[target.selectedIndex].id;
+            } else {
+                setFormData({ ...formData, [name]: value });
+            }
+
+    };
 
     // Obtener íconos
     const fetchIconos = async () => {
         try {
-            const respuesta = await axios.get('http://localhost:1800/vista-iconos');
+            const autenticado = localStorage.getItem("token");
+            const respuesta = await axios.get('https://localhost:1800/vista-iconos',
+
+                {
+                    headers: {
+                        Authorization: autenticado,
+                    },
+                });
             setIconos(respuesta.data);
         } catch (error) {
             console.error("Error al obtener los íconos:", error);
@@ -47,30 +77,40 @@ export default function CrudIconos() {
 
         try {
             let respuesta;
+            const autenticado = localStorage.getItem("token"); // Obtener el token de autenticación
+            const headers = { Authorization: autenticado }; // Crear el objeto de encabezados
+
             if (editar) {
-                // Aquí iría la lógica para actualizar un ícono, si tienes un endpoint para ello
+                // Lógica para actualizar un ícono
+                respuesta = await axios.put(`https://localhost:1800/editarIcono/${iconoActual.Id_Iconos}`, iconoActual, { headers });
             } else {
-                respuesta = await axios.post('http://localhost:1800/AgregarIcono', iconoActual);
+                // Lógica para agregar un nuevo ícono
+                respuesta = await axios.post('https://localhost:1800/AgregarIcono', iconoActual, { headers });
             }
 
-            if (respuesta.data.Estatus === "Exitoso") {
-                Swal.fire('¡Éxito!', respuesta.data.Mensaje, 'success');
-                fetchIconos();
-                setAgregar(false);
-                setEditar(false);
-                setIconoActual({ Id_Iconos: null, Nombre: "", Direccion: "" });
-            } else {
-                Swal.fire('Error', respuesta.data.Mensaje, 'error');
-            }
+            Swal.fire('¡Éxito!', respuesta.data.Mensaje, 'success');
+            fetchIconos();
+            setAgregar(false);
+            setEditar(false);
+            setIconoActual({ Id_Iconos: null, Nombre: "", Direccion: "" });
         } catch (error) {
             console.error("Error al guardar el ícono:", error);
             Swal.fire('Error', 'No se pudo guardar el ícono', 'error');
         }
     };
 
+
     const borrarIcono = async (id) => {
         try {
-            const respuesta = await axios.put(`http://localhost:1800/borrarIconos/${id}`);
+            const autenticado = localStorage.getItem("token");
+            const respuesta = await axios.put(`https://localhost:1800/borrarIconos/${id}`,
+                {},
+                {
+                    headers: {
+                        Authorization: autenticado,
+                    },
+                })
+
             if (respuesta.data.Estatus === "Exitoso") {
                 Swal.fire('¡Éxito!', respuesta.data.Mensaje, 'success');
                 fetchIconos();
@@ -83,6 +123,32 @@ export default function CrudIconos() {
         }
     };
 
+    const agregarIcono = async () => {
+        if (!iconoActual.Nombre || !iconoActual.Direccion) {
+            Swal.fire('Error', 'Por favor, rellene todos los campos', 'error');
+            return;
+        }
+
+        try {
+            const autenticado = localStorage.getItem("token");
+            const respuesta = await axios.post('https://localhost:1800/AgregarIcono', {
+                Nombre: "", 
+                Direccion: ""
+            }, {
+                headers: { Authorization: autenticado },
+            });
+
+            Swal.fire('¡Éxito!', 'Ícono agregado con éxito', 'success');
+            // Aquí podrías actualizar la lista de íconos o realizar otras acciones necesarias
+            setAgregar(false);
+            setIconoActual({ Nombre: "", Direccion: "" });
+        } catch (error) {
+            console.error("Error al agregar el ícono:", error);
+            Swal.fire('Error', 'No se pudo agregar el ícono', 'error');
+        }
+    };
+
+
     useEffect(() => {
         const autenticado = localStorage.getItem("token");
         const [header, payload, signature] = autenticado.split('.');
@@ -93,7 +159,7 @@ export default function CrudIconos() {
 
             const fetchIcono = async () => {
                 try {
-                    const respuesta = await axios.get(`http://localhost:1800/vista-iconos`, {
+                    const respuesta = await axios.get(`https://localhost:1800/vista-iconos`, {
                         headers: {
                             Authorization: autenticado,
                         },
@@ -109,6 +175,7 @@ export default function CrudIconos() {
 
     return (
         <>
+
             <header className="head">
                 <div>
                     {icono ?
@@ -121,11 +188,54 @@ export default function CrudIconos() {
                 <Cerrar></Cerrar>
             </header>
 
+
             <main>
+                <div className="agregar-icono">
+                    <button onClick={() => setAgregar(true)} className="boton-agregar-icono">
+                        Agregar Ícono
+                    </button>
+                </div>
+
+                {agregar && (
+                    <div className="modal">
+                        <h1>Agregar Ícono {formData.nombre}</h1>
+                        <button
+                            className="salir"
+                            onClick={() => setAgregar(false)}
+                        >
+                            <i className="nf nf-oct-x text-2xl"></i>
+                        </button>
+                        <div className="entrada">
+                            <input
+                                type="text"
+                                value={formData.nombre}
+                                onChange={cambioEntrada}
+                                name="nombre"
+                                placeholder="Ingrese nombre del ícono"
+                            />
+                        </div>
+                        <div className="entrada">
+                            <input
+                                type="text"
+                                value={formData.direccion}
+                                onChange={cambioEntrada}
+                                name="direccion"
+                                placeholder="Ingrese la dirección del ícono (clase CSS)"
+                            />
+                        </div>
+                        <button
+                            className="w-full py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+                            onClick={agregarIcono}
+                        >
+                            Agregar Ícono
+                        </button>
+                    </div>
+                )}
+
                 <nav className={clases}>
-                    <Slider></Slider>
+                    <DashSlider></DashSlider>
                 </nav>
-                <section>
+                <section className="equiposr">
                     <div className="titulo-seccion">
                         <h1 className="titulo">CRUD de Iconos</h1>
                     </div>
@@ -147,10 +257,10 @@ export default function CrudIconos() {
                                             setEditar(true);
                                             setAgregar(false);
                                             setIconoActual(icono);
-                                        }} className="boton-editar">
+                                        }} className="boton-estilo_editar">
                                             Editar
                                         </button>
-                                        <button onClick={() => borrarIcono(icono.Id_Iconos)} className="boton-eliminar">
+                                        <button onClick={() => borrarIcono(icono.Id_Iconos)} className="boton-estilo_eliminar">
                                             Eliminar
                                         </button>
                                     </td>

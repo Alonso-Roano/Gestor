@@ -54,7 +54,7 @@ export default function CuProyectos() {
             fetchProyectos();
             const fetchIcono = async () => {
                 try {
-                    const respuesta = await axios.get(`http://localhost:1800/vista-iconos`, {
+                    const respuesta = await axios.get(`https://localhost:1800/vista-iconos`, {
                         headers: {
                             Authorization: autenticado,
                         },
@@ -105,7 +105,7 @@ export default function CuProyectos() {
         try {
             const autenticado = localStorage.getItem("token");
 
-            const respuesta = await axios.post("http://localhost:1800/CrearProyecto", {
+            const respuesta = await axios.post("https://localhost:1800/CrearProyecto", {
                 Nombre: body.Nombre,
                 Id_Iconos_Id: body.Id_Iconos_Id,
                 Descripcion: body.Proposito,
@@ -186,7 +186,7 @@ export default function CuProyectos() {
 
         try {
             const response = await axios.put(
-                `http://localhost:1800/editarProyecto/${id}`,
+                `https://localhost:1800/editarProyecto/${id}`,
                 {
                     Nombre: body.Nombre.length == 0 ? null : body.Nombre,
                     Descripcion: body.Proposito.length == 0 ? null : body.Proposito,
@@ -234,7 +234,7 @@ export default function CuProyectos() {
             try {
                 const autenticado = localStorage.getItem("token");
                 const respuesta = await axios.put(
-                    `http://localhost:1800/borrarProyecto/${id}`,
+                    `https://localhost:1800/borrarProyecto/${id}`,
                     {},
                     {
                         headers: {
@@ -426,7 +426,7 @@ export default function CuProyectos() {
                     <DashSlider></DashSlider>
                 </nav>
 
-                <section>
+                <section className="equiposr">
                     <div className="titulo-seccion">
                         <h1 className="titulo">CRUD de Proyectos</h1>
                         <button onClick={agregarProyecto} className="agregar-proyecto">Agregar Proyecto</button>
